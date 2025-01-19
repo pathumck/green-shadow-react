@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 function NavBar() {
   return (
@@ -12,44 +13,44 @@ function NavBar() {
             <div className="collapse navbar-collapse" id="navbarNavDropdown">
               <ul className="navbar-nav ms-auto">
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#">Dashboard</a>
+                  <Link className="nav-link" aria-current="page" to="/dashboard">Dashboard</Link>
                 </li>
                 <li className="nav-item dropdown">
-                  <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <Link className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Fields
-                  </a>
+                  </Link>
                   <ul className="dropdown-menu">
-                    <li><a className="dropdown-item" href="#">Field Details</a></li>
-                    <li><a className="dropdown-item" href="#">Field's Crops</a></li>
-                    <li><a className="dropdown-item" href="#">Field's Staff</a></li>
+                    <li><Link className="dropdown-item" to="/fieldDetails">Field Details</Link></li>
+                    <li><Link className="dropdown-item" to="/fieldCrops">Field's Crops</Link></li>
+                    <li><Link className="dropdown-item" to="/fieldStaff">Field's Staff</Link></li>
                   </ul>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">Crops</a>
+                  <Link className="nav-link" to="/crops">Crops</Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">Staff</a>
+                  <Link className="nav-link" to="/staff">Staff</Link>
                 </li>
                 <li className="nav-item dropdown">
-                  <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <Link className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Logs
-                  </a>
+                  </Link>
                   <ul className="dropdown-menu">
-                    <li><a className="dropdown-item" href="#">Create Log</a></li>
-                    <li><a className="dropdown-item" href="#">Previous Logs</a></li>
+                    <li><Link className="dropdown-item" to="/createlog">Create Log</Link></li>
+                    <li><Link className="dropdown-item" to="/previouslogs">Previous Logs</Link></li>
                   </ul>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">Vehicles</a>
+                  <Link className="nav-link" to="/vehicles">Vehicles</Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">Equipments</a>
+                  <Link className="nav-link" to="/equipments">Equipments</Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">Users</a>
+                  <Link className="nav-link" to="/users">Users</Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">Logout</a>
+                  <Link className="nav-link" to="#">Logout</Link>
                 </li>
               </ul>
             </div>
