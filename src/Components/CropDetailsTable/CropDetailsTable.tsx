@@ -8,12 +8,12 @@ function CropDetailsTable() {
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">FieldCode</th>
-              <th scope="col">Name</th>
-              <th scope="col">Location</th>
-              <th scope="col">Size</th>
-              <th scope="col">Image One</th>
-              <th scope="col">Image Two</th>
+              <th scope="col">Crop Code</th>
+              <th scope="col">Common Name</th>
+              <th scope="col">Scientific Name</th>
+              <th scope="col">Category</th>
+              <th scope="col">Season</th>
+              <th scope="col">Image</th>
               <th scope="col">Action</th>
             </tr>
           </thead>
