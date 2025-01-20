@@ -7,7 +7,7 @@ function FieldDetails() {
   return (
     <>
       <PageTitle title = "Field Details" icon = {<FaSunPlantWilt className='align-baseline' size={22} />}/>
-      <AddAndSearch />
+      <AddAndSearch btntext = "field" />
     </>    
   )
 }

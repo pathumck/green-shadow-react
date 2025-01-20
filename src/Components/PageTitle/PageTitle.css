@@ -9,6 +9,6 @@
 }
 
 h5 {
-  color: gray;
+  color: gray !important;
   font-weight: 400;
 }
