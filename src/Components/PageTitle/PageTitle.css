@@ -1,0 +1,14 @@
+.title-wrap {
+  height: 80px;
+  align-items: center;
+}
+
+.title-wrap div {
+  position: relative;
+  left: 90px;
+}
+
+h5 {
+  color: gray;
+  font-weight: 400;
+}
