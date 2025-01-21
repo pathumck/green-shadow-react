@@ -1,64 +1,62 @@
 import React from "react";
-import "./SelectaFieldContainer.css";
-function SelectaFieldContainer() {
+import "./SelectaCropContainer.css";
+import { MdOutlineAddCircleOutline } from "react-icons/md";
+
+function SelectaCropContainer() {
   return (
     <>
       <div className="row">
         <div className="col-12">
-          <h6 className="sub-topic">Select a field</h6>
+          <h6 className="sub-topic">Select a crop</h6>
         </div>
         <div className="col-6 pb-2">
-          <label className="">Select a Field </label>
+          <label className="">Select a Crop </label>
           <br />
           <select className="form-select" aria-label="Default select example">
-            <option selected>Select a field</option>
+            <option selected>Select a crop</option>
             <option value="1">One</option>
             <option value="2">Two</option>
             <option value="3">Three</option>
           </select>
         </div>
         <div className="col-6">
-          <label className="">Selected Field </label>
+          <label className="">Selected Crop </label>
           <br />
           <input className="form-control me-2" placeholder="" disabled />
         </div>
         <div className="col-6">
-          <label className="">Selected Field </label>
+          <label className="">Common Name </label>
           <br />
           <input className="form-control me-2" placeholder="" disabled />
         </div>
         <div className="col-6">
-          <label className="">Selected Field </label>
+          <label className="">Scientific Name</label>
           <br />
           <input className="form-control me-2" placeholder="" disabled />
         </div>
         <div className="col-6">
-          <label className="">Selected Field </label>
+          <label className="">Category</label>
           <br />
           <input className="form-control me-2" placeholder="" disabled />
         </div>
-        <div className="col-6"></div>
-        <div className="col-6 img-container">
-          <label className="">Image One </label>
+        <div className="col-6">
+          <label className="">Season</label>
           <br />
-          <div className="img-wrap">
-            <img
-              src=""
-              className="img-fluid img-selected-field"
-              alt="Image One"
-            />
-          </div>
+          <input className="form-control me-2" placeholder="" disabled />
         </div>
         <div className="col-6 img-container">
-          <label className="">Image One </label>
+          <label className="">Image</label>
           <br />
           <div className="img-wrap">
-            <img src="" alt="Image Two" />
+            <img src="" alt="Image One" />
           </div>
+        </div>
+        <div className="col-6 add-btn-div">
+          <button className="btn btn-primary add-btn">Add <MdOutlineAddCircleOutline size={15} /></button>
         </div>
       </div>
     </>
   );
 }
 
-export default SelectaFieldContainer;
+export default SelectaCropContainer;

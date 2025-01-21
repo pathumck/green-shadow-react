@@ -1,0 +1,11 @@
+.add-btn-div {
+  display: flex;
+  width: 50%;
+  min-height: 78% !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-btn {
+  width: 50%;
+}
