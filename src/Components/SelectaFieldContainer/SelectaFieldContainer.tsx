@@ -23,17 +23,17 @@ function SelectaFieldContainer() {
           <input className="form-control me-2" placeholder="" disabled />
         </div>
         <div className="col-6">
-          <label className="">Selected Field </label>
+          <label className="">Name </label>
           <br />
           <input className="form-control me-2" placeholder="" disabled />
         </div>
         <div className="col-6">
-          <label className="">Selected Field </label>
+          <label className="">Location </label>
           <br />
           <input className="form-control me-2" placeholder="" disabled />
         </div>
         <div className="col-6">
-          <label className="">Selected Field </label>
+          <label className="">Size </label>
           <br />
           <input className="form-control me-2" placeholder="" disabled />
         </div>

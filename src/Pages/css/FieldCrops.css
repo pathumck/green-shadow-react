@@ -1,0 +1,11 @@
+.main-wrap-div {
+  max-width: 1100px;
+  margin: auto !important;
+  justify-content: center;
+}
+
+.col-dev {
+  border: 1px solid rgb(90, 136, 21);
+  border-radius: 10px;
+  min-width: 350px;
+}
