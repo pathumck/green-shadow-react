@@ -1,0 +1,5 @@
+.table-wrapper {
+  max-width: 965px;
+  overflow-x: auto;
+  overflow-y: auto;
+}
