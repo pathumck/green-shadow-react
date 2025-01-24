@@ -3,6 +3,7 @@ import SelectaFieldContainer from "../Components/SelectaFieldContainer/SelectaFi
 import SelectaStaffContainer from "../Components/SelectaStaffContainer/SelectaStaffContainer";
 import PageTitle from "../Components/PageTitle/PageTitle";
 import { FaSunPlantWilt } from "react-icons/fa6";
+import FieldStaffTable from "../Components/FieldStaffTable/FieldStaffTable";
 
 function FieldStaff() {
   return (
@@ -18,7 +19,11 @@ function FieldStaff() {
         <div className="col-6 col-md-5 col-dev">
           <SelectaStaffContainer />
         </div>
-      </div>
+       
+          <div className="col-lg-12 col-md-11 col-sm-6 col-6 col-dev">
+            <FieldStaffTable />
+          </div>
+       </div>
     </>
   );
 }
