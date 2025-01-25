@@ -1,0 +1,10 @@
+.log-column {
+  justify-items: center;
+}
+
+.obs-img-wrap {
+  width: 250px;
+  height: 120px;
+  background-color: rgb(231, 226, 226);
+  border-radius: 6px;
+}
