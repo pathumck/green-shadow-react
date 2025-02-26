@@ -1,13 +1,13 @@
 export default class Field {
-  _id : string
+  id : string
   name : string
   location : string
-  size : string
-  imageOne :  File | null
-  imageTwo : File | null
+  size : number
+  imageOne :  string | null
+  imageTwo : string | null
 
-  constructor(_id : string, name : string, location : string, size : string, imageOne : File | null, imageTwo : File | null) {
-    this._id = _id
+  constructor(id : string, name : string, location : string, size : number, imageOne : string | null, imageTwo : string | null) {
+    this.id = id
     this.name = name
     this.location = location
     this.size = size
