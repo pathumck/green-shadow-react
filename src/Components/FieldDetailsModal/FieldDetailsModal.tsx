@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import "./FieldDetailsModal.css";
 
 function FieldDetailsModal(props: any) {
+  const [name, setName] = useState<string>("");
+  const [location, setLocation] = useState<string>("");
+  const [size, setSize] = useState<string>("");
+  const [imageOne, setImageOne] = useState("");
+  const [imageTwo, setImageTwo] = useState("");
+  
+  
   return (
     <>
       <div
@@ -28,35 +35,49 @@ function FieldDetailsModal(props: any) {
               className="modal-body"
               style={{ height: "325px", overflowY: "scroll" }}
             >
-             <div className="row">
+              <div className="row">
                 <div className="col-6">
                   <label>Name</label>
-                  <input type="text" className="form-control" />
+                  <input 
+                    value={name} 
+                    type="text" 
+                    className="form-control" 
+                    onChange={(e) => setName(e.target.value)} />
                 </div>
                 <div className="col-6">
-                <label>Location</label>
-                <input type="text" className="form-control" />
+                  <label>Location</label>
+                  <input
+                    value={location}
+                    type="text"
+                    className="form-control"
+                    onChange={(e) => setLocation(e.target.value)} 
+                  />
                 </div>
                 <div className="col-6">
-                <label>Size</label>
-                <input type="text" className="form-control" />
+                  <label>Size</label>
+                  <input 
+                    value={size} 
+                    type="text" 
+                    className="form-control"
+                    onChange={(e) => setSize(e.target.value)} 
+                  />
                 </div>
                 <div className="col-6"></div>
                 <div className="col-6">
-                <label>Image One</label>
-                <input type="file" className="form-control" />
-                <div className="modal-img-wrap mt-2">
-                  <img src="" alt="" />
-                </div>
+                  <label>Image One</label>
+                  <input type="file" className="form-control" />
+                  <div className="modal-img-wrap mt-2">
+                    <img src="" alt="" />
+                  </div>
                 </div>
                 <div className="col-6">
-                <label>Image Two</label>
-                <input type="file" className="form-control" />
-                <div className="modal-img-wrap mt-2">
-                  <img src="" alt="" />
+                  <label>Image Two</label>
+                  <input type="file" className="form-control" />
+                  <div className="modal-img-wrap mt-2">
+                    <img src="" alt="" />
+                  </div>
                 </div>
-                </div>
-             </div>
+              </div>
             </div>
             <div className="modal-footer">
               <button
