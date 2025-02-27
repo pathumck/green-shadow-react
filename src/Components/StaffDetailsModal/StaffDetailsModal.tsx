@@ -33,7 +33,7 @@ function StaffDetailsModal(props: any) {
                   <input type="text" className="form-control" />
                 </div>
                 <div className="col-6">
-                <label>Last Name</label>
+                  <label>Last Name</label>
                   <input type="text" className="form-control" />
                 </div>
                 <div className="col-6">
@@ -42,13 +42,15 @@ function StaffDetailsModal(props: any) {
                 </div>
                 <div className="col-6">
                   <label>Gender</label>
-                  <select className='form-select'>
-                    <option selected value="1">Male</option>
+                  <select className="form-select">
+                    <option selected value="1">
+                      Male
+                    </option>
                     <option value="2">Female</option>
                   </select>
                 </div>
                 <div className="col-6">
-                <label>Phone</label>
+                  <label>Phone</label>
                   <input type="text" className="form-control" />
                 </div>
                 <div className="col-6">
@@ -60,19 +62,33 @@ function StaffDetailsModal(props: any) {
                   <input type="text" className="form-control" />
                 </div>
                 <div className="col-6">
-                <label>Designation</label>
-                <select className='form-select'>
-                    <option selected value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                  <label>Designation</label>
+                  <select className="form-select">
+                    <option selected disabled value="Select a designation">
+                      Select a designation
+                    </option>
+                    <option value="MANAGER">MANAGER</option>
+                    <option value="SENIOR ASSISTANT MANAGER">
+                      SENIOR ASSISTANT MANAGER
+                    </option>
+                    <option value="JUNIOR MANAGER">JUNIOR MANAGER</option>
+                    <option value="ASSISTANT MANAGER">ASSISTANT MANAGER</option>
+                    <option value="HR MANAGER">HR MANAGER</option>
+                    <option value="OFFICE ASSISTANT">OFFICE ASSISTANT</option>
+                    <option value="SCIENTIST">SCIENTIST</option>
+                    <option value="LABOUR">LABOUR</option>
                   </select>
                 </div>
                 <div className="col-6">
                   <label>Role</label>
-                  <select className='form-select'>
-                    <option selected value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                  <select className="form-select">
+                    <option value="Select a role" selected disabled>
+                      Select a role
+                    </option>
+                    <option value="MANAGER">MANAGER</option>
+                    <option value="SCIENTIST">SCIENTIST</option>
+                    <option value="ADMIN">ADMINISTRATIVE</option>
+                    <option value="OTHER">OTHER</option>
                   </select>
                 </div>
               </div>
