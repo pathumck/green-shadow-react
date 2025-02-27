@@ -9,22 +9,23 @@ import { fetchFields } from '../redux/slices/fieldSlice'
 import { AppDispatch } from '../redux/store/store'
 
 
-function FieldDetails() {
+function FieldDetails(props: any) {
   const [showModal, setShowModal] = useState({title: "", btnText: ""});
   const handleShow = (title: string, btnText: string) => setShowModal({title: title, btnText: btnText});
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     dispatch(fetchFields());
-  
   }, []);
+
+  
 
 
   return (
     <>
       <PageTitle title = "Field Details" icon = {<FaSunPlantWilt className='align-baseline' size={22} />}/>
       <AddAndSearch btntext = "field" target = "#field" setShowModal = {() => handleShow("Add", "Save Field")} />
-      <FieldDetailsTable />
+      <FieldDetailsTable target = "#field" setShowModal= {()=> handleShow("Update", "Update Field")} />
       <FieldDetailsModal text = {showModal} />
     </>    
   )

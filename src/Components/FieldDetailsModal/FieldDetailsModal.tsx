@@ -1,9 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./FieldDetailsModal.css";
-import { useDispatch } from "react-redux";
-import { createField } from "../../redux/slices/fieldSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { createField, updateField } from "../../redux/slices/fieldSlice";
 import Field from "../../modals/Field";
 import { AppDispatch } from "../../redux/store/store";
+import { RootState } from "../../redux/store/store";
 function FieldDetailsModal(props: any) {
   const [name, setName] = useState<string>("");
   const [location, setLocation] = useState<string>("");
@@ -13,21 +14,63 @@ function FieldDetailsModal(props: any) {
   const [imageOnePreview, setImageOnePreview] = useState<string|null>(null);
   const [imageTwoPreview, setImageTwoPreview] = useState<string|null>(null);
   const dispatch = useDispatch<AppDispatch>();
+  const updateOrDeleteId = useSelector((state: RootState) => state.updateOrDelete);
+  const field = useSelector((state: RootState) => state.fields.find((field) => field.id === updateOrDeleteId));
+  const textTitle = props.text.title
 
   const clearFileInputOne = useRef<HTMLInputElement>(null)
   const clearFileInputTwo = useRef<HTMLInputElement>(null)
+
+  useEffect(() => { 
+    console.log(props.text.title)
+    console.log(field)
+    console.log(updateOrDeleteId)
+    if (props.text.title === "Update") {
+      setName(field?.name || "");
+      setLocation(field?.location || "");
+      setSize(field?.size || 0);
+      setImageOnePreview(field?.imageOne || null);
+      setImageTwoPreview(field?.imageTwo || null);
+    } else {
+      setName("");
+      setLocation("");
+      setSize(0);
+      setImageOnePreview(null);
+      setImageTwoPreview(null);
+      if (clearFileInputOne.current) {
+        clearFileInputOne.current.value = '';
+      }
+      if (clearFileInputTwo.current) {
+        clearFileInputTwo.current.value = '';
+      }
+    }
+  }, [updateOrDeleteId, textTitle]);
+
   
   const handleSubmit = async() => {
-    const newField = new Field("F0012223d", name, location, size, imageOnePreview, imageTwoPreview);
-    console.log(newField)
-    await dispatch(createField(newField));
-    setName("");
-    setLocation("");
-    setSize(0);
-    setImageOne(null);
-    setImageTwo(null);
-    setImageOnePreview(null);
-    setImageTwoPreview(null);
+    if(props.text.title === "Add"){
+      const newField = new Field("", name, location, size, imageOnePreview, imageTwoPreview);
+      console.log(newField)
+      await dispatch(createField(newField));
+      setName("");
+      setLocation("");
+      setSize(0);
+      setImageOne(null);
+      setImageTwo(null);
+      setImageOnePreview(null);
+      setImageTwoPreview(null);
+      if (clearFileInputOne.current) {
+        clearFileInputOne.current.value = '';
+      }
+      if (clearFileInputTwo.current) {
+        clearFileInputTwo.current.value = '';
+      }
+    }else{
+      const newField = new Field(updateOrDeleteId, name, location, size, imageOnePreview, imageTwoPreview);
+      console.log(newField)
+      await dispatch(updateField(newField));
+    }
+    
   }
 
   const handleImageOneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,7 +110,7 @@ function FieldDetailsModal(props: any) {
           <div className="modal-content">
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="exampleModalLabel">
-                {props.text.title + " Field"}
+                {textTitle + " Field"}
               </h1>
               <button
                 type="button"

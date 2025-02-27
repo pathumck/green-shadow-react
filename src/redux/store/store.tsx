@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import fieldReducer from "../slices/fieldSlice";
+import updateOrDeleteReducer from "../slices/updateOrDeleteSlice";
 
 const store = configureStore({
   reducer: {
-    fields: fieldReducer
+    fields: fieldReducer,
+    updateOrDelete: updateOrDeleteReducer
   }
 })
 

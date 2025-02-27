@@ -1,10 +1,17 @@
-import { RootState } from '../../redux/store/store'
+import { AppDispatch, RootState } from '../../redux/store/store'
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { updateOrDelete } from '../../redux/slices/updateOrDeleteSlice';
 
-function FieldDetailsTable() {
+function FieldDetailsTable(props : any) {
 
   const fields = useSelector((state: RootState) => state.fields);
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleUpdate = (id : string) => {
+    dispatch(updateOrDelete(id));
+  }
 
   return (
     <>
@@ -34,7 +41,11 @@ function FieldDetailsTable() {
                   <td>{field.imageOne && <img src={field.imageOne} alt="Image One" style={{ width: '150px', height: '100px' }}/>}</td>
                   <td>{field.imageTwo && <img src={field.imageTwo} alt="Image Two" style={{ width: '150px', height: '100px' }}/>}</td>
                   <td>
-                    <button className='btn btn-primary'>Edit</button>
+                    <button data-bs-toggle="modal" data-bs-target={props.target} onClick={
+                      () => {
+                        props.setShowModal("Update")
+                        handleUpdate(field.id)
+                      }} className='btn btn-primary'>Edit</button>
                     <button className='btn btn-danger mx-2 '>Delete</button>
                   </td>
                 </tr>
