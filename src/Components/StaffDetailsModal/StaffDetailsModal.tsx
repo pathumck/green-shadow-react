@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { AppDispatch } from "../../redux/store/store";
-import { useDispatch } from "react-redux";
-import { createStaff } from "../../redux/slices/staffSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { createStaff, updateStaff } from "../../redux/slices/staffSlice";
 import Staff from "../../modals/Staff";
+import { RootState } from "../../redux/store/store";
 
 function StaffDetailsModal(props: any) {
   const [firstName, setFirstName] = useState<string>("");
@@ -17,6 +18,37 @@ function StaffDetailsModal(props: any) {
   const [role, setRole] = useState<string>("");
 
   const dispatch = useDispatch<AppDispatch>();
+  const updateOrDeleteId = useSelector(
+    (state: RootState) => state.updateOrDelete
+  );
+  const staff = useSelector((state: RootState) =>
+    state.staff.find((staff) => staff.id === updateOrDeleteId)
+  );
+  const textTitle = props.text.title;
+
+  useEffect(() => {
+    if (props.text.title === "Update") {
+      setFirstName(staff?.firstName || "");
+      setLastName(staff?.lastName || "");
+      setBirthDay(staff?.birthDay || "");
+      setGender(staff?.gender || "");
+      setPhone(staff?.phone || "");
+      setEmail(staff?.email || "");
+      setAddress(staff?.address || "");
+      setDesignation(staff?.designation || "");
+      setRole(staff?.role || "");
+    } else {
+      setFirstName("");
+      setLastName("");
+      setBirthDay("");
+      setGender("");
+      setPhone("");
+      setEmail("");
+      setAddress("");
+      setDesignation("");
+      setRole("");
+    }
+  }, [updateOrDeleteId, textTitle]);
 
   const handleSubmit = async () => {
     if (props.text.title === "Add") {
@@ -43,6 +75,21 @@ function StaffDetailsModal(props: any) {
       setAddress("");
       setDesignation("");
       setRole("");
+    } else {
+      const updatedStaff = new Staff(
+        updateOrDeleteId,
+        firstName,
+        lastName,
+        birthDay,
+        gender,
+        phone,
+        email,
+        address,
+        designation,
+        role
+      );
+      console.log(updatedStaff);
+      await dispatch(updateStaff(updatedStaff));
     }
   };
   return (
