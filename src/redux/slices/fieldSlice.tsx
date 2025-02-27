@@ -16,6 +16,17 @@ export const createField = createAsyncThunk<Field, Field>(
   }
 );
 
+export const fetchFields = createAsyncThunk("fields/fetchFields", 
+  async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/field");
+      return response.data;
+    } catch (error) {
+      throw new Error("Failed to fetch fields");
+    }
+  }
+);
+
 const fieldSlice = createSlice({
   name: "fileds",
   initialState,
@@ -36,6 +47,17 @@ const fieldSlice = createSlice({
       })
       .addCase(createField.pending, () => {
         console.log("Creating field...");
+      })
+      .addCase(fetchFields.fulfilled, (state, action) => {
+        console.log("Fetched fields : ", action.payload);
+        return action.payload;
+      })
+      .addCase(fetchFields.rejected, (state, action) => {
+        console.log("Faild to fetch fields : ", action.error.message);
+        alert(action.error.message);
+      })
+      .addCase(fetchFields.pending, () => {
+        console.log("Fetching fields...");
       });
   },
 });

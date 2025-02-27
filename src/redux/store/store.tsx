@@ -3,7 +3,7 @@ import fieldReducer from "../slices/fieldSlice";
 
 const store = configureStore({
   reducer: {
-    fileds: fieldReducer
+    fields: fieldReducer
   }
 })
 

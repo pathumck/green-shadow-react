@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./FieldDetailsModal.css";
 import { useDispatch } from "react-redux";
 import { createField } from "../../redux/slices/fieldSlice";
@@ -8,24 +8,27 @@ function FieldDetailsModal(props: any) {
   const [name, setName] = useState<string>("");
   const [location, setLocation] = useState<string>("");
   const [size, setSize] = useState<number>(0);
-  const [imageOne, setImageOne] = useState<File | null>(null);
-  const [imageTwo, setImageTwo] = useState<File | null>(null);
-  const [imageOnePreview, setImageOnePreview] = useState<string | null>(null);
-  const [imageTwoPreview, setImageTwoPreview] = useState<string | null>(null);
+  const [imageOne, setImageOne] = useState<File|null>(null);
+  const [imageTwo, setImageTwo] = useState<File|null>(null);
+  const [imageOnePreview, setImageOnePreview] = useState<string|null>(null);
+  const [imageTwoPreview, setImageTwoPreview] = useState<string|null>(null);
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleSubmit = async () => {
-    const newField = new Field(
-      "",
-      name,
-      location,
-      size,
-      imageOnePreview,
-      imageTwoPreview
-    );
-    console.log(newField);
+  const clearFileInputOne = useRef<HTMLInputElement>(null)
+  const clearFileInputTwo = useRef<HTMLInputElement>(null)
+  
+  const handleSubmit = async() => {
+    const newField = new Field("F0012223d", name, location, size, imageOnePreview, imageTwoPreview);
+    console.log(newField)
     await dispatch(createField(newField));
-  };
+    setName("");
+    setLocation("");
+    setSize(0);
+    setImageOne(null);
+    setImageTwo(null);
+    setImageOnePreview(null);
+    setImageTwoPreview(null);
+  }
 
   const handleImageOneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -50,7 +53,7 @@ function FieldDetailsModal(props: any) {
       reader.readAsDataURL(file);
     }
   };
-
+  
   return (
     <>
       <div
@@ -80,12 +83,11 @@ function FieldDetailsModal(props: any) {
               <div className="row">
                 <div className="col-6">
                   <label>Name</label>
-                  <input
-                    value={name}
-                    type="text"
-                    className="form-control"
-                    onChange={(e) => setName(e.target.value)}
-                  />
+                  <input 
+                    value={name} 
+                    type="text" 
+                    className="form-control" 
+                    onChange={(e) => setName(e.target.value)} />
                 </div>
                 <div className="col-6">
                   <label>Location</label>
@@ -93,49 +95,41 @@ function FieldDetailsModal(props: any) {
                     value={location}
                     type="text"
                     className="form-control"
-                    onChange={(e) => setLocation(e.target.value)}
+                    onChange={(e) => setLocation(e.target.value)} 
                   />
                 </div>
                 <div className="col-6">
                   <label>Size</label>
-                  <input
-                    value={size}
-                    type="text"
+                  <input 
+                    value={size} 
+                    type="text" 
                     className="form-control"
-                    onChange={(e) => setSize(Number(e.target.value))}
+                    onChange={(e) => setSize(Number(e.target.value))} 
                   />
                 </div>
                 <div className="col-6"></div>
                 <div className="col-6">
                   <label>Image One</label>
-                  <input
-                    type="file"
-                    className="form-control"
-                    onChange={handleImageOneChange}
-                  />
+                  <input ref={clearFileInputOne} type="file" className="form-control" onChange={handleImageOneChange}  />
                   <div className="modal-img-wrap mt-2 justify-content-center align-items-center d-flex">
-                    {imageOnePreview && (
+                  {imageOnePreview && (
                       <img
                         src={imageOnePreview}
                         alt="Image One Preview"
-                        style={{ maxWidth: "100%", maxHeight: "100%" }}
+                        style={{maxWidth: "100%", maxHeight: "100%"}}
                       />
                     )}
                   </div>
                 </div>
                 <div className="col-6">
                   <label>Image Two</label>
-                  <input
-                    type="file"
-                    className="form-control"
-                    onChange={handleImageTwoChange}
-                  />
+                  <input ref={clearFileInputTwo} type="file" className="form-control" onChange={handleImageTwoChange} />
                   <div className="modal-img-wrap mt-2 justify-content-center align-items-center d-flex">
                     {imageTwoPreview && (
                       <img
                         src={imageTwoPreview}
                         alt="Image Two Preview"
-                        style={{ maxWidth: "100%", maxHeight: "100%" }}
+                        style={{maxWidth: "100%", maxHeight: "100%"}}
                       />
                     )}
                   </div>
@@ -150,11 +144,11 @@ function FieldDetailsModal(props: any) {
               >
                 Close
               </button>
-              <button
-                type="button"
+              <button 
+                type="button" 
                 className="btn btn-primary"
                 onClick={handleSubmit}
-              >
+                >
                 {props.text.btnText}
               </button>
             </div>
