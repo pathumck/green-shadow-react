@@ -37,6 +37,18 @@ export const updateCrop = createAsyncThunk<Crop, Crop>(
   }
 )
 
+export const deleteCrop = createAsyncThunk<Crop, string>(
+  "crop/deleteCrop",
+  async (id) => {
+    try {
+      const response = await axios.delete(`http://localhost:3000/crop/${id}`);
+      return response.data;
+    } catch (error) {
+      throw new Error("Failed to delete crop");
+    }
+  }
+)
+
 const cropSlice = createSlice({
   name: "crop",
   initialState,
@@ -86,6 +98,17 @@ const cropSlice = createSlice({
       })
       .addCase(updateCrop.pending, () => {
         console.log("Updating crop...");
+      })
+      .addCase(deleteCrop.fulfilled, (state, action) => {
+        console.log("Crop deleted successfully");
+        return state.filter((crop) => crop.id !== action.payload.id);
+      })
+      .addCase(deleteCrop.rejected, (state, action) => {
+        console.log("Faild to delete crop : ", action.error.message);
+        alert(action.error.message);
+      })
+      .addCase(deleteCrop.pending, () => {
+        console.log("Deleting crop...");
       })
 
   },

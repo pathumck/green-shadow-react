@@ -2,6 +2,7 @@ import { AppDispatch, RootState } from '../../redux/store/store'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateOrDelete } from '../../redux/slices/updateOrDeleteSlice'
+import { deleteCrop } from '../../redux/slices/cropSlice'
 
 function CropDetailsTable(props : any) {
   const crops = useSelector((state : RootState) => state.crops)
@@ -10,6 +11,11 @@ function CropDetailsTable(props : any) {
   const handleUpdateOrDelete = (id : string) => {
     dispatch(updateOrDelete(id));
   }
+
+  const handleDelete = (id : string) => {
+    dispatch(deleteCrop(id));
+  }
+
   return (
     <>
       <div className='container-fluid'>
@@ -52,7 +58,15 @@ function CropDetailsTable(props : any) {
                   >
                     Edit
                   </button>
-                  <button type="button" className="btn btn-danger mx-2">Delete</button>
+                  <button
+                    onClick={() => {
+                      handleUpdateOrDelete(crop.id);
+                      handleDelete(crop.id);
+                    }}
+                    className="btn btn-danger mx-2 "
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
