@@ -40,6 +40,18 @@ export const updateField = createAsyncThunk<Field, Field>(
   }
 );
 
+export const deleteField = createAsyncThunk<string, string>(
+  "fields/deleteField",
+  async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/field/${id}`);
+      return id;
+    } catch (error) {
+      throw new Error("Failed to delete field");
+    }
+  }
+);
+
 const fieldSlice = createSlice({
   name: "fileds",
   initialState,
@@ -89,6 +101,17 @@ const fieldSlice = createSlice({
       })
       .addCase(updateField.pending, () => {
         console.log("Updating field...");
+      })
+      .addCase(deleteField.fulfilled, (state, action) => {
+        console.log("Field deleted Successfully");
+        return state.filter((field) => field.id !== action.payload);
+      })
+      .addCase(deleteField.rejected, (state, action) => {
+        console.log("Faild to delete field : ", action.error.message);
+        alert(action.error.message);
+      })
+      .addCase(deleteField.pending, () => {
+        console.log("Deleting field...");
       });
   },
 });
