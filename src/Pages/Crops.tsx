@@ -20,7 +20,7 @@ function Crops() {
     <>
       <PageTitle title = "Crops" icon = {<FaPlantWilt className='align-baseline' size={22} />}/>
       <AddAndSearch btntext = "crop" target = "#crop" setShowModal = {() => handleShow("Add", "Save Crop")} />
-      <CropDetailsTable />
+      <CropDetailsTable target = "#crop" setShowModal= {()=> handleShow("Update", "Update Crop")} />
       <CropDetailsModal text = {showModal} />
     </>
   )

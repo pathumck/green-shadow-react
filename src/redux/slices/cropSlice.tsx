@@ -25,6 +25,18 @@ export const fetchCrops = createAsyncThunk("crop/fetchCrops", async () => {
   }
 })
 
+export const updateCrop = createAsyncThunk<Crop, Crop>(
+  "crop/updateCrop",
+  async (crop) => {
+    try {
+      const response = await axios.put(`http://localhost:3000/crop/${crop.id}`, crop);
+      return response.data;
+    } catch (error) {
+      throw new Error("Failed to update crop");
+    }
+  }
+)
+
 const cropSlice = createSlice({
   name: "crop",
   initialState,
@@ -58,6 +70,24 @@ const cropSlice = createSlice({
       .addCase(fetchCrops.pending, () => {
         console.log("Fetching crops...");
       })
+      .addCase(updateCrop.fulfilled, (state, action) => {
+        const index = state.findIndex(
+          (crop) => crop.id === action.payload.id);
+        state[index] = action.payload;
+        alert("Crop updated successfully");
+        const closeBtn = document.querySelector(
+          ".crop-modal-close"
+        ) as HTMLElement;
+        closeBtn.click();
+      })
+      .addCase(updateCrop.rejected, (state, action) => {
+        console.log("Faild to update crop : ", action.error.message);
+        alert(action.error.message);
+      })
+      .addCase(updateCrop.pending, () => {
+        console.log("Updating crop...");
+      })
+
   },
 })
 

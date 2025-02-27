@@ -1,9 +1,15 @@
-import { RootState } from '../../redux/store/store'
+import { AppDispatch, RootState } from '../../redux/store/store'
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateOrDelete } from '../../redux/slices/updateOrDeleteSlice'
 
-function CropDetailsTable() {
+function CropDetailsTable(props : any) {
   const crops = useSelector((state : RootState) => state.crops)
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleUpdateOrDelete = (id : string) => {
+    dispatch(updateOrDelete(id));
+  }
   return (
     <>
       <div className='container-fluid'>
@@ -35,7 +41,17 @@ function CropDetailsTable() {
                   )}
                 </td>
                 <td>
-                  <button type="button" className="btn btn-primary">Edit</button>
+                <button
+                    data-bs-toggle="modal"
+                    data-bs-target={props.target}
+                    onClick={() => {
+                      props.setShowModal("Update");
+                      handleUpdateOrDelete(crop.id);
+                    }}
+                    className="btn btn-primary"
+                  >
+                    Edit
+                  </button>
                   <button type="button" className="btn btn-danger mx-2">Delete</button>
                 </td>
               </tr>

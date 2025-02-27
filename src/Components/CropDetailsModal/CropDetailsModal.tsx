@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import Crop from '../../modals/Crop'
-import { useDispatch, UseDispatch } from 'react-redux'
-import { createCrop } from '../../redux/slices/cropSlice'
-import { AppDispatch } from '../../redux/store/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { createCrop, updateCrop } from '../../redux/slices/cropSlice'
+import { AppDispatch, RootState } from '../../redux/store/store'
 
 function CropDetailsModal(props: any) {
   const [commonName, setCommonName] = useState<string>("")
@@ -13,12 +13,51 @@ function CropDetailsModal(props: any) {
   const [imagePreview, setImagePreview] = useState<string|null>(null)
 
   const dispatch = useDispatch<AppDispatch>();
+  const updateOrDeleteId = useSelector((state: RootState) => state.updateOrDelete);
+  const crop = useSelector((state: RootState) => state.crops.find((crop) => crop.id === updateOrDeleteId));
+  const textTitle = props.text.title
+
+  const clearFileInput = useRef<HTMLInputElement>(null)
+
+  useEffect(() => { 
+    console.log(props.text.title)
+    console.log(crop)
+    console.log(updateOrDeleteId)
+    if (props.text.title === "Update") {
+      setCommonName(crop?.commonName || "");
+      setScientificName(crop?.scientificName || "");
+      setCategory(crop?.category || "");
+      setSeason(crop?.season || "");
+      setImagePreview(crop?.image || null);
+    } else {
+      setCommonName("");
+      setScientificName("");
+      setCategory("");
+      setSeason("");
+      setImagePreview(null);
+    }
+  }, [updateOrDeleteId, textTitle]);
 
   const handleSubmit = async ()=> {
-    const newCrop = new Crop("", commonName, scientificName, category, season, imagePreview)
-    console.log(newCrop)
-    await dispatch(createCrop(newCrop));
+    if(props.text.title === "Add"){
+      const newCrop = new Crop("", commonName, scientificName, category, season, imagePreview)
+      console.log(newCrop)
+      await dispatch(createCrop(newCrop)); 
+      setCommonName("")
+      setScientificName("")
+      setCategory("")
+      setSeason("")
+      setImagePreview(null)
+      if (clearFileInput.current) {
+        clearFileInput.current.value = '';
+      }
+    }else{
+      const updatedCrop = new Crop(updateOrDeleteId, commonName, scientificName, category, season, imagePreview)
+      console.log(updatedCrop)
+      await dispatch(updateCrop(updatedCrop));
+    }
   }
+
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -44,7 +83,7 @@ function CropDetailsModal(props: any) {
           <div className="modal-content">
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="exampleModalLabel">
-                {props.text.title + " Crop"}
+                {textTitle + " Crop"}
               </h1>
               <button
                 type="button"
@@ -88,7 +127,7 @@ function CropDetailsModal(props: any) {
                 </div>
                 <div className="col-6">
                 <label>Image</label>
-                <input type="file" className="form-control" onChange={handleImageChange} />
+                <input ref={clearFileInput} type="file" className="form-control" onChange={handleImageChange} />
                 <div className="modal-img-wrap mt-2 justify-content-center align-items-center d-flex">
                   {imagePreview && (
                     <img 
