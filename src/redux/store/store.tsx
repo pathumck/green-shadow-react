@@ -1,10 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import fieldReducer from "../slices/fieldSlice";
 import updateOrDeleteReducer from "../slices/updateOrDeleteSlice";
-
+import cropReducer from "../slices/cropSlice";
 const store = configureStore({
   reducer: {
     fields: fieldReducer,
+    crops: cropReducer,
     updateOrDelete: updateOrDeleteReducer
   }
 })
