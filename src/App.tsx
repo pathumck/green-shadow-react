@@ -12,8 +12,20 @@ import Staff from './Pages/Staff.tsx'
 import Vehicles from './Pages/Vehicles.tsx'
 import FieldDetails from './Pages/FieldDetails.tsx'
 import Users from './Pages/Users.tsx'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from './redux/store/store.tsx'
+import { fetchFields } from './redux/slices/fieldSlice.tsx'
+import { fetchCrops } from './redux/slices/cropSlice.tsx'
+import { fetchStaff } from './redux/slices/staffSlice.tsx'
 
 function App() {
+  const dispatch = useDispatch<AppDispatch>()
+  useEffect(() => {
+    dispatch(fetchFields())
+    dispatch(fetchCrops())
+    dispatch(fetchStaff())
+  }, [dispatch])
 
   return (
     <>

@@ -3,12 +3,16 @@ import fieldReducer from "../slices/fieldSlice";
 import updateOrDeleteReducer from "../slices/updateOrDeleteSlice";
 import cropReducer from "../slices/cropSlice";
 import staffReducer from "../slices/staffSlice";
+import logDataReducer from "../slices/logDataSlice";
+import logReducer from "../slices/logSlice";
 const store = configureStore({
   reducer: {
     fields: fieldReducer,
     crops: cropReducer,
     staff: staffReducer,
-    updateOrDelete: updateOrDeleteReducer
+    logs: logReducer,
+    updateOrDelete: updateOrDeleteReducer,
+    logData: logDataReducer
   }
 })
 
