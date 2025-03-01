@@ -2,12 +2,17 @@ import { AppDispatch, RootState } from '../../redux/store/store';
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { updateOrDelete } from '../../redux/slices/updateOrDeleteSlice';
+import { deleteStaff } from '../../redux/slices/staffSlice';
 
 function StaffDetailsTable(props: any) {
   const staff = useSelector((state: RootState) => state.staff);
   const dispatch = useDispatch<AppDispatch>();
   const handleUpdateOrDelete = (id: string) => {
     dispatch(updateOrDelete(id));
+  }
+
+  const handleDelete = (id: string) => {
+    dispatch(deleteStaff(id));
   }
   return (
     <>
@@ -55,7 +60,15 @@ function StaffDetailsTable(props: any) {
                   >
                     Edit
                   </button>
-                  <button className="btn btn-danger mx-2">Delete</button>
+                  <button
+                    onClick={() => {
+                      handleUpdateOrDelete(staff.id);
+                      handleDelete(staff.id);
+                    }}
+                    className="btn btn-danger mx-2 "
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}

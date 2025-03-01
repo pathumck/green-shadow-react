@@ -41,6 +41,15 @@ export const updateStaff = createAsyncThunk<Staff, Staff>(
   }
 )
 
+export const deleteStaff = createAsyncThunk("staff/deleteStaff", async (id: string) => {
+  try {
+    const response = await axios.delete(`http://localhost:3000/staff/${id}`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to delete staff");
+  }
+});
+
 export const staffSlice = createSlice({
   name: "staff",
   initialState,
@@ -90,7 +99,18 @@ export const staffSlice = createSlice({
       })
       .addCase(updateStaff.pending, () => {
         console.log("Updating staff...");
-      });
+      })
+      .addCase(deleteStaff.fulfilled, (state, action) => {
+        const index = state.findIndex((staff) => staff.id === action.payload.id);
+        state.splice(index, 1);
+        console.log(action.payload);
+        alert("Staff deleted successfully");
+      }).addCase(deleteStaff.rejected, (state, action) => {
+        console.log("Faild to delete staff : ", action.error.message);
+        alert(action.error.message);
+      }).addCase(deleteStaff.pending, () => {
+        console.log("Deleting staff...");
+      })
   }
 });
 
