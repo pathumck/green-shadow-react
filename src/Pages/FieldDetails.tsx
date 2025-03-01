@@ -4,6 +4,7 @@ import PageTitle from '../Components/PageTitle/PageTitle'
 import { FaSunPlantWilt } from 'react-icons/fa6'
 import FieldDetailsTable from '../Components/FieldDetailsTable/FieldDetailsTable'
 import FieldDetailsModal from '../Components/FieldDetailsModal/FieldDetailsModal'
+import NavBar from '../Components/NavBar/NavBar'
 
 
 
@@ -12,6 +13,7 @@ function FieldDetails(props: any) {
   const handleShow = (title: string, btnText: string) => setShowModal({title: title, btnText: btnText});
   return (
     <>
+      <NavBar />
       <PageTitle title = "Field Details" icon = {<FaSunPlantWilt className='align-baseline' size={22} />}/>
       <AddAndSearch btntext = "field" target = "#field" setShowModal = {() => handleShow("Add", "Save Field")} />
       <FieldDetailsTable target = "#field" setShowModal= {()=> handleShow("Update", "Update Field")} />

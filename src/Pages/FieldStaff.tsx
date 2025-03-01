@@ -4,10 +4,12 @@ import SelectaStaffContainer from "../Components/SelectaStaffContainer/SelectaSt
 import PageTitle from "../Components/PageTitle/PageTitle";
 import { FaSunPlantWilt } from "react-icons/fa6";
 import FieldStaffTable from "../Components/FieldStaffTable/FieldStaffTable";
+import NavBar from "../Components/NavBar/NavBar";
 
 function FieldStaff() {
   return (
     <>
+      <NavBar />
       <PageTitle
         title="Field Staff"
         icon={<FaSunPlantWilt className="align-baseline" size={22} />}

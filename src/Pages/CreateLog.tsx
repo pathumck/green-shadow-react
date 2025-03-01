@@ -5,10 +5,12 @@ import SelectLogStaffContainer from "../Components/SelectLogStaffContainer/Selec
 import SelectaFieldContainer from "../Components/SelectaFieldContainer/SelectaFieldContainer";
 import SelectLogCropContainer from "../Components/SelectLogCropContainer/SelectLogCropContainer";
 import CreateLogBottomComponent from "../Components/CreateLogBottomComponent/CreateLogBottomComponent";
+import NavBar from "../Components/NavBar/NavBar";
 
 function CreateLog() {
   return (
     <>
+      <NavBar />
       <PageTitle
         title="Create Log"
         icon={<SiReadthedocs className="align-baseline" size={22} />}

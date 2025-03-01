@@ -18,6 +18,7 @@ import { AppDispatch } from './redux/store/store.tsx'
 import { fetchFields } from './redux/slices/fieldSlice.tsx'
 import { fetchCrops } from './redux/slices/cropSlice.tsx'
 import { fetchStaff } from './redux/slices/staffSlice.tsx'
+import Login from './Pages/Login.tsx'
 
 function App() {
   const dispatch = useDispatch<AppDispatch>()
@@ -29,8 +30,8 @@ function App() {
 
   return (
     <>
-      <NavBar />
       <Routes>
+        <Route path='/' element={<Login />} />
         <Route path='/createlog' element={<CreateLog />} />
         <Route path='/crops' element={<Crops />} />
         <Route path='/dashboard' element={<DashBoard />} />

@@ -4,6 +4,7 @@ import AddAndSearch from "../Components/AddAndSearch/AddAndSearch";
 import { GiFarmer } from "react-icons/gi";
 import StaffDetailsTable from "../Components/StaffDetailsTable/StaffDetailsTable";
 import StaffDetailsModal from "../Components/StaffDetailsModal/StaffDetailsModal";
+import NavBar from "../Components/NavBar/NavBar";
 
 function Staff() {
   const [showModal, setShowModal] = useState({ title: "", btnText: "" });
@@ -12,6 +13,7 @@ function Staff() {
   };
   return (
     <>
+      <NavBar />
       <PageTitle
         title="Staff"
         icon={<GiFarmer className="align-baseline" size={22} />}

@@ -5,9 +5,11 @@ import { FaSunPlantWilt } from "react-icons/fa6";
 import SelectaCropContainer from "../Components/SelectaCropContainer/SelectaCropContainer";
 import "./css/FieldCrops.css";
 import FieldCropsTable from "../Components/FieldCropsTable/FieldCropsTable";
+import NavBar from "../Components/NavBar/NavBar";
 function FieldCrops() {
   return (
     <>
+      <NavBar />
       <PageTitle
         title="Field's Crops"
         icon={<FaSunPlantWilt className="align-baseline" size={22} />}
