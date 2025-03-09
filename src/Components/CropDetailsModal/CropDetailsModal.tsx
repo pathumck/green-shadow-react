@@ -11,6 +11,10 @@ function CropDetailsModal(props: any) {
   const [season, setSeason] = useState<string>("")
   const [image, setImage] = useState<File|null>(null)
   const [imagePreview, setImagePreview] = useState<string|null>(null)
+   const [validate, setValidate] = useState<{
+      status: number | null;
+      message: string;
+    }>();
 
   const dispatch = useDispatch<AppDispatch>();
   const updateOrDeleteId = useSelector((state: RootState) => state.updateOrDelete);
@@ -20,16 +24,15 @@ function CropDetailsModal(props: any) {
   const clearFileInput = useRef<HTMLInputElement>(null)
 
   useEffect(() => { 
-    console.log(props.text.title)
-    console.log(crop)
-    console.log(updateOrDeleteId)
     if (props.text.title === "Update") {
+      setValidate({ status: null, message: "" });
       setCommonName(crop?.commonName || "");
       setScientificName(crop?.scientificName || "");
       setCategory(crop?.category || "");
       setSeason(crop?.season || "");
       setImagePreview(crop?.image || null);
     } else {
+      setValidate({ status: null, message: "" });
       setCommonName("");
       setScientificName("");
       setCategory("");
@@ -38,7 +41,35 @@ function CropDetailsModal(props: any) {
     }
   }, [updateOrDeleteId, textTitle]);
 
+  const validateForm = () => {
+    const commonNameRegex = /^[A-Za-z\s]{3,200}$/;
+    const scientificNameRegex = /^[A-Za-z\s]{3,200}$/;
+    if (!commonName || !commonNameRegex.test(commonName)) {
+      setValidate({ status: 1, message: "Enter a valid common name." });
+      return false;
+    }
+    if (!scientificName || !scientificNameRegex.test(scientificName)) {
+      setValidate({ status: 2, message: "Enter a valid scientific name." });
+      return false;
+    }
+    if (!category) {
+      setValidate({ status: 3, message: "Please select a category." });
+      return false;
+    }
+    if (!season) {
+      setValidate({ status: 4, message: "Please select a season." });
+      return false;
+    }
+    if (!image) {
+      setValidate({ status: 5, message: "Please select an image." });
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async ()=> {
+    if(!validateForm()) return
+    setValidate({status: null, message: ""})
     if(props.text.title === "Add"){
       const newCrop = new Crop("", commonName, scientificName, category, season, imagePreview)
       console.log(newCrop)
@@ -99,15 +130,17 @@ function CropDetailsModal(props: any) {
               <div className='row'>
                 <div className='col-6'>
                   <label>Common Name</label>
-                  <input onChange={(e) => setCommonName(e.target.value)} value={commonName} type="text" className='form-control' />
+                  <input onChange={(e) => setCommonName(e.target.value)} value={commonName} type="text" className={validate?.status === 1 ? 'form-control is-invalid' : 'form-control'} />
+                  {validate?.status === 1 && <label className='text-danger'>{validate.message}</label>}
                 </div>
                 <div className='col-6'>
                   <label>Scientific Name</label>
-                  <input onChange={(e) => setScientificName(e.target.value)} value={scientificName} type="text" className='form-control' />
+                  <input onChange={(e) => setScientificName(e.target.value)} value={scientificName} type="text" className={validate?.status === 2 ? 'form-control is-invalid' : 'form-control'} />
+                  {validate?.status === 2 && <label className='text-danger'>{validate.message}</label>}
                 </div>
                 <div className='col-6'>
                   <label>Category</label>
-                  <select className='form-select' value={category} onChange={(e) => setCategory(e.target.value)}>
+                  <select className={validate?.status === 3 ? 'form-select is-invalid' : 'form-select'} value={category} onChange={(e) => setCategory(e.target.value)}>
                     <option value="" disabled>Select a category</option>
                     <option value="Vegitable">Vegitable</option>
                     <option value="Fruit">Fruit</option>
@@ -115,19 +148,22 @@ function CropDetailsModal(props: any) {
                     <option value="Rice">Rice</option>
                     <option value="Other">Other</option>
                   </select>
+                  {validate?.status === 3 && <label className='text-danger'>{validate.message}</label>}
                 </div>
                 <div className='col-6'>
                   <label>Season</label>
-                  <select className='form-select' value={season} onChange={(e) => setSeason(e.target.value)}>
+                  <select className={validate?.status === 4 ? 'form-select is-invalid' : 'form-select'} value={season} onChange={(e) => setSeason(e.target.value)}>
                     <option value="" disabled>Select a season</option>
                     <option value="Yala">Yala</option>
                     <option value="Maha">Maha</option>
                     <option value="Other">Other</option>
                   </select>
+                  {validate?.status === 4 && <label className='text-danger'>{validate.message}</label>}
                 </div>
                 <div className="col-6">
                 <label>Image</label>
-                <input ref={clearFileInput} type="file" className="form-control" onChange={handleImageChange} />
+                <input ref={clearFileInput} type="file" className={validate?.status === 5 ? 'form-control is-invalid' : 'form-control'} onChange={handleImageChange} />
+                {validate?.status === 5 && <label className='text-danger'>{validate.message}</label>}
                 <div className="modal-img-wrap mt-2 justify-content-center align-items-center d-flex">
                   {imagePreview && (
                     <img 
