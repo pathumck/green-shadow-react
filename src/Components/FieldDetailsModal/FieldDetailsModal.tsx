@@ -15,7 +15,10 @@ function FieldDetailsModal(props: any) {
   const [imageOnePreview, setImageOnePreview] = useState<string | null>(null);
   const [imageTwoPreview, setImageTwoPreview] = useState<string | null>(null);
   const dispatch = useDispatch<AppDispatch>();
-  const [validate, setValidate] = useState<{ status: number | null; message: string }>();
+  const [validate, setValidate] = useState<{
+    status: number | null;
+    message: string;
+  }>();
   const updateOrDeleteId = useSelector(
     (state: RootState) => state.updateOrDelete
   );
@@ -53,29 +56,29 @@ function FieldDetailsModal(props: any) {
     }
   }, [updateOrDeleteId, textTitle]);
 
-  const validateForm = () : boolean => {
+  const validateForm = (): boolean => {
     const nameRegex = /^[A-Za-z\s]{3,50}$/;
     const locationRegex = /^[A-Za-z\s]{3,50}$/;
     const sizeRegex = /^[0-9]{1,3}$/;
     if (!name || !nameRegex.test(name)) {
       setValidate({ status: 1, message: "Please enter a valid name." });
-      return false
+      return false;
     }
     if (!location || !locationRegex.test(location)) {
       setValidate({ status: 2, message: "Please enter a valid location." });
-      return false
+      return false;
     }
     if (!size || !sizeRegex.test(size.toString())) {
       setValidate({ status: 3, message: "Please enter a valid size." });
-      return false
+      return false;
     }
     if (!imageOne) {
       setValidate({ status: 4, message: "Please select an image." });
-      return false
+      return false;
     }
     if (!imageTwo) {
       setValidate({ status: 5, message: "Please select an image." });
-      return false
+      return false;
     }
     return true;
   };
@@ -178,7 +181,9 @@ function FieldDetailsModal(props: any) {
           <div className="modal-content">
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="exampleModalLabel">
-                {textTitle + " Field" + (textTitle === "Update" ? " : " + updateOrDeleteId : "")}
+                {textTitle +
+                  " Field" +
+                  (textTitle === "Update" ? " : " + updateOrDeleteId : "")}
               </h1>
               <button
                 type="button"
@@ -197,7 +202,11 @@ function FieldDetailsModal(props: any) {
                   <input
                     value={name}
                     type="text"
-                    className= {validate?.status && validate.status === 1 ? "form-control is-invalid" : "form-control"}
+                    className={
+                      validate?.status && validate.status === 1
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
                     onChange={(e) => setName(e.target.value)}
                   />
                   {validate?.status && validate.status === 1 && (
@@ -209,7 +218,11 @@ function FieldDetailsModal(props: any) {
                   <input
                     value={location}
                     type="text"
-                    className= {validate?.status && validate.status === 2 ? "form-control is-invalid" : "form-control"}
+                    className={
+                      validate?.status && validate.status === 2
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
                     onChange={(e) => setLocation(e.target.value)}
                   />
                   {validate?.status && validate.status === 2 && (
@@ -221,7 +234,11 @@ function FieldDetailsModal(props: any) {
                   <input
                     value={size}
                     type="text"
-                    className= {validate?.status && validate.status === 3 ? "form-control is-invalid" : "form-control"}
+                    className={
+                      validate?.status && validate.status === 3
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
                     onChange={(e) => setSize(Number(e.target.value))}
                   />
                   {validate?.status && validate.status === 3 && (
@@ -234,7 +251,11 @@ function FieldDetailsModal(props: any) {
                   <input
                     ref={clearFileInputOne}
                     type="file"
-                    className= {validate?.status && validate.status === 4 ? "form-control is-invalid" : "form-control"}
+                    className={
+                      validate?.status && validate.status === 4
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
                     onChange={handleImageOneChange}
                   />
                   {validate?.status && validate.status === 4 && (
@@ -255,7 +276,11 @@ function FieldDetailsModal(props: any) {
                   <input
                     ref={clearFileInputTwo}
                     type="file"
-                    className= {validate?.status && validate.status === 5 ? "form-control is-invalid" : "form-control"}
+                    className={
+                      validate?.status && validate.status === 5
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
                     onChange={handleImageTwoChange}
                   />
                   {validate?.status && validate.status === 5 && (

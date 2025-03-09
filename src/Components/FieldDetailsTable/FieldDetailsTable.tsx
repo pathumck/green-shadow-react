@@ -63,55 +63,63 @@ function FieldDetailsTable(props: any) {
             </tr>
           </thead>
           <tbody>
-            {fields.map((field, index) => (
-              <tr className="text-center" key={index}>
-                <th>{index + 1}</th>
-                <td>{field.id}</td>
-                <td>{field.name}</td>
-                <td>{field.location}</td>
-                <td>{field.size}</td>
-                <td>
-                  {field.imageOne && (
-                    <img
-                      src={field.imageOne}
-                      alt="Image One"
-                      style={{ width: "150px", height: "100px" }}
-                    />
-                  )}
-                </td>
-                <td>
-                  {field.imageTwo && (
-                    <img
-                      src={field.imageTwo}
-                      alt="Image Two"
-                      style={{ width: "150px", height: "100px" }}
-                    />
-                  )}
-                </td>
-                <td>
-                  <button
-                    data-bs-toggle="modal"
-                    data-bs-target={props.target}
-                    onClick={() => {
-                      props.setShowModal("Update");
-                      handleUpdateOrDelete(field.id);
-                    }}
-                    className="btn btn-primary"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => {
-                      handleUpdateOrDelete(field.id);
-                      handleDelete(field.id);
-                    }}
-                    className="btn btn-danger mx-2 "
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {fields
+              .filter((field) => {
+                return props.search.toLowerCase() === ""
+                  ? field
+                  : field.name
+                      .toLowerCase()
+                      .includes(props.search.toLowerCase());
+              })
+              .map((field, index) => (
+                <tr className="text-center" key={index}>
+                  <th>{index + 1}</th>
+                  <td>{field.id}</td>
+                  <td>{field.name}</td>
+                  <td>{field.location}</td>
+                  <td>{field.size}</td>
+                  <td>
+                    {field.imageOne && (
+                      <img
+                        src={field.imageOne}
+                        alt="Image One"
+                        style={{ width: "150px", height: "100px" }}
+                      />
+                    )}
+                  </td>
+                  <td>
+                    {field.imageTwo && (
+                      <img
+                        src={field.imageTwo}
+                        alt="Image Two"
+                        style={{ width: "150px", height: "100px" }}
+                      />
+                    )}
+                  </td>
+                  <td>
+                    <button
+                      data-bs-toggle="modal"
+                      data-bs-target={props.target}
+                      onClick={() => {
+                        props.setShowModal("Update");
+                        handleUpdateOrDelete(field.id);
+                      }}
+                      className="btn btn-primary"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => {
+                        handleUpdateOrDelete(field.id);
+                        handleDelete(field.id);
+                      }}
+                      className="btn btn-danger mx-2 "
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
