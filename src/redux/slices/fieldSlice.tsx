@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Field from "../../modals/Field";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const initialState: Field[] = [];
 
@@ -60,58 +61,85 @@ const fieldSlice = createSlice({
     builder
       .addCase(createField.fulfilled, (state, action) => {
         state.push(action.payload);
-        alert("Field created successfully");
         const closeBtn = document.querySelector(
           ".field-modal-close"
         ) as HTMLElement;
+        Swal.fire("Field saved successfully", "", "success");
         closeBtn.click();
       })
       .addCase(createField.rejected, (state, action) => {
-        console.log("Faild to create field : ", action.error.message);
-        alert(action.error.message);
+        Swal.fire("Field was not saved", "", "info");
       })
       .addCase(createField.pending, () => {
-        console.log("Creating field...");
+        Swal.fire({
+          title: "Saving Field",
+          text : "Please wait",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false
+        })
       })
       .addCase(fetchFields.fulfilled, (state, action) => {
-        console.log("Fetched fields : ", action.payload);
+        Swal.close();
         return action.payload;
       })
       .addCase(fetchFields.rejected, (state, action) => {
-        console.log("Faild to fetch fields : ", action.error.message);
-        alert(action.error.message);
+        Swal.fire("Failed to fetch fields", "", "info");
       })
       .addCase(fetchFields.pending, () => {
-        console.log("Fetching fields...");
+        Swal.fire({
+          background: "transparent",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false
+        })
       })
       .addCase(updateField.fulfilled, (state, action) => {
         const index = state.findIndex(
           (field) => field.id === action.payload.id
         );
         state[index] = action.payload;
-        alert("Field updated successfully");
         const closeBtn = document.querySelector(
           ".field-modal-close"
         ) as HTMLElement;
+        Swal.fire("Field updated successfully", "", "success");
         closeBtn.click();
       })
       .addCase(updateField.rejected, (state, action) => {
-        console.log("Faild to update field : ", action.error.message);
-        alert(action.error.message);
+        Swal.fire("Field was not updated", "", "info");
       })
       .addCase(updateField.pending, () => {
-        console.log("Updating field...");
+        Swal.fire({
+          title: "Updating Field",
+          text : "Please wait",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false
+        })
       })
       .addCase(deleteField.fulfilled, (state, action) => {
-        console.log("Field deleted Successfully");
+        Swal.fire({
+          title: "Deleted!",
+          text: "Field has been deleted.",
+          icon: "success"
+        });
         return state.filter((field) => field.id !== action.payload);
       })
       .addCase(deleteField.rejected, (state, action) => {
-        console.log("Faild to delete field : ", action.error.message);
-        alert(action.error.message);
+        Swal.fire("Field was not deleted", "", "info");
       })
       .addCase(deleteField.pending, () => {
-        console.log("Deleting field...");
+        Swal.fire({
+          title: "Deleting Field",
+          text : "Please wait",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false
+        })
       });
   },
 });

@@ -3,6 +3,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateOrDelete } from "../../redux/slices/updateOrDeleteSlice";
 import { deleteField } from "../../redux/slices/fieldSlice";
+import Swal from "sweetalert2";
 
 function FieldDetailsTable(props: any) {
   const fields = useSelector((state: RootState) => state.fields);
@@ -14,7 +15,19 @@ function FieldDetailsTable(props: any) {
   };
 
   const handleDelete = (id: string) => {
-    dispatch(deleteField(id));
+    Swal.fire({
+      title: "Are you sure to delete this field: " + id + "?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteField(id));
+      }
+    });
   };
 
   return (
