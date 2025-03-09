@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Crop from "../../modals/Crop";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const initialState : Crop[] = []
 
@@ -41,7 +42,7 @@ export const deleteCrop = createAsyncThunk<Crop, string>(
   "crop/deleteCrop",
   async (id) => {
     try {
-      const response = await axios.delete(`http://localhost:3000/crop/${id}`);
+      const response = await axios.delete(`http://localhost:30000/crop/${id}`);
       return response.data;
     } catch (error) {
       throw new Error("Failed to delete crop");
@@ -100,15 +101,21 @@ const cropSlice = createSlice({
         console.log("Updating crop...");
       })
       .addCase(deleteCrop.fulfilled, (state, action) => {
-        console.log("Crop deleted successfully");
+        Swal.fire("Crop deleted successfully", "", "success");
         return state.filter((crop) => crop.id !== action.payload.id);
       })
       .addCase(deleteCrop.rejected, (state, action) => {
-        console.log("Faild to delete crop : ", action.error.message);
-        alert(action.error.message);
+        Swal.fire("Crop was not deleted", "", "info");
       })
       .addCase(deleteCrop.pending, () => {
-        console.log("Deleting crop...");
+        Swal.fire({
+          title: "Deleting Crop",
+          text : "Please wait",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false
+        })
       })
 
   },

@@ -2,6 +2,7 @@ import { AppDispatch, RootState } from "../../redux/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { updateOrDelete } from "../../redux/slices/updateOrDeleteSlice";
 import { deleteCrop } from "../../redux/slices/cropSlice";
+import Swal from "sweetalert2";
 
 function CropDetailsTable(props: any) {
   const crops = useSelector((state: RootState) => state.crops);
@@ -11,8 +12,20 @@ function CropDetailsTable(props: any) {
     dispatch(updateOrDelete(id));
   };
 
-  const handleDelete = (id: string) => {
-    dispatch(deleteCrop(id));
+  const handleDelete = async(id: string) => {
+    Swal.fire({
+      title: "Are you sure to delete this crop: " + id + "?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await dispatch(deleteCrop(id));
+      }
+    })
   };
 
   return (
