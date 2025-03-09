@@ -10,8 +10,8 @@ function FieldDetailsModal(props: any) {
   const [name, setName] = useState<string>("");
   const [location, setLocation] = useState<string>("");
   const [size, setSize] = useState<number | "">("");
-  const [imageOne, setImageOne] = useState<File | null | string>("initial");
-  const [imageTwo, setImageTwo] = useState<File | null | string>("initial");
+  const [imageOne, setImageOne] = useState<File | null | string>(null);
+  const [imageTwo, setImageTwo] = useState<File | null | string>(null);
   const [imageOnePreview, setImageOnePreview] = useState<string | null>(null);
   const [imageTwoPreview, setImageTwoPreview] = useState<string | null>(null);
   const dispatch = useDispatch<AppDispatch>();
@@ -38,7 +38,11 @@ function FieldDetailsModal(props: any) {
       setSize(field?.size || "");
       setImageOnePreview(field?.imageOne || null);
       setImageTwoPreview(field?.imageTwo || null);
+      setImageOne("previous");
+      setImageTwo("previous");
     } else {
+      setImageOne(null);
+      setImageTwo(null);
       setValidate({ status: null, message: "" });
       setName("");
       setLocation("");
