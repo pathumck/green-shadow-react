@@ -32,7 +32,10 @@ function FieldDetailsTable(props: any) {
 
   return (
     <>
-      <div className="container-fluid mt-5" style={{maxHeight: "320px", overflowY: "scroll"}}>
+      <div
+        className="container-fluid mt-5"
+        style={{ maxHeight: "320px", overflowY: "scroll" }}
+      >
         <table className="table table-bordered table-striped">
           <thead className="table-dark sticky-top">
             <tr>
@@ -72,12 +75,12 @@ function FieldDetailsTable(props: any) {
                       .includes(props.search.toLowerCase());
               })
               .map((field, index) => (
-                <tr className="text-center" key={index}>
-                  <td className="fw-bold">{index + 1}</td>
-                  <td className="fw-bold">{field.id}</td>
-                  <td className="fw-bold">{field.name}</td>
-                  <td className="fw-bold">{field.location}</td>
-                  <td className="fw-bold">{field.size}</td>
+                <tr className="text-center fw-bold" key={index}>
+                  <td>{index + 1}</td>
+                  <td>{field.id}</td>
+                  <td>{field.name}</td>
+                  <td>{field.location}</td>
+                  <td>{field.size}</td>
                   <td>
                     {field.imageOne && (
                       <img

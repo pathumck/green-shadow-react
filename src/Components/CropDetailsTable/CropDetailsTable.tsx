@@ -18,9 +18,9 @@ function CropDetailsTable(props : any) {
 
   return (
     <>
-      <div className='container-fluid'>
-        <table className="table mt-5">
-          <thead>
+      <div className='container-fluid mt-5' style={{maxHeight: "320px", overflowY: "scroll"}}>
+        <table className="table table-bordered table-striped">
+          <thead className="table-dark sticky-top">
             <tr>
               <th scope="col" className='text-center'>#</th>
               <th scope="col" className='text-center'>Crop Code</th>
@@ -34,8 +34,8 @@ function CropDetailsTable(props : any) {
           </thead>
           <tbody>
             {crops.map((crop, index) => (
-              <tr className='text-center' key={index}>
-                <th scope="row">{index + 1}</th>
+              <tr className='text-center fw-bold' key={index}>
+                <td>{index + 1}</td>
                 <td>{crop.id}</td>
                 <td>{crop.commonName}</td>
                 <td>{crop.scientificName}</td>
