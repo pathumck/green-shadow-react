@@ -42,7 +42,7 @@ export const deleteCrop = createAsyncThunk<Crop, string>(
   "crop/deleteCrop",
   async (id) => {
     try {
-      const response = await axios.delete(`http://localhost:30000/crop/${id}`);
+      const response = await axios.delete(`http://localhost:3000/crop/${id}`);
       return response.data;
     } catch (error) {
       throw new Error("Failed to delete crop");
@@ -59,46 +59,63 @@ const cropSlice = createSlice({
     builder
       .addCase(createCrop.fulfilled, (state, action) => {
         state.push(action.payload);
-        alert("Crop created successfully");
+        Swal.fire("Crop saved successfully", "", "success");
         const closeBtn = document.querySelector(
           ".crop-modal-close"
         ) as HTMLElement;
         closeBtn.click();
       })
       .addCase(createCrop.rejected, (state, action) => {
-        console.log("Faild to create crop : ", action.error.message);
-        alert(action.error.message);
+        Swal.fire("Crop was not saved", "", "info");
       })
       .addCase(createCrop.pending, () => {
-        console.log("Creating crop...");
+        Swal.fire({
+          title: "Saving Crop",
+          text : "Please wait",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false
+        })
       })
       .addCase(fetchCrops.fulfilled, (state, action) => {
-        console.log("Fetched crops : ", action.payload);
+        Swal.close();
         return action.payload;
       })
       .addCase(fetchCrops.rejected, (state, action) => {
-        console.log("Faild to fetch crops : ", action.error.message);
-        alert(action.error.message);
+        Swal.fire("Failed to fetch crops", "", "info");
       })
       .addCase(fetchCrops.pending, () => {
-        console.log("Fetching crops...");
+        Swal.fire({
+          background: "transparent",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false
+        })
       })
       .addCase(updateCrop.fulfilled, (state, action) => {
         const index = state.findIndex(
           (crop) => crop.id === action.payload.id);
         state[index] = action.payload;
-        alert("Crop updated successfully");
+        Swal.fire("Crop updated successfully", "", "success");
         const closeBtn = document.querySelector(
           ".crop-modal-close"
         ) as HTMLElement;
         closeBtn.click();
       })
       .addCase(updateCrop.rejected, (state, action) => {
-        console.log("Faild to update crop : ", action.error.message);
-        alert(action.error.message);
+        Swal.fire("Crop was not updated", "", "info");
       })
       .addCase(updateCrop.pending, () => {
-        console.log("Updating crop...");
+        Swal.fire({
+          title: "Updating Crop",
+          text : "Please wait",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false
+        })
       })
       .addCase(deleteCrop.fulfilled, (state, action) => {
         Swal.fire("Crop deleted successfully", "", "success");

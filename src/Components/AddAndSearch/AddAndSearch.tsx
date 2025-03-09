@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./AddAndSearch.css";
 
 function AddAndSearch(props: any) {

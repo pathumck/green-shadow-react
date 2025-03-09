@@ -3,13 +3,14 @@ import Crop from "../../modals/Crop";
 import { useDispatch, useSelector } from "react-redux";
 import { createCrop, updateCrop } from "../../redux/slices/cropSlice";
 import { AppDispatch, RootState } from "../../redux/store/store";
+import Swal from "sweetalert2";
 
 function CropDetailsModal(props: any) {
   const [commonName, setCommonName] = useState<string>("");
   const [scientificName, setScientificName] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const [season, setSeason] = useState<string>("");
-  const [image, setImage] = useState<File | null | string>("initial");
+  const [image, setImage] = useState<File | null | string>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [validate, setValidate] = useState<{
     status: number | null;
@@ -35,7 +36,9 @@ function CropDetailsModal(props: any) {
       setCategory(crop?.category || "");
       setSeason(crop?.season || "");
       setImagePreview(crop?.image || null);
+      setImage("previous");
     } else {
+      setImage(null);
       setValidate({ status: null, message: "" });
       setCommonName("");
       setScientificName("");
@@ -75,24 +78,34 @@ function CropDetailsModal(props: any) {
     if (!validateForm()) return;
     setValidate({ status: null, message: "" });
     if (props.text.title === "Add") {
-      const newCrop = new Crop(
-        "",
-        commonName,
-        scientificName,
-        category,
-        season,
-        imagePreview
-      );
-      console.log(newCrop);
-      await dispatch(createCrop(newCrop));
-      setCommonName("");
-      setScientificName("");
-      setCategory("");
-      setSeason("");
-      setImagePreview(null);
-      if (clearFileInput.current) {
-        clearFileInput.current.value = "";
-      }
+      Swal.fire({
+        title: "Do you want to save the new crop?",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Save",
+        denyButtonText: `Don't save`,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const newCrop = new Crop(
+            "",
+            commonName,
+            scientificName,
+            category,
+            season,
+            imagePreview
+          );
+          console.log(newCrop);
+          await dispatch(createCrop(newCrop));
+          setCommonName("");
+          setScientificName("");
+          setCategory("");
+          setSeason("");
+          setImagePreview(null);
+          if (clearFileInput.current) {
+            clearFileInput.current.value = "";
+          }
+        }
+      });
     } else {
       const updatedCrop = new Crop(
         updateOrDeleteId,
@@ -102,8 +115,17 @@ function CropDetailsModal(props: any) {
         season,
         imagePreview
       );
-      console.log(updatedCrop);
-      await dispatch(updateCrop(updatedCrop));
+      Swal.fire({
+        title: "Do you want to update the crop : " + updatedCrop.id + "?",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Update",
+        denyButtonText: `Don't update`,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await dispatch(updateCrop(updatedCrop));
+        }
+      });
     }
   };
 
@@ -131,7 +153,9 @@ function CropDetailsModal(props: any) {
           <div className="modal-content">
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="exampleModalLabel">
-                {textTitle + " Crop"}
+                {textTitle +
+                  " Crop" +
+                  (textTitle === "Update" ? " : " + updateOrDeleteId : "")}
               </h1>
               <button
                 type="button"
