@@ -33,8 +33,8 @@ function FieldDetailsTable(props: any) {
   return (
     <>
       <div className="container-fluid">
-        <table className="table mt-5">
-          <thead>
+        <table className="table table-bordered table-striped mt-5">
+          <thead className="table-dark">
             <tr>
               <th scope="col" className="text-center">
                 #
@@ -74,10 +74,10 @@ function FieldDetailsTable(props: any) {
               .map((field, index) => (
                 <tr className="text-center" key={index}>
                   <th>{index + 1}</th>
-                  <td>{field.id}</td>
-                  <td>{field.name}</td>
-                  <td>{field.location}</td>
-                  <td>{field.size}</td>
+                  <td className="fw-bold">{field.id}</td>
+                  <td className="fw-bold">{field.name}</td>
+                  <td className="fw-bold">{field.location}</td>
+                  <td className="fw-bold">{field.size}</td>
                   <td>
                     {field.imageOne && (
                       <img
