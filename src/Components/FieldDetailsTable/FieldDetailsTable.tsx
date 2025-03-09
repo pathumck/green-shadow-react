@@ -1,5 +1,4 @@
 import { AppDispatch, RootState } from "../../redux/store/store";
-import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateOrDelete } from "../../redux/slices/updateOrDeleteSlice";
 import { deleteField } from "../../redux/slices/fieldSlice";

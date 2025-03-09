@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import AddAndSearch from "../Components/AddAndSearch/AddAndSearch";
 import PageTitle from "../Components/PageTitle/PageTitle";
 import { FaSunPlantWilt } from "react-icons/fa6";
