@@ -32,9 +32,9 @@ function FieldDetailsTable(props: any) {
 
   return (
     <>
-      <div className="container-fluid">
-        <table className="table table-bordered table-striped mt-5">
-          <thead className="table-dark">
+      <div className="container-fluid mt-5" style={{maxHeight: "320px", overflowY: "scroll"}}>
+        <table className="table table-bordered table-striped">
+          <thead className="table-dark sticky-top">
             <tr>
               <th scope="col" className="text-center">
                 #
@@ -73,7 +73,7 @@ function FieldDetailsTable(props: any) {
               })
               .map((field, index) => (
                 <tr className="text-center" key={index}>
-                  <th>{index + 1}</th>
+                  <td className="fw-bold">{index + 1}</td>
                   <td className="fw-bold">{field.id}</td>
                   <td className="fw-bold">{field.name}</td>
                   <td className="fw-bold">{field.location}</td>
