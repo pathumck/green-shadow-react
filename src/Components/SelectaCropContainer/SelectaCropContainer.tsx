@@ -18,10 +18,7 @@ function SelectaCropContainer(props: any) {
   const [season, setSeason] = useState<string>("");
   const [Image, setImage] = useState<string>("");
   const dispatch = useDispatch<AppDispatch>();
-  const [validate, setValidate] = useState<{
-    status: number | null;
-    message: string;
-  }>();
+  const [validate, setValidate] = useState<boolean>(true);
 
   useEffect(() => {
     const selectedCrop = crops.find((crop) => crop.id === cropId);
@@ -42,7 +39,7 @@ function SelectaCropContainer(props: any) {
     }
     props.setValidate("form-control");
     if (!cropId) {
-      setValidate({ status: 2, message: "Select a crop" });
+      setValidate(false);
       return false;
     }
     if (
@@ -58,7 +55,7 @@ function SelectaCropContainer(props: any) {
 
   const handleSubmit = async () => {
     if (!validateForm()) return;
-    setValidate({ status: null, message: "" });
+    setValidate(true);
     const fieldCrop = new FieldCrop(fieldId, cropId);
     await dispatch(createFieldCrop(fieldCrop));
   };
@@ -74,7 +71,7 @@ function SelectaCropContainer(props: any) {
           <br />
           <select
             className={
-              validate?.status === 2
+              validate === false
                 ? "form-control is-invalid"
                 : "form-control"
             }
