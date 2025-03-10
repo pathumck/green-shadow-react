@@ -12,7 +12,7 @@ function CropDetailsTable(props: any) {
     dispatch(updateOrDelete(id));
   };
 
-  const handleDelete = async(id: string) => {
+  const handleDelete = async (id: string) => {
     Swal.fire({
       title: "Are you sure to delete this crop: " + id + "?",
       text: "You won't be able to revert this!",
@@ -25,7 +25,7 @@ function CropDetailsTable(props: any) {
       if (result.isConfirmed) {
         await dispatch(deleteCrop(id));
       }
-    })
+    });
   };
 
   return (

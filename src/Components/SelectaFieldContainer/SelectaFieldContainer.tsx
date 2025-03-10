@@ -3,7 +3,7 @@ import "./SelectaFieldContainer.css";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store/store";
 import { updateFieldId } from "../../redux/slices/logDataSlice";
-function SelectaFieldContainer() {
+function SelectaFieldContainer(props: any) {
   const [fieldId, setFieldId] = useState("");
   const [selectedFieldId, setSelectedFieldId] = useState("");
   const [fieldName, setFieldName] = useState("");
@@ -13,7 +13,6 @@ function SelectaFieldContainer() {
   const [fieldImageTwo, setFieldImageTwo] = useState("");
   const fields = useSelector((state: RootState) => state.fields);
   const dispatch = useDispatch<AppDispatch>();
-  
 
   useEffect(() => {
     const selectedField = fields.find((field) => field.id === fieldId);
@@ -37,8 +36,18 @@ function SelectaFieldContainer() {
         <div className="col-6 pb-2">
           <label className="">Select a Field </label>
           <br />
-          <select value={fieldId} className="form-select" aria-label="Default select example" onChange={(e) => setFieldId(e.target.value)}>
-            <option value="" selected disabled>Select a field</option>
+          <select
+            value={fieldId}
+            className={props.validate}
+            aria-label="Default select example"
+            onChange={(e) => {
+              setFieldId(e.target.value);
+              props.setTable(e.target.value);
+            }}
+          >
+            <option value="" selected disabled>
+              Select a field
+            </option>
             {fields.map((field) => (
               <option key={field.id} value={field.id}>
                 {field.id + " - "}
@@ -50,22 +59,42 @@ function SelectaFieldContainer() {
         <div className="col-6">
           <label className="">Selected Field </label>
           <br />
-          <input value={selectedFieldId} className="form-control me-2" placeholder="" disabled />
+          <input
+            value={selectedFieldId}
+            className="form-control me-2"
+            placeholder=""
+            disabled
+          />
         </div>
         <div className="col-6">
           <label className="">Name </label>
           <br />
-          <input value={fieldName} className="form-control me-2" placeholder="" disabled />
+          <input
+            value={fieldName}
+            className="form-control me-2"
+            placeholder=""
+            disabled
+          />
         </div>
         <div className="col-6">
           <label className="">Location </label>
           <br />
-          <input value={fieldLocation} className="form-control me-2" placeholder="" disabled />
+          <input
+            value={fieldLocation}
+            className="form-control me-2"
+            placeholder=""
+            disabled
+          />
         </div>
         <div className="col-6">
           <label className="">Size </label>
           <br />
-          <input value={(fieldSize)} className="form-control me-2" placeholder="" disabled />
+          <input
+            value={fieldSize}
+            className="form-control me-2"
+            placeholder=""
+            disabled
+          />
         </div>
         <div className="col-6"></div>
         <div className="col-6 img-container">
@@ -73,9 +102,9 @@ function SelectaFieldContainer() {
           <br />
           <div className="img-wrap justify-content-center align-items-center d-flex">
             <img
-              src= {fieldImageOne}
-              alt="Image One"
-              style={{maxWidth: "150px", maxHeight: "130px"}}
+              src={fieldImageOne}
+              alt=""
+              style={{ maxWidth: "150px", maxHeight: "130px" }}
             />
           </div>
         </div>
@@ -83,10 +112,10 @@ function SelectaFieldContainer() {
           <label className="">Image One </label>
           <br />
           <div className="img-wrap justify-content-center align-items-center d-flex">
-            <img 
-              src= {fieldImageTwo} 
-              alt="Image Two"
-              style={{maxWidth: "150px", maxHeight: "130px"}}
+            <img
+              src={fieldImageTwo}
+              alt=""
+              style={{ maxWidth: "150px", maxHeight: "130px" }}
             />
           </div>
         </div>
