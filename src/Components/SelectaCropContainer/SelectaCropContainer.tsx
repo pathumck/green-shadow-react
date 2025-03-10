@@ -5,6 +5,7 @@ import { AppDispatch, RootState } from "../../redux/store/store";
 import { useEffect, useState } from "react";
 import { createFieldCrop } from "../../redux/slices/field'sCropsSlice";
 import FieldCrop from "../../modals/Field'sCrop";
+import { updateFieldId } from "../../redux/slices/logDataSlice";
 
 function SelectaCropContainer(props: any) {
   const crops = useSelector((state: RootState) => state.crops);
@@ -32,7 +33,12 @@ function SelectaCropContainer(props: any) {
     }
   }, [cropId]);
 
+  useEffect(()=>{
+    dispatch(updateFieldId(null))
+  },[])
+
   const validateForm = () => {
+    console.log(fieldId)
     if (!fieldId) {
       props.setValidate("form-control is-invalid");
       return false;
