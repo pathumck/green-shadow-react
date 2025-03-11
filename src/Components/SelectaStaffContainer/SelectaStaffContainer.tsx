@@ -5,6 +5,7 @@ import { AppDispatch, RootState } from "../../redux/store/store";
 import { createFieldsStaff } from "../../redux/slices/field'sStaffSlice";
 import FieldStaff from "../../modals/Field'sStaff";
 import { updateFieldId } from "../../redux/slices/logDataSlice";
+import Swal from "sweetalert2";
 
 function SelectaStaffContainer(props: any) {
   const allStaff = useSelector((state: RootState) => state.staff);
@@ -18,6 +19,8 @@ function SelectaStaffContainer(props: any) {
   const [designation, setDesignation] = useState<string>();
   const [role, setRole] = useState<string>();
   const [validate, setValidate] = useState<boolean>(true);
+
+  const fieldStaff = useSelector((state: RootState) => state.fieldStaff);
 
   const disptach = useDispatch<AppDispatch>();
 
@@ -48,13 +51,45 @@ function SelectaStaffContainer(props: any) {
       setValidate(false);
       return false;
     }
+    if (
+      fieldStaff.some(
+        (field) => fieldId === field.fieldId && staffId === field.staffId
+      )
+    ) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text:
+          "This staff member : " +
+          staffId +
+          " is already assigned for this field : " +
+          fieldId,
+      });
+      return false;
+    }
     return true;
   };
 
   const handleSubmit = async () => {
     if (!validateForm()) return;
-    const fieldStaff = new FieldStaff(fieldId, staffId);
-    await disptach(createFieldsStaff(fieldStaff));
+    Swal.fire({
+      title:
+        "Do you want to\nadd staff member : " +
+        staffId +
+        "\nto field : " +
+        fieldId +
+        " ?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Add",
+      denyButtonText: `Don't add`,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setValidate(true);
+        const fieldStaff = new FieldStaff(fieldId, staffId);
+        await disptach(createFieldsStaff(fieldStaff));
+      }
+    });
   };
 
   return (
