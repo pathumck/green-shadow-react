@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store/store";
 import {
@@ -18,7 +18,6 @@ function FieldStaffTable(props: any) {
   const selectedFieldId = useSelector(
     (state: RootState) => state.logData.fieldId
   );
-  console.log(fieldsStaff);
 
   const handleDelete = async (staffId: string | undefined) => {
     Swal.fire({

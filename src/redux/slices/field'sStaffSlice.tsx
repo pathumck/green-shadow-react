@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import FieldStaff from "../../modals/Field'sStaff";
+import Swal from "sweetalert2";
 
 const initialState: FieldStaff[] = [];
 
@@ -54,27 +55,43 @@ const fieldStaffSlice = createSlice({
     builder
       .addCase(createFieldsStaff.fulfilled, (state, action) => {
         state.push(action.payload);
-        alert("Field's staff created successfully");
+        Swal.fire("Staff member successfully assigned to this field", "", "success");
       })
       .addCase(createFieldsStaff.rejected, (state, action) => {
-        alert(action.error.message);
-        console.log("Faild to create field's staff : ", action.error.message);
+        Swal.fire("Failed to assign staff to this field", "", "info");
       })
       .addCase(createFieldsStaff.pending, () => {
-        console.log("Creating field's staff...");
+        Swal.fire({
+          title: "Assigning staff to field",
+          text: "Please wait",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false,
+        });
       })
       .addCase(fetchFieldsStaff.fulfilled, (state, action) => {
+        Swal.close();
         return action.payload;
       })
       .addCase(fetchFieldsStaff.rejected, (state, action) => {
-        alert(action.error.message);
-        console.log("Faild to fetch field's staff : ", action.error.message);
+        Swal.fire("Failed to fetch field's staff", "", "info");
       })
       .addCase(fetchFieldsStaff.pending, () => {
-        console.log("Fetching field's staff...");
+        Swal.fire({
+          background: "transparent",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false,
+        });
       })
       .addCase(deleteFieldStaff.fulfilled, (state, action) => {
-        alert("Field's staff deleted successfully");
+        Swal.fire(
+          "Staff member removed from this field successfully",
+          "",
+          "success"
+        );
         return state.filter(
           (fieldStaff) =>
             !(
@@ -84,11 +101,17 @@ const fieldStaffSlice = createSlice({
         );
       })
       .addCase(deleteFieldStaff.rejected, (state, action) => {
-        alert(action.error.message);
-        console.log("Faild to delete field's staff : ", action.error.message);
+        Swal.fire("Failed to remove staff member from this field", "", "info");
       })
       .addCase(deleteFieldStaff.pending, () => {
-        console.log("Deleting field's staff...");
+        Swal.fire({
+          title: "Removing staff member from field",
+          text: "Please wait",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false,
+        });
       });
   },
 });
