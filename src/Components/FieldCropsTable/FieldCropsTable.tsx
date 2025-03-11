@@ -68,9 +68,15 @@ function FieldCropsTable(props: any) {
             </tr>
           </thead>
           <tbody>
-            {fieldsCrops.filter(
-              (crop) => props.fieldId && props.fieldId === crop.fieldId
-            ).length === 0 ? (
+            {!props.fieldId ? (
+              <tr>
+                <td colSpan={8} className="text-center fw-bold">
+                  Select a field
+                </td>
+              </tr>
+            ) : fieldsCrops.filter(
+                (crop) => props.fieldId && props.fieldId === crop.fieldId
+              ).length === 0 ? (
               <tr>
                 <td colSpan={8} className="text-center fw-bold">
                   No crops in the field
