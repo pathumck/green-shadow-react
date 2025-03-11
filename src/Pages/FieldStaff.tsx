@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import SelectaFieldContainer from "../Components/SelectaFieldContainer/SelectaFieldContainer";
 import SelectaStaffContainer from "../Components/SelectaStaffContainer/SelectaStaffContainer";
 import PageTitle from "../Components/PageTitle/PageTitle";
@@ -7,6 +7,7 @@ import FieldStaffTable from "../Components/FieldStaffTable/FieldStaffTable";
 import NavBar from "../Components/NavBar/NavBar";
 
 function FieldStaff() {
+  const [validate, setValidate] = useState("form-control");
   return (
     <>
       <NavBar />
@@ -16,7 +17,7 @@ function FieldStaff() {
       />
       <div className="row main-wrap-div gap-5 mb-5">
         <div className="col-6 col-md-5 col-dev">
-          <SelectaFieldContainer />
+          <SelectaFieldContainer validate={validate} />
         </div>
         <div className="col-6 col-md-5 col-dev">
           <SelectaStaffContainer />

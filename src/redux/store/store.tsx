@@ -6,6 +6,8 @@ import staffReducer from "../slices/staffSlice";
 import logDataReducer from "../slices/logDataSlice";
 import logReducer from "../slices/logSlice";
 import fieldCropsReducer from "../slices/field'sCropsSlice";
+import fieldStaffReducer from "../slices/field'sStaffSlice";
+
 const store = configureStore({
   reducer: {
     fields: fieldReducer,
@@ -14,6 +16,7 @@ const store = configureStore({
     logs: logReducer,
     updateOrDelete: updateOrDeleteReducer,
     fieldCrops: fieldCropsReducer,
+    fieldStaff: fieldStaffReducer,
     logData: logDataReducer
   }
 })
