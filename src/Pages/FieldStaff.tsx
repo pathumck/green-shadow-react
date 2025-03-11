@@ -21,7 +21,7 @@ function FieldStaff() {
           <SelectaFieldContainer setTable={setTable} validate={validate} />
         </div>
         <div className="col-6 col-md-5 col-dev">
-          <SelectaStaffContainer />
+          <SelectaStaffContainer setValidate={setValidate} />
         </div>
 
         <div className="col-lg-12 col-md-11 col-sm-6 col-6 col-dev">

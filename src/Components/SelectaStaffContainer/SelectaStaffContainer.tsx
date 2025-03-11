@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store/store";
 import { createFieldsStaff } from "../../redux/slices/field'sStaffSlice";
 import FieldStaff from "../../modals/Field'sStaff";
+import { updateFieldId } from "../../redux/slices/logDataSlice";
 
-function SelectaStaffContainer() {
+function SelectaStaffContainer(props: any) {
   const allStaff = useSelector((state: RootState) => state.staff);
   const fieldId = useSelector((state: RootState) => state.logData.fieldId);
   const [staffId, setStaffId] = useState<string>();
@@ -16,6 +17,7 @@ function SelectaStaffContainer() {
   const [address, setAddress] = useState<string>();
   const [designation, setDesignation] = useState<string>();
   const [role, setRole] = useState<string>();
+  const [validate, setValidate] = useState<boolean>(true);
 
   const disptach = useDispatch<AppDispatch>();
 
@@ -32,7 +34,25 @@ function SelectaStaffContainer() {
     }
   }, [staffId]);
 
+  useEffect(() => {
+    disptach(updateFieldId(null));
+  }, []);
+
+  const validateForm = () => {
+    if (!fieldId) {
+      props.setValidate("form-control is-invalid");
+      return false;
+    }
+    props.setValidate("form-control");
+    if (!staffId) {
+      setValidate(false);
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async () => {
+    if (!validateForm()) return;
     const fieldStaff = new FieldStaff(fieldId, staffId);
     await disptach(createFieldsStaff(fieldStaff));
   };
@@ -47,7 +67,9 @@ function SelectaStaffContainer() {
           <label className="">Select a Staff </label>
           <br />
           <select
-            className="form-select"
+            className={
+              validate === false ? "form-control is-invalid" : "form-control"
+            }
             value={staffId}
             aria-label="Default select example"
             onChange={(e) => setStaffId(e.target.value)}
@@ -131,7 +153,12 @@ function SelectaStaffContainer() {
           />
         </div>
         <div className="col-6 add-btn-div">
-          <button className="btn btn-primary add-btn" onClick={() => {handleSubmit()}}>
+          <button
+            className="btn btn-primary add-btn"
+            onClick={() => {
+              handleSubmit();
+            }}
+          >
             Add <MdOutlineAddCircleOutline size={15} />
           </button>
         </div>

@@ -39,7 +39,6 @@ function SelectaCropContainer(props: any) {
   }, []);
 
   const validateForm = () => {
-    console.log(fieldId);
     if (!fieldId) {
       props.setValidate("form-control is-invalid");
       return false;
