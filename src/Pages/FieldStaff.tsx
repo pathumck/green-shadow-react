@@ -7,6 +7,7 @@ import FieldStaffTable from "../Components/FieldStaffTable/FieldStaffTable";
 import NavBar from "../Components/NavBar/NavBar";
 
 function FieldStaff() {
+  const [table, setTable] = useState();
   const [validate, setValidate] = useState("form-control");
   return (
     <>
@@ -17,16 +18,16 @@ function FieldStaff() {
       />
       <div className="row main-wrap-div gap-5 mb-5">
         <div className="col-6 col-md-5 col-dev">
-          <SelectaFieldContainer validate={validate} />
+          <SelectaFieldContainer setTable={setTable} validate={validate} />
         </div>
         <div className="col-6 col-md-5 col-dev">
           <SelectaStaffContainer />
         </div>
-       
-          <div className="col-lg-12 col-md-11 col-sm-6 col-6 col-dev">
-            <FieldStaffTable />
-          </div>
-       </div>
+
+        <div className="col-lg-12 col-md-11 col-sm-6 col-6 col-dev">
+          <FieldStaffTable fieldId={table} />
+        </div>
+      </div>
     </>
   );
 }

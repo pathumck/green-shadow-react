@@ -21,6 +21,15 @@ export const createFieldsStaff = createAsyncThunk<FieldStaff, FieldStaff>(
   }
 )
 
+export const fetchFieldsStaff = createAsyncThunk("fieldStaff/fetchField'sStaff", async () => {
+  try {
+    const response = await axios.get("http://localhost:3000/fieldStaff");
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to fetch field's staff");
+  }
+})
+
 const fieldStaffSlice = createSlice({
   name: "fieldStaff",
   initialState,
@@ -36,6 +45,16 @@ const fieldStaffSlice = createSlice({
     })
     .addCase(createFieldsStaff.pending, () => {
       console.log("Creating field's staff...");
+    })
+    .addCase(fetchFieldsStaff.fulfilled, (state, action) => {
+      return action.payload;
+    })
+    .addCase(fetchFieldsStaff.rejected, (state, action) => {
+      alert(action.error.message);
+      console.log("Faild to fetch field's staff : ", action.error.message);
+    })
+    .addCase(fetchFieldsStaff.pending, () => {
+      console.log("Fetching field's staff...");
     })
   },
 })
