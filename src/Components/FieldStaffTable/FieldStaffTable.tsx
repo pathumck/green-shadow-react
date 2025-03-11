@@ -1,8 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store/store";
-import { deleteFieldStaff, fetchFieldsStaff } from "../../redux/slices/field'sStaffSlice";
+import {
+  deleteFieldStaff,
+  fetchFieldsStaff,
+} from "../../redux/slices/field'sStaffSlice";
 import FieldStaff from "../../modals/Field'sStaff";
+import Swal from "sweetalert2";
 
 function FieldStaffTable(props: any) {
   const dispatch = useDispatch<AppDispatch>();
@@ -11,11 +15,31 @@ function FieldStaffTable(props: any) {
   }, [dispatch]);
   const fieldsStaff = useSelector((state: RootState) => state.fieldStaff);
   const allStaff = useSelector((state: RootState) => state.staff);
+  const selectedFieldId = useSelector(
+    (state: RootState) => state.logData.fieldId
+  );
   console.log(fieldsStaff);
 
   const handleDelete = async (staffId: string | undefined) => {
-    const toDelete = new FieldStaff(props.fieldId, staffId);
-    await dispatch(deleteFieldStaff(toDelete));
+    Swal.fire({
+      title:
+        "Are you sure to delete\nthis staff member : " +
+        staffId +
+        "\nfrom field : " +
+        selectedFieldId +
+        " ?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const toDelete = new FieldStaff(props.fieldId, staffId);
+        await dispatch(deleteFieldStaff(toDelete));
+      }
+    });
   };
 
   return (
@@ -87,7 +111,12 @@ function FieldStaffTable(props: any) {
                       <td>{staffDetails?.designation}</td>
                       <td>{staffDetails?.role}</td>
                       <td>
-                        <button className="btn btn-danger" onClick={() => handleDelete(staffDetails?.id)}>Delete</button>
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => handleDelete(staffDetails?.id)}
+                        >
+                          Delete
+                        </button>
                       </td>
                     </tr>
                   );
