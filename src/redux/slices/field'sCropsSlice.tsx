@@ -32,6 +32,20 @@ export const createFieldCrop = createAsyncThunk<FieldCrop, FieldCrop>(
   }
 );
 
+export const deleteFieldCrop = createAsyncThunk<FieldCrop, FieldCrop>(
+  "fieldCrops/updateField'sCrops",
+  async (fieldCrop) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:3000/fieldCrops/${fieldCrop.fieldId}/${fieldCrop.cropId}`
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error("Failed to delete field crop");
+    }
+  }
+)
+
 export const fieldsCropsSlice = createSlice({
   name: "fieldsCrops",
   initialState,
@@ -58,6 +72,16 @@ export const fieldsCropsSlice = createSlice({
       })
       .addCase(createFieldCrop.pending, () => {
         console.log("Creating field crop...");
+      })
+      .addCase(deleteFieldCrop.fulfilled, (state, action) => {
+        return state.filter((fieldCrop) => !(fieldCrop.fieldId === action.payload.fieldId && fieldCrop.cropId === action.payload.cropId));
+      })
+      .addCase(deleteFieldCrop.rejected, (state, action) => {
+        console.log("Faild to delete field crop : ", action.error.message);
+        alert(action.error.message);
+      })
+      .addCase(deleteFieldCrop.pending, () => {
+        console.log("Deleting field crop...");
       });
   },
 });

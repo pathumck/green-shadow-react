@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import "./FieldCropsTable.css";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store/store";
-import { fetchFieldsCrops } from "../../redux/slices/field'sCropsSlice";
+import { deleteFieldCrop, fetchFieldsCrops } from "../../redux/slices/field'sCropsSlice";
+import FieldCrop from "../../modals/Field'sCrop";
 
 function FieldCropsTable(props: any) {
   const dispatch = useDispatch<AppDispatch>();
@@ -11,6 +12,12 @@ function FieldCropsTable(props: any) {
   }, [dispatch]);
   const fieldsCrops = useSelector((state: RootState) => state.fieldCrops);
   const allCrops = useSelector((state: RootState) => state.crops);
+  const selectedFieldId = useSelector((state :RootState)=>state.logData.fieldId)
+
+  const handleDelete = (async (cropId : string | undefined)=>{
+    const toDelete = new FieldCrop(selectedFieldId,cropId)
+    await dispatch(deleteFieldCrop(toDelete))
+  })
 
   return (
     <>
@@ -77,7 +84,7 @@ function FieldCropsTable(props: any) {
                         )}
                       </td>
                       <td>
-                        <button className="btn btn-danger">Delete</button>
+                        <button onClick={()=>handleDelete(cropDetails?.id)} className="btn btn-danger">Delete</button>
                       </td>
                     </tr>
                   );
