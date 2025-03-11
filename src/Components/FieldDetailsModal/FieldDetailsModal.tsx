@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 function FieldDetailsModal(props: any) {
   const [name, setName] = useState<string>("");
   const [location, setLocation] = useState<string>("");
-  const [size, setSize] = useState<number | "">("");
+  const [size, setSize] = useState<number>(0);
   const [imageOne, setImageOne] = useState<File | null | string>(null);
   const [imageTwo, setImageTwo] = useState<File | null | string>(null);
   const [imageOnePreview, setImageOnePreview] = useState<string | null>(null);
@@ -35,7 +35,7 @@ function FieldDetailsModal(props: any) {
       setValidate({ status: null, message: "" });
       setName(field?.name || "");
       setLocation(field?.location || "");
-      setSize(field?.size || "");
+      setSize(field?.size || 0);
       setImageOnePreview(field?.imageOne || null);
       setImageTwoPreview(field?.imageTwo || null);
       setImageOne("previous");
@@ -46,7 +46,7 @@ function FieldDetailsModal(props: any) {
       setValidate({ status: null, message: "" });
       setName("");
       setLocation("");
-      setSize("");
+      setSize(0);
       setImageOnePreview(null);
       setImageTwoPreview(null);
       if (clearFileInputOne.current) {
@@ -110,7 +110,7 @@ function FieldDetailsModal(props: any) {
           await dispatch(createField(newField));
           setName("");
           setLocation("");
-          setSize("");
+          setSize(0);
           setImageOne(null);
           setImageTwo(null);
           setImageOnePreview(null);
@@ -234,7 +234,7 @@ function FieldDetailsModal(props: any) {
                 <div className="col-6">
                   <label>Size</label>
                   <input
-                    value={size}
+                    value={size === 0 ? "" : size}
                     type="text"
                     className={
                       validate?.status && validate.status === 3

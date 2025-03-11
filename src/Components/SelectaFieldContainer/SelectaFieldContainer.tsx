@@ -8,7 +8,7 @@ function SelectaFieldContainer(props: any) {
   const [selectedFieldId, setSelectedFieldId] = useState("");
   const [fieldName, setFieldName] = useState("");
   const [fieldLocation, setFieldLocation] = useState("");
-  const [fieldSize, setFieldSize] = useState<number>(0);
+  const [fieldSize, setFieldSize] = useState<number>();
   const [fieldImageOne, setFieldImageOne] = useState("");
   const [fieldImageTwo, setFieldImageTwo] = useState("");
   const fields = useSelector((state: RootState) => state.fields);

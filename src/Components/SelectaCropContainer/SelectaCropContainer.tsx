@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { createFieldCrop } from "../../redux/slices/field'sCropsSlice";
 import FieldCrop from "../../modals/Field'sCrop";
 import { updateFieldId } from "../../redux/slices/logDataSlice";
+import Swal from "sweetalert2";
 
 function SelectaCropContainer(props: any) {
   const crops = useSelector((state: RootState) => state.crops);
@@ -33,12 +34,12 @@ function SelectaCropContainer(props: any) {
     }
   }, [cropId]);
 
-  useEffect(()=>{
-    dispatch(updateFieldId(null))
-  },[])
+  useEffect(() => {
+    dispatch(updateFieldId(null));
+  }, []);
 
   const validateForm = () => {
-    console.log(fieldId)
+    console.log(fieldId);
     if (!fieldId) {
       props.setValidate("form-control is-invalid");
       return false;
@@ -53,7 +54,15 @@ function SelectaCropContainer(props: any) {
         (field) => fieldId === field.fieldId && cropId === field.cropId
       )
     ) {
-      alert("Crop alredy exist on field");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text:
+          "This crop : " +
+          cropId +
+          " is already selected for this field : " +
+          fieldId,
+      });
       return false;
     }
     return true;
@@ -61,9 +70,19 @@ function SelectaCropContainer(props: any) {
 
   const handleSubmit = async () => {
     if (!validateForm()) return;
-    setValidate(true);
-    const fieldCrop = new FieldCrop(fieldId, cropId);
-    await dispatch(createFieldCrop(fieldCrop));
+    Swal.fire({
+      title: "Do you want to\nadd crop : " + cropId + "\nto field : " + fieldId + " ?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Add",
+      denyButtonText: `Don't add`,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setValidate(true);
+        const fieldCrop = new FieldCrop(fieldId, cropId);
+        await dispatch(createFieldCrop(fieldCrop));
+      } 
+    });
   };
 
   return (
@@ -77,9 +96,7 @@ function SelectaCropContainer(props: any) {
           <br />
           <select
             className={
-              validate === false
-                ? "form-control is-invalid"
-                : "form-control"
+              validate === false ? "form-control is-invalid" : "form-control"
             }
             aria-label="Default select example"
             value={cropId}

@@ -2,8 +2,12 @@ import React, { useEffect } from "react";
 import "./FieldCropsTable.css";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store/store";
-import { deleteFieldCrop, fetchFieldsCrops } from "../../redux/slices/field'sCropsSlice";
+import {
+  deleteFieldCrop,
+  fetchFieldsCrops,
+} from "../../redux/slices/field'sCropsSlice";
 import FieldCrop from "../../modals/Field'sCrop";
+import Swal from "sweetalert2";
 
 function FieldCropsTable(props: any) {
   const dispatch = useDispatch<AppDispatch>();
@@ -12,12 +16,31 @@ function FieldCropsTable(props: any) {
   }, [dispatch]);
   const fieldsCrops = useSelector((state: RootState) => state.fieldCrops);
   const allCrops = useSelector((state: RootState) => state.crops);
-  const selectedFieldId = useSelector((state :RootState)=>state.logData.fieldId)
+  const selectedFieldId = useSelector(
+    (state: RootState) => state.logData.fieldId
+  );
 
-  const handleDelete = (async (cropId : string | undefined)=>{
-    const toDelete = new FieldCrop(selectedFieldId,cropId)
-    await dispatch(deleteFieldCrop(toDelete))
-  })
+  const handleDelete = async (cropId: string | undefined) => {
+    Swal.fire({
+      title:
+        "Are you sure to delete\nthis crop : " +
+        cropId +
+        "\nfrom field : " +
+        selectedFieldId +
+        " ?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const toDelete = new FieldCrop(selectedFieldId, cropId);
+        await dispatch(deleteFieldCrop(toDelete));
+      }
+    });
+  };
 
   return (
     <>
@@ -84,7 +107,12 @@ function FieldCropsTable(props: any) {
                         )}
                       </td>
                       <td>
-                        <button onClick={()=>handleDelete(cropDetails?.id)} className="btn btn-danger">Delete</button>
+                        <button
+                          onClick={() => handleDelete(cropDetails?.id)}
+                          className="btn btn-danger"
+                        >
+                          Delete
+                        </button>
                       </td>
                     </tr>
                   );

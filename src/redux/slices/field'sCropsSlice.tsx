@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import FieldCrop from "../../modals/Field'sCrop";
+import Swal from "sweetalert2";
 
 const initialState: FieldCrop[] = [];
 export const fetchFieldsCrops = createAsyncThunk(
@@ -44,7 +45,7 @@ export const deleteFieldCrop = createAsyncThunk<FieldCrop, FieldCrop>(
       throw new Error("Failed to delete field crop");
     }
   }
-)
+);
 
 export const fieldsCropsSlice = createSlice({
   name: "fieldsCrops",
@@ -53,35 +54,61 @@ export const fieldsCropsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchFieldsCrops.fulfilled, (state, action) => {
-        console.log("Fetched fields crops : ", action.payload);
+        Swal.close();
         return action.payload;
       })
       .addCase(fetchFieldsCrops.rejected, (state, action) => {
-        console.log("Faild to fetch fields crops : ", action.error.message);
-        alert(action.error.message);
+        Swal.fire("Failed to fetch fields crops", "", "info");
       })
       .addCase(fetchFieldsCrops.pending, () => {
-        console.log("Fetching fields crops...");
+        Swal.fire({
+          background: "transparent",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false,
+        });
       })
       .addCase(createFieldCrop.fulfilled, (state, action) => {
+        Swal.fire("Crop added to field successfully", "", "success");
         state.push(action.payload);
       })
       .addCase(createFieldCrop.rejected, (state, action) => {
-        console.log("Faild to create field crop : ", action.error.message);
+        Swal.fire("Crop was not added to field", "", "info");
         alert(action.error.message);
       })
       .addCase(createFieldCrop.pending, () => {
-        console.log("Creating field crop...");
+        Swal.fire({
+          title: "Adding crop to field",
+          text: "Please wait",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false,
+        });
       })
       .addCase(deleteFieldCrop.fulfilled, (state, action) => {
-        return state.filter((fieldCrop) => !(fieldCrop.fieldId === action.payload.fieldId && fieldCrop.cropId === action.payload.cropId));
+        Swal.fire("Crop deleted from field successfully", "", "success");
+        return state.filter(
+          (fieldCrop) =>
+            !(
+              fieldCrop.fieldId === action.payload.fieldId &&
+              fieldCrop.cropId === action.payload.cropId
+            )
+        );
       })
       .addCase(deleteFieldCrop.rejected, (state, action) => {
-        console.log("Faild to delete field crop : ", action.error.message);
-        alert(action.error.message);
+        Swal.fire("Crop was not deleted from field", "", "info");
       })
       .addCase(deleteFieldCrop.pending, () => {
-        console.log("Deleting field crop...");
+        Swal.fire({
+          title: "Deleting crop from field",
+          text: "Please wait",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false,
+        });
       });
   },
 });
