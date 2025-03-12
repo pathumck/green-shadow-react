@@ -3,6 +3,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateOrDelete } from "../../redux/slices/updateOrDeleteSlice";
 import { deleteStaff } from "../../redux/slices/staffSlice";
+import Swal from "sweetalert2";
 
 function StaffDetailsTable(props: any) {
   const staff = useSelector((state: RootState) => state.staff);
@@ -12,7 +13,19 @@ function StaffDetailsTable(props: any) {
   };
 
   const handleDelete = (id: string) => {
-    dispatch(deleteStaff(id));
+    Swal.fire({
+          title: "Are you sure to delete this staff member: " + id + "?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!",
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            await dispatch(deleteStaff(id));
+          }
+        });
   };
   return (
     <>
