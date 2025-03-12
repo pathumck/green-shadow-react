@@ -16,6 +16,10 @@ function StaffDetailsModal(props: any) {
   const [address, setAddress] = useState<string>("");
   const [designation, setDesignation] = useState<string>("");
   const [role, setRole] = useState<string>("");
+  const [validate, setValidate] = useState<{
+    status: number | null;
+    message: string;
+  }>();
 
   const dispatch = useDispatch<AppDispatch>();
   const updateOrDeleteId = useSelector(
@@ -50,7 +54,55 @@ function StaffDetailsModal(props: any) {
     }
   }, [updateOrDeleteId, textTitle]);
 
+  const validateForm = (): boolean => {
+    const nameRegex = /^[A-Za-z\s]{3,50}$/;
+    const phoneRegex = /^(?:\+94|0)([1-9][0-9])\d{7}$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!firstName || !nameRegex.test(firstName)) {
+      setValidate({ status: 1, message: "Enter a valid first name." });
+      return false;
+    }
+    if (!lastName || !nameRegex.test(lastName)) {
+      setValidate({ status: 2, message: "Enter a valid last name." });
+      return false;
+    }
+    if (!birthDay) {
+      setValidate({ status: 3, message: "Please select a date." });
+      return false;
+    }
+    if (!gender) {
+      setValidate({ status: 4, message: "Please select a gender." });
+      return false;
+    }
+    if (!phone || !phoneRegex.test(phone)) {
+      setValidate({ status: 5, message: "Enter a valid number." });
+      return false;
+    }
+    if (!email || !emailRegex.test(email)) {
+      setValidate({ status: 6, message: "Enter a valid email." });
+      return false;
+    }
+    if (!address || !nameRegex.test(address)) {
+      setValidate({ status: 7, message: "Enter a valid address." });
+      return false;
+    }
+    if (!designation) {
+      setValidate({ status: 8, message: "Please select a designation." });
+      return false;
+    }
+    if (!role || !nameRegex.test(role)) {
+      setValidate({ status: 9, message: "Please select a role." });
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async () => {
+    if (!validateForm()) {
+      return;
+    }
+    setValidate({ status: null, message: "" });
     if (props.text.title === "Add") {
       const newStaff = new Staff(
         "",
@@ -64,7 +116,6 @@ function StaffDetailsModal(props: any) {
         designation,
         role
       );
-      console.log(newStaff);
       await dispatch(createStaff(newStaff));
       setFirstName("");
       setLastName("");
@@ -88,7 +139,6 @@ function StaffDetailsModal(props: any) {
         designation,
         role
       );
-      console.log(updatedStaff);
       await dispatch(updateStaff(updatedStaff));
     }
   };
@@ -124,33 +174,58 @@ function StaffDetailsModal(props: any) {
                   <input
                     value={firstName}
                     type="text"
-                    className="form-control"
+                    className={
+                      validate?.status && validate.status === 1
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
                     onChange={(e) => setFirstName(e.target.value)}
                   />
+                  {validate?.status && validate.status === 1 && (
+                    <label className="text-danger">{validate.message}</label>
+                  )}
                 </div>
                 <div className="col-6">
                   <label>Last Name</label>
                   <input
                     value={lastName}
                     type="text"
-                    className="form-control"
+                    className={
+                      validate?.status && validate.status === 2
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
                     onChange={(e) => setLastName(e.target.value)}
                   />
+                  {validate?.status && validate.status === 2 && (
+                    <label className="text-danger">{validate.message}</label>
+                  )}
                 </div>
                 <div className="col-6">
                   <label>Birth Day</label>
                   <input
                     value={birthDay}
                     type="date"
-                    className="form-control"
+                    className={
+                      validate?.status && validate.status === 3
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
                     onChange={(e) => setBirthDay(e.target.value)}
                   />
+                  {validate?.status && validate.status === 3 && (
+                    <label className="text-danger">{validate.message}</label>
+                  )}
                 </div>
                 <div className="col-6">
                   <label>Gender</label>
                   <select
                     value={gender}
-                    className="form-select"
+                    className={
+                      validate?.status && validate.status === 4
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
                     onChange={(e) => setGender(e.target.value)}
                   >
                     <option selected disabled value="">
@@ -159,39 +234,67 @@ function StaffDetailsModal(props: any) {
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                   </select>
+                  {validate?.status && validate.status === 4 && (
+                    <label className="text-danger">{validate.message}</label>
+                  )}
                 </div>
                 <div className="col-6">
                   <label>Phone</label>
                   <input
                     value={phone}
                     type="text"
-                    className="form-control"
+                    className={
+                      validate?.status && validate.status === 5
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
                     onChange={(e) => setPhone(e.target.value)}
                   />
+                  {validate?.status && validate.status === 5 && (
+                    <label className="text-danger">{validate.message}</label>
+                  )}
                 </div>
                 <div className="col-6">
                   <label>E mail</label>
                   <input
                     value={email}
                     type="text"
-                    className="form-control"
+                    className={
+                      validate?.status && validate.status === 6
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
                     onChange={(e) => setEmail(e.target.value)}
                   />
+                  {validate?.status && validate.status === 6 && (
+                    <label className="text-danger">{validate.message}</label>
+                  )}
                 </div>
                 <div className="col-6">
                   <label>Address</label>
                   <input
                     value={address}
                     type="text"
-                    className="form-control"
+                    className={
+                      validate?.status && validate.status === 7
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
                     onChange={(e) => setAddress(e.target.value)}
                   />
+                  {validate?.status && validate.status === 7 && (
+                    <label className="text-danger">{validate.message}</label>
+                  )}
                 </div>
                 <div className="col-6">
                   <label>Designation</label>
                   <select
                     value={designation}
-                    className="form-select"
+                    className={
+                      validate?.status && validate.status === 8
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
                     onChange={(e) => setDesignation(e.target.value)}
                   >
                     <option selected disabled value="">
@@ -208,12 +311,19 @@ function StaffDetailsModal(props: any) {
                     <option value="SCIENTIST">SCIENTIST</option>
                     <option value="LABOUR">LABOUR</option>
                   </select>
+                  {validate?.status && validate.status === 8 && (
+                    <label className="text-danger">{validate.message}</label>
+                  )}
                 </div>
                 <div className="col-6">
                   <label>Role</label>
                   <select
                     value={role}
-                    className="form-select"
+                    className={
+                      validate?.status && validate.status === 9
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
                     onChange={(e) => setRole(e.target.value)}
                   >
                     <option value="" selected disabled>
@@ -224,6 +334,9 @@ function StaffDetailsModal(props: any) {
                     <option value="ADMIN">ADMINISTRATIVE</option>
                     <option value="OTHER">OTHER</option>
                   </select>
+                  {validate?.status && validate.status === 9 && (
+                    <label className="text-danger">{validate.message}</label>
+                  )}
                 </div>
               </div>
             </div>
