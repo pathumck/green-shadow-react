@@ -50,15 +50,20 @@ const logSlice = createSlice({
         });
       })
       .addCase(fetchLogs.fulfilled, (state, action) => {
-        console.log("Fetched logs : ", action.payload);
+        Swal.close();
         return action.payload;
       })
       .addCase(fetchLogs.rejected, (state, action) => {
-        console.log("Faild to fetch logs : ", action.error.message);
-        alert(action.error.message);
+        Swal.fire("Failed to fetch logs", "", "info");
       })
       .addCase(fetchLogs.pending, () => {
-        console.log("Fetching logs...");
+        Swal.fire({
+          background: "transparent",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false,
+        });
       });
   },
 });
