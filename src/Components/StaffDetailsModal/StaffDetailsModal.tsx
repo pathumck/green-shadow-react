@@ -32,6 +32,7 @@ function StaffDetailsModal(props: any) {
 
   useEffect(() => {
     if (props.text.title === "Update") {
+      setValidate({ status: null, message: "" });
       setFirstName(staff?.firstName || "");
       setLastName(staff?.lastName || "");
       setBirthDay(staff?.birthDay || "");
@@ -42,6 +43,7 @@ function StaffDetailsModal(props: any) {
       setDesignation(staff?.designation || "");
       setRole(staff?.role || "");
     } else {
+      setValidate({ status: null, message: "" });
       setFirstName("");
       setLastName("");
       setBirthDay("");
