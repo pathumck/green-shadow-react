@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createStaff, updateStaff } from "../../redux/slices/staffSlice";
 import Staff from "../../modals/Staff";
 import { RootState } from "../../redux/store/store";
+import Swal from "sweetalert2";
 
 function StaffDetailsModal(props: any) {
   const [firstName, setFirstName] = useState<string>("");
@@ -106,28 +107,38 @@ function StaffDetailsModal(props: any) {
     }
     setValidate({ status: null, message: "" });
     if (props.text.title === "Add") {
-      const newStaff = new Staff(
-        "",
-        firstName,
-        lastName,
-        birthDay,
-        gender,
-        phone,
-        email,
-        address,
-        designation,
-        role
-      );
-      await dispatch(createStaff(newStaff));
-      setFirstName("");
-      setLastName("");
-      setBirthDay("");
-      setGender("");
-      setPhone("");
-      setEmail("");
-      setAddress("");
-      setDesignation("");
-      setRole("");
+      Swal.fire({
+        title: "Do you want to save the new staff member?",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Save",
+        denyButtonText: `Don't save`,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const newStaff = new Staff(
+            "",
+            firstName,
+            lastName,
+            birthDay,
+            gender,
+            phone,
+            email,
+            address,
+            designation,
+            role
+          );
+          await dispatch(createStaff(newStaff));
+          setFirstName("");
+          setLastName("");
+          setBirthDay("");
+          setGender("");
+          setPhone("");
+          setEmail("");
+          setAddress("");
+          setDesignation("");
+          setRole("");
+        }
+      });
     } else {
       const updatedStaff = new Staff(
         updateOrDeleteId,
@@ -141,7 +152,17 @@ function StaffDetailsModal(props: any) {
         designation,
         role
       );
-      await dispatch(updateStaff(updatedStaff));
+      Swal.fire({
+        title: "Do you want to update this staff member : " + updateOrDeleteId + "?",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Update",
+        denyButtonText: `Don't update`,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await dispatch(updateStaff(updatedStaff));
+        }
+      });
     }
   };
   return (
