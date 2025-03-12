@@ -2,6 +2,7 @@ import Staff from "../../modals/Staff";
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const initialState: Staff[] = [];
 
@@ -15,7 +16,7 @@ export const createStaff = createAsyncThunk<Staff, Staff>(
       throw new Error("Failed to create staff");
     }
   }
-)
+);
 
 export const fetchStaff = createAsyncThunk("staff/fetchStaffs", async () => {
   try {
@@ -39,16 +40,19 @@ export const updateStaff = createAsyncThunk<Staff, Staff>(
       throw new Error("Failed to update staff");
     }
   }
-)
+);
 
-export const deleteStaff = createAsyncThunk("staff/deleteStaff", async (id: string) => {
-  try {
-    const response = await axios.delete(`http://localhost:3000/staff/${id}`);
-    return response.data;
-  } catch (error) {
-    throw new Error("Failed to delete staff");
+export const deleteStaff = createAsyncThunk(
+  "staff/deleteStaff",
+  async (id: string) => {
+    try {
+      const response = await axios.delete(`http://localhost:3000/staff/${id}`);
+      return id;
+    } catch (error) {
+      throw new Error("Failed to delete staff");
+    }
   }
-});
+);
 
 export const staffSlice = createSlice({
   name: "staff",
@@ -58,61 +62,88 @@ export const staffSlice = createSlice({
     builder
       .addCase(createStaff.fulfilled, (state, action) => {
         state.push(action.payload);
-        console.log(action.payload);
-        alert("Staff created successfully");
+        Swal.fire("Staff member saved successfully", "", "success");
         const closeBtn = document.querySelector(
           ".staff-modal-close"
         ) as HTMLElement;
         closeBtn.click();
       })
       .addCase(createStaff.rejected, (state, action) => {
-        console.log("Faild to create staff : ", action.error.message);
-        alert(action.error.message);
+        Swal.fire("Staff member was not saved", "", "info");
       })
       .addCase(createStaff.pending, () => {
-        console.log("Creating staff...");
+        Swal.fire({
+          title: "Saving Staff member",
+          text: "Please wait",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false,
+        });
       })
       .addCase(fetchStaff.fulfilled, (state, action) => {
-        console.log("Fetched staffs : ", action.payload);
+        Swal.close();
         return action.payload;
       })
       .addCase(fetchStaff.rejected, (state, action) => {
-        console.log("Faild to fetch staffs : ", action.error.message);
+        Swal.fire("Failed to fetch staff", "", "info");
         alert(action.error.message);
       })
       .addCase(fetchStaff.pending, () => {
-        console.log("Fetching staffs...");
+        Swal.fire({
+          background: "transparent",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false,
+        });
       })
       .addCase(updateStaff.fulfilled, (state, action) => {
-        const index = state.findIndex((staff) => staff.id === action.payload.id);
+        const index = state.findIndex(
+          (staff) => staff.id === action.payload.id
+        );
         state[index] = action.payload;
-        console.log(action.payload);
-        alert("Staff updated successfully");
+        Swal.fire("Staff member updated successfully", "", "success");
         const closeBtn = document.querySelector(
           ".staff-modal-close"
         ) as HTMLElement;
         closeBtn.click();
       })
       .addCase(updateStaff.rejected, (state, action) => {
-        console.log("Faild to update staff : ", action.error.message);
-        alert(action.error.message);
+        Swal.fire("Staff member was not updated", "", "info");
       })
       .addCase(updateStaff.pending, () => {
-        console.log("Updating staff...");
+        Swal.fire({
+          title: "Updating staff member",
+          text: "Please wait",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false,
+        });
       })
       .addCase(deleteStaff.fulfilled, (state, action) => {
-        const index = state.findIndex((staff) => staff.id === action.payload.id);
-        state.splice(index, 1);
-        console.log(action.payload);
-        alert("Staff deleted successfully");
-      }).addCase(deleteStaff.rejected, (state, action) => {
-        console.log("Faild to delete staff : ", action.error.message);
-        alert(action.error.message);
-      }).addCase(deleteStaff.pending, () => {
-        console.log("Deleting staff...");
+        Swal.fire({
+          title: "Deleted!",
+          text: "Staff member has been deleted.",
+          icon: "success",
+        });
+        return state.filter((staff) => staff.id !== action.payload);
       })
-  }
+      .addCase(deleteStaff.rejected, (state, action) => {
+        Swal.fire("Staff member was not deleted", "", "info");
+      })
+      .addCase(deleteStaff.pending, () => {
+        Swal.fire({
+          title: "Deleting staff member",
+          text: "Please wait",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false,
+        });
+      });
+  },
 });
 
 export default staffSlice.reducer;
-
