@@ -11,6 +11,7 @@ function Staff() {
   const handleShow = (title: string, btnText: string) => {
     setShowModal({ title: title, btnText: btnText });
   };
+  const [search, setSearch] = useState("");
   return (
     <>
       <NavBar />
@@ -24,8 +25,13 @@ function Staff() {
         setShowModal={() => {
           handleShow("Add", "Save Staff");
         }}
+        search={setSearch}
       />
-      <StaffDetailsTable target="#staff" setShowModal={() => handleShow("Update", "Update Staff")} />
+      <StaffDetailsTable
+        target="#staff"
+        setShowModal={() => handleShow("Update", "Update Staff")}
+        search={search}
+      />
       <StaffDetailsModal text={showModal} />
     </>
   );
