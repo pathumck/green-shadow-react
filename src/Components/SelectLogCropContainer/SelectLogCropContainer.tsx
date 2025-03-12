@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCropId } from "../../redux/slices/logDataSlice";
 
-function SelectLogCropContainer() {
+function SelectLogCropContainer(props: any) {
   const [cropId, setCropId] = useState("");
   const [selectedCropId, setSelectedCropId] = useState("");
   const [commonName, setCommonName] = useState("");
@@ -40,7 +40,7 @@ function SelectLogCropContainer() {
           <select
             value={cropId}
             onChange={(e) => setCropId(e.target.value)}
-            className="form-select"
+            className={props.validate}
             aria-label="Default select example"
           >
             <option value="" selected disabled>
@@ -110,7 +110,6 @@ function SelectLogCropContainer() {
           <div className="img-wrap justify-content-center align-items-center d-flex">
             <img
               src={cropImage}
-              alt="Image One"
               style={{ maxWidth: "150px", maxHeight: "130px" }}
             />
           </div>

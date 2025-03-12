@@ -1,17 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./CreateLogBottomComponent.css";
 import { AppDispatch, RootState } from "../../redux/store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { updateImage, updateStatus } from "../../redux/slices/logDataSlice";
+import {
+  updateCropId,
+  updateFieldId,
+  updateImage,
+  updateStatus,
+} from "../../redux/slices/logDataSlice";
 import { createLog } from "../../redux/slices/logSlice";
 import Log from "../../modals/Log";
+import Swal from "sweetalert2";
 
-function CreateLogBottomComponent() {
-  const [image, setImage] = React.useState<File | null>(null);
-  const [imagePreview, setImagePreview] = React.useState<string | null>(null);
-  const [description, setDescription] = React.useState<string>("");
-  const [status, setStatus] = React.useState<string>("");
+function CreateLogBottomComponent(props: any) {
+  const [image, setImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [description, setDescription] = useState<string>("");
+  const [status, setStatus] = useState<string>("");
+  const [validateBottom, setValidateBottom] = useState<number>();
   const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(updateFieldId(null));
+    dispatch(updateCropId(null));
+  }, []);
+
   const selectedFieldId = useSelector(
     (state: RootState) => state.logData.fieldId
   );
@@ -22,22 +35,69 @@ function CreateLogBottomComponent() {
     (state: RootState) => state.logData.userId
   );
 
+  const validateForm = () => {
+    if (!selectedFieldId) {
+      props.setValidateFieldId("form-control is-invalid");
+      Swal.fire("Please select a field", "", "error");
+      return false;
+    }
+    props.setValidateFieldId("form-control");
+    if (!selectedCropId) {
+      props.setValidateCropId("form-control is-invalid");
+      Swal.fire("Please select a crop", "", "error");
+      return false;
+    }
+    props.setValidateCropId("form-control");
+    if (!selectedUserId) {
+      Swal.fire("Please select a user", "", "error");
+      return false;
+    }
+    if (!image) {
+      Swal.fire("Please select an image", "", "error");
+      setValidateBottom(1);
+      return false;
+    }
+    if (!description) {
+      Swal.fire("Please type a description", "", "error");
+      setValidateBottom(2);
+      return false;
+    }
+    if (!status) {
+      Swal.fire("Please select a status", "", "error");
+      setValidateBottom(3);
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async () => {
-    console.log("Submitted");
-    await dispatch(
-      createLog(
-        new Log(
-          0,
-          selectedUserId,
-          "",
-          selectedFieldId,
-          selectedCropId,
-          description,
-          status,
-          imagePreview || ""
-        )
-      )
-    );
+    if (!validateForm()) return;
+    Swal.fire({
+      title: "Do you want to place this log?",
+      html: `<img src="${imagePreview}" width="150" height="100"><br><b>Field:</b> ${selectedFieldId}<br><b>Crop:</b> ${selectedCropId}<br><b>Image:</b> <br><b>Description:</b> ${description}<br><b>Status:</b> ${status}`,
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Place",
+      denyButtonText: `Don't place`,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await dispatch(
+          createLog(
+            new Log(
+              0,
+              selectedUserId,
+              "",
+              selectedFieldId,
+              selectedCropId,
+              description,
+              status,
+              imagePreview || ""
+            )
+          )
+        );
+        setValidateBottom(0);
+      }
+    });
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,7 +131,11 @@ function CreateLogBottomComponent() {
             <input
               onChange={handleImageChange}
               type="file"
-              className="form-control mt-2 w-75"
+              className={
+                validateBottom === 1
+                  ? "form-control is-invalid mt-2 w-75"
+                  : "form-control mt-2 w-75"
+              }
             />
             <hr className="w-75" style={{ borderTop: "1px solid black" }} />
           </div>
@@ -83,7 +147,11 @@ function CreateLogBottomComponent() {
                 setDescription(e.target.value);
                 dispatch(updateImage(e.target.value));
               }}
-              className="form-control mt-2"
+              className={
+                validateBottom === 2
+                  ? "form-control is-invalid mt-2"
+                  : "form-control mt-2"
+              }
               rows={5}
             ></textarea>
             <hr className="w-75" style={{ borderTop: "1px solid black" }} />
@@ -94,7 +162,11 @@ function CreateLogBottomComponent() {
                 setStatus(e.target.value);
                 dispatch(updateStatus(e.target.value));
               }}
-              className="form-select mb-4 w-50 mt-2"
+              className={
+                validateBottom === 3
+                  ? "form-control is-invalid mb-4 w-50 mt-2"
+                  : "form-select mb-4 w-50 mt-2"
+              }
               aria-label="Default select example"
             >
               <option value="" selected disabled>

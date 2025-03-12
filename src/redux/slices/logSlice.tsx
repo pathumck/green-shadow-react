@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Log from "../../modals/Log";
 import axios from "axios";
-const initialState:Log[] = []
+import Swal from "sweetalert2";
+const initialState: Log[] = [];
 
 export const createLog = createAsyncThunk<Log, Log>(
   "log/createLog",
@@ -14,7 +15,7 @@ export const createLog = createAsyncThunk<Log, Log>(
       throw new Error("Failed to create log");
     }
   }
-)
+);
 
 export const fetchLogs = createAsyncThunk("log/fetchLogs", async () => {
   try {
@@ -32,16 +33,21 @@ const logSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(createLog.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.push(action.payload);
-        alert("Log created successfully");
+        Swal.fire("Log saved successfully", "", "success");
       })
       .addCase(createLog.rejected, (state, action) => {
-        console.log("Faild to create log : ", action.error.message);
-        alert(action.error.message);
+        Swal.fire("Log was not saved", "", "info");
       })
       .addCase(createLog.pending, () => {
-        console.log("Creating log...");
+        Swal.fire({
+          title: "Saving Log",
+          text: "Please wait",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false,
+        });
       })
       .addCase(fetchLogs.fulfilled, (state, action) => {
         console.log("Fetched logs : ", action.payload);
