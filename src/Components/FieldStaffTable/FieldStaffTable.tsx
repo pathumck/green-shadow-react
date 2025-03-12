@@ -49,7 +49,10 @@ function FieldStaffTable(props: any) {
           {props.fieldId || "None"}
         </label>
       </h6>
-      <div className="container-fluid table-wrapper">
+      <div
+        className="container-fluid table-wrapper"
+        style={{ maxHeight: "320px", overflowY: "scroll" }}
+      >
         <table className="table table-striped table-bordered">
           <thead className="table-dark sticky-top">
             <tr style={{ fontSize: "12px" }} className="text-center">
