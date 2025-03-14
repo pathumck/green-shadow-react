@@ -20,6 +20,7 @@ import { fetchCrops } from "./redux/slices/cropSlice.tsx";
 import { fetchStaff } from "./redux/slices/staffSlice.tsx";
 import Login from "./Pages/Login.tsx";
 import { fetchLogs } from "./redux/slices/logSlice.tsx";
+import { fetchVehicles } from "./redux/slices/vehicleSlice.tsx";
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -28,6 +29,7 @@ function App() {
     dispatch(fetchCrops());
     dispatch(fetchStaff());
     dispatch(fetchLogs());
+    dispatch(fetchVehicles())
   }, [dispatch]);
 
   return (

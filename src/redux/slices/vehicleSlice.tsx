@@ -19,6 +19,18 @@ export const createVehicle = createAsyncThunk<Vehicle, Vehicle>(
   }
 );
 
+export const fetchVehicles = createAsyncThunk<Vehicle[], void>(
+  "vehicle/fetchAllVehicles",
+  async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/vehicle");
+      return response.data;
+    } catch (error) {
+      throw new Error("Failed to fetch vehicles");
+    }
+  }
+)
+
 const vehicleSlice = createSlice({
   name: "vehicle",
   initialState,
@@ -34,6 +46,17 @@ const vehicleSlice = createSlice({
       builder.addCase(createVehicle.rejected, (state,action) => {
         alert(action.error.message);
       });
+
+    builder.addCase(fetchVehicles.fulfilled, (state, action) => {
+      return action.payload;
+    });
+
+    builder.addCase(fetchVehicles.rejected, (state, action) => {
+      alert(action.error.message);
+    });
+    builder.addCase(fetchVehicles.pending, () => {
+      console.log("fetching vehicles");
+    })
   },
 });
 

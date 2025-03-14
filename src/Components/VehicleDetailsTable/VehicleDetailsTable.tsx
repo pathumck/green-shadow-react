@@ -1,10 +1,14 @@
-function VehicleDetailsTable() {
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store/store";
+
+function VehicleDetailsTable(props: any) {
+  const allVehicles = useSelector((state: RootState) => state.vehicles);
   return (
     <>
-      <div className='container-fluid'>
-        <table className="table mt-5">
-          <thead>
-            <tr>
+      <div className="container-fluid mt-5" style={{ maxHeight: "320px", minHeight: "320px", overflowY: "scroll" }}>
+        <table className="table table-striped table-bordered">
+          <thead className="table-dark sticky-top">
+            <tr className="text-center">
               <th scope="col">#</th>
               <th scope="col">Vehicle Code</th>
               <th scope="col">Number</th>
@@ -17,11 +21,33 @@ function VehicleDetailsTable() {
             </tr>
           </thead>
           <tbody>
+            {allVehicles.map((vehicle, index) => (
+              <tr className="text-center fw-bolder" key={index + 1}>
+                <td>{index + 1}</td>
+                <td>{vehicle.id}</td>
+                <td>{vehicle.number}</td>
+                <td>{vehicle.category}</td>
+                <td>{vehicle.fuelType}</td>
+                <td>{vehicle.remarks}</td>
+                <td>{vehicle.status}</td>
+                <td>{vehicle.staffId}</td>
+                <td>
+                  <button
+                    data-bs-toggle="modal"
+                    data-bs-target={props.target}
+                    className="btn btn-primary"
+                  >
+                    Edit
+                  </button>
+                  <button className="btn btn-danger mx-2 ">Delete</button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
     </>
-  )
+  );
 }
 
-export default VehicleDetailsTable
+export default VehicleDetailsTable;
