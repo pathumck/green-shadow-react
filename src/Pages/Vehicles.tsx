@@ -11,6 +11,7 @@ function Vehicles() {
   const handleShow = (title: string, btnText: string) => {
     setShowModal({ title: title, btnText: btnText });
   };
+  const [search, setSearch] = useState("");
   return (
     <>
       <NavBar />
@@ -24,10 +25,12 @@ function Vehicles() {
         setShowModal={() => {
           handleShow("Add", "Save Vehicle");
         }}
+        search={setSearch}
       />
       <VehicleDetailsTable
         target="#vehicle"
         setShowModal={() => handleShow("Update", "Update Vehicle")}
+        search={search}
       />
       <VehicleDetailsModal text={showModal} />
     </>

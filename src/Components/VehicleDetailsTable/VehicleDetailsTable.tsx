@@ -5,7 +5,7 @@ import { deleteVehicle } from "../../redux/slices/vehicleSlice";
 
 function VehicleDetailsTable(props: any) {
   const allVehicles = useSelector((state: RootState) => state.vehicles);
-const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch<AppDispatch>();
   const handleUpdateOrDelete = (id: string) => {
     dispatch(updateOrDelete(id));
   };
@@ -16,7 +16,10 @@ const dispatch = useDispatch<AppDispatch>();
 
   return (
     <>
-      <div className="container-fluid mt-5" style={{ maxHeight: "320px", minHeight: "320px", overflowY: "scroll" }}>
+      <div
+        className="container-fluid mt-5"
+        style={{ maxHeight: "320px", minHeight: "320px", overflowY: "scroll" }}
+      >
         <table className="table table-striped table-bordered">
           <thead className="table-dark sticky-top">
             <tr className="text-center">
@@ -32,31 +35,45 @@ const dispatch = useDispatch<AppDispatch>();
             </tr>
           </thead>
           <tbody>
-            {allVehicles.map((vehicle, index) => (
-              <tr className="text-center fw-bolder" key={index + 1}>
-                <td>{index + 1}</td>
-                <td>{vehicle.id}</td>
-                <td>{vehicle.number}</td>
-                <td>{vehicle.category}</td>
-                <td>{vehicle.fuelType}</td>
-                <td>{vehicle.remarks}</td>
-                <td>{vehicle.status}</td>
-                <td>{vehicle.staffId}</td>
-                <td>
-                  <button
-                    data-bs-toggle="modal"
-                    data-bs-target={props.target}
-                    className="btn btn-primary"
-                    onClick={()=> {props.setShowModal();
-                      handleUpdateOrDelete(vehicle.id);
-                    }}
-                  >
-                    Edit
-                  </button>
-                  <button onClick={() => handleDelete(vehicle.id)} className="btn btn-danger mx-2 ">Delete</button>
-                </td>
-              </tr>
-            ))}
+            {allVehicles
+              .filter((vehicle) => {
+                return props.search === ""
+                  ? vehicle
+                  : vehicle.number
+                      .toLowerCase()
+                      .includes(props.search.toLowerCase());
+              })
+              .map((vehicle, index) => (
+                <tr className="text-center fw-bolder" key={index + 1}>
+                  <td>{index + 1}</td>
+                  <td>{vehicle.id}</td>
+                  <td>{vehicle.number}</td>
+                  <td>{vehicle.category}</td>
+                  <td>{vehicle.fuelType}</td>
+                  <td>{vehicle.remarks}</td>
+                  <td>{vehicle.status}</td>
+                  <td>{vehicle.staffId}</td>
+                  <td>
+                    <button
+                      data-bs-toggle="modal"
+                      data-bs-target={props.target}
+                      className="btn btn-primary"
+                      onClick={() => {
+                        props.setShowModal();
+                        handleUpdateOrDelete(vehicle.id);
+                      }}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(vehicle.id)}
+                      className="btn btn-danger mx-2 "
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
