@@ -13,8 +13,8 @@ export const createVehicle = createAsyncThunk<Vehicle, Vehicle>(
         vehicle
       );
       return response.data;
-    } catch {
-      throw new Error("Failed to create vehicle");
+    } catch(error:any) {
+      throw error.response.data.message
     }
   }
 );
@@ -31,8 +31,8 @@ const vehicleSlice = createSlice({
       builder.addCase(createVehicle.pending, () => {
         console.log("creating vehicle");
       }),
-      builder.addCase(createVehicle.rejected, () => {
-        alert("Failed");
+      builder.addCase(createVehicle.rejected, (state,action) => {
+        alert(action.error.message);
       });
   },
 });

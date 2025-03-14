@@ -17,7 +17,7 @@ function VehicleDetailsModal(props: any) {
 
   const handleSubmit = async () => {
     const newVehicle = new Vehicle(
-      "ds",
+      "",
       number,
       category,
       fuelType,
