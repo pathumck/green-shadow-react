@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store/store";
-import { createVehicle } from "../../redux/slices/vehicleSlice";
+import { createVehicle, updateVehicle } from "../../redux/slices/vehicleSlice";
 import Vehicle from "../../modals/Vehicle";
 
 function VehicleDetailsModal(props: any) {
@@ -14,18 +14,57 @@ function VehicleDetailsModal(props: any) {
 
   const dispatch = useDispatch<AppDispatch>();
   const allStaff = useSelector((state: RootState) => state.staff);
+  const updateOrDeleteId = useSelector(
+    (state: RootState) => state.updateOrDelete
+  );
+  const vehicle = useSelector((state: RootState) =>
+    state.vehicles.find((vehicle) => vehicle.id === updateOrDeleteId)
+  );
+
+  const textTitle = props.text.title;
+
+  useEffect(() => {
+    if (props.text.title === "Update") {
+      setNumber(vehicle?.number || "");
+      setCategory(vehicle?.category || "");
+      setFuelType(vehicle?.fuelType || "");
+      setRemarks(vehicle?.remarks || "");
+      setStatus(vehicle?.status || "");
+      setStaffId(vehicle?.staffId || "");
+    } else {
+      setNumber("");
+      setCategory("");
+      setFuelType("");
+      setRemarks("");
+      setStatus("");
+      setStaffId("");
+    }
+  }, [updateOrDeleteId, textTitle]);
 
   const handleSubmit = async () => {
-    const newVehicle = new Vehicle(
-      "",
-      number,
-      category,
-      fuelType,
-      remarks,
-      status,
-      staffId
-    );
-    await dispatch(createVehicle(newVehicle));
+    if (props.text.title === "Add") {
+      const newVehicle = new Vehicle(
+        "",
+        number,
+        category,
+        fuelType,
+        remarks,
+        status,
+        staffId
+      );
+      await dispatch(createVehicle(newVehicle));
+    } else {
+      const updatedVehicle = new Vehicle(
+        updateOrDeleteId,
+        number,
+        category,
+        fuelType,
+        remarks,
+        status,
+        staffId
+      );
+      await dispatch(updateVehicle(updatedVehicle));
+    }
   };
 
   return (
@@ -153,7 +192,7 @@ function VehicleDetailsModal(props: any) {
             <div className="modal-footer">
               <button
                 type="button"
-                className="btn btn-secondary"
+                className="btn btn-secondary vehicle-modal-close"
                 data-bs-dismiss="modal"
               >
                 Close

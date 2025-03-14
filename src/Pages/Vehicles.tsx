@@ -25,7 +25,10 @@ function Vehicles() {
           handleShow("Add", "Save Vehicle");
         }}
       />
-      <VehicleDetailsTable />
+      <VehicleDetailsTable
+        target="#vehicle"
+        setShowModal={() => handleShow("Update", "Update Vehicle")}
+      />
       <VehicleDetailsModal text={showModal} />
     </>
   );

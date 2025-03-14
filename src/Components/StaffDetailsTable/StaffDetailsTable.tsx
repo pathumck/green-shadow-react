@@ -81,7 +81,7 @@ function StaffDetailsTable(props: any) {
                       data-bs-toggle="modal"
                       data-bs-target={props.target}
                       onClick={() => {
-                        props.setShowModal("Update");
+                        props.setShowModal();
                         handleUpdateOrDelete(staff.id);
                       }}
                       className="btn btn-sm btn-primary"

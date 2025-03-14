@@ -1,8 +1,14 @@
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store/store";
+import { updateOrDelete } from "../../redux/slices/updateOrDeleteSlice";
 
 function VehicleDetailsTable(props: any) {
   const allVehicles = useSelector((state: RootState) => state.vehicles);
+const dispatch = useDispatch<AppDispatch>();
+  const handleUpdateOrDelete = (id: string) => {
+    dispatch(updateOrDelete(id));
+  };
+
   return (
     <>
       <div className="container-fluid mt-5" style={{ maxHeight: "320px", minHeight: "320px", overflowY: "scroll" }}>
@@ -36,6 +42,9 @@ function VehicleDetailsTable(props: any) {
                     data-bs-toggle="modal"
                     data-bs-target={props.target}
                     className="btn btn-primary"
+                    onClick={()=> {props.setShowModal();
+                      handleUpdateOrDelete(vehicle.id);
+                    }}
                   >
                     Edit
                   </button>
