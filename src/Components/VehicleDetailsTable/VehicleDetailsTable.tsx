@@ -1,12 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store/store";
 import { updateOrDelete } from "../../redux/slices/updateOrDeleteSlice";
+import { deleteVehicle } from "../../redux/slices/vehicleSlice";
 
 function VehicleDetailsTable(props: any) {
   const allVehicles = useSelector((state: RootState) => state.vehicles);
 const dispatch = useDispatch<AppDispatch>();
   const handleUpdateOrDelete = (id: string) => {
     dispatch(updateOrDelete(id));
+  };
+
+  const handleDelete = async (id: string) => {
+    await dispatch(deleteVehicle(id));
   };
 
   return (
@@ -48,7 +53,7 @@ const dispatch = useDispatch<AppDispatch>();
                   >
                     Edit
                   </button>
-                  <button className="btn btn-danger mx-2 ">Delete</button>
+                  <button onClick={() => handleDelete(vehicle.id)} className="btn btn-danger mx-2 ">Delete</button>
                 </td>
               </tr>
             ))}

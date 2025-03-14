@@ -46,6 +46,20 @@ export const updateVehicle = createAsyncThunk<Vehicle, Vehicle>(
   }
 );
 
+export const deleteVehicle = createAsyncThunk<string, string>(
+  "vehicle/deleteVehicle",
+  async (id: string) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:3000/vehicle/${id}`
+      );
+      return id;
+    } catch (error) {
+      throw new Error("Failed to delete vehicle");
+    }
+  }
+);
+
 const vehicleSlice = createSlice({
   name: "vehicle",
   initialState,
@@ -93,6 +107,16 @@ const vehicleSlice = createSlice({
       })
       .addCase(updateVehicle.pending, () => {
         console.log("updating vehicle");
+      })
+      .addCase(deleteVehicle.fulfilled, (state, action) => {
+        alert("Successfull");
+        return state.filter((vehicle) => vehicle.id !== action.payload);
+      })
+      .addCase(deleteVehicle.rejected, (state, action) => {
+        alert(action.error.message);
+      })
+      .addCase(deleteVehicle.pending, () => {
+        console.log("deleting vehicle");
       });
   },
 });
