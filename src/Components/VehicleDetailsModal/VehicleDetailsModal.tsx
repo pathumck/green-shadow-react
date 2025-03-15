@@ -35,6 +35,7 @@ function VehicleDetailsModal(props: any) {
       setRemarks(vehicle?.remarks || "");
       setStatus(vehicle?.status || "");
       setStaffId(vehicle?.staffId || "");
+      setValidate({ status: null, message: "" });
     } else {
       setNumber("");
       setCategory("");
@@ -42,6 +43,7 @@ function VehicleDetailsModal(props: any) {
       setRemarks("");
       setStatus("");
       setStaffId("");
+      setValidate({ status: null, message: "" });
     }
   }, [updateOrDeleteId, textTitle]);
 
