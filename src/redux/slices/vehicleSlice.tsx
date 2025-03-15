@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import Vehicle from "../../modals/Vehicle";
+import Swal from "sweetalert2";
 
 const initialState: Vehicle[] = [];
 
@@ -72,24 +73,38 @@ const vehicleSlice = createSlice({
           ".vehicle-modal-close"
         ) as HTMLElement;
         closeBtn.click();
-        alert("Successfull");
+        Swal.fire("Vehicle saved successfully", "", "success");
       })
       .addCase(createVehicle.pending, () => {
-        console.log("creating vehicle");
+        Swal.fire({
+          title: "Saving Vehicle",
+          text: "Please wait",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false,
+        })
       })
       .addCase(createVehicle.rejected, (state, action) => {
-        alert(action.error.message);
+        Swal.fire("Vehicle was not saved", "", "info");
       })
 
       .addCase(fetchVehicles.fulfilled, (state, action) => {
+        Swal.close();
         return action.payload;
       })
 
       .addCase(fetchVehicles.rejected, (state, action) => {
-        alert(action.error.message);
+        Swal.fire("Failed to fetch vehicles", "", "info");
       })
       .addCase(fetchVehicles.pending, () => {
-        console.log("fetching vehicles");
+        Swal.fire({
+          background: "transparent",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false,
+        });
       })
       .addCase(updateVehicle.fulfilled, (state, action) => {
         const index = state.findIndex(
@@ -100,23 +115,37 @@ const vehicleSlice = createSlice({
           ".vehicle-modal-close"
         ) as HTMLElement;
         closeBtn.click();
-        alert("Successfull");
+        Swal.fire("Vehicle updated successfully", "", "success");
       })
       .addCase(updateVehicle.rejected, (state, action) => {
-        alert(action.error.message);
+        Swal.fire("Vehicle was not updated", "", "info");
       })
       .addCase(updateVehicle.pending, () => {
-        console.log("updating vehicle");
+        Swal.fire({
+          title: "Updating Vehicle",
+          text: "Please wait",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false,
+        })
       })
       .addCase(deleteVehicle.fulfilled, (state, action) => {
-        alert("Successfull");
+        Swal.fire("Vehicle deleted successfully", "", "success");
         return state.filter((vehicle) => vehicle.id !== action.payload);
       })
       .addCase(deleteVehicle.rejected, (state, action) => {
-        alert(action.error.message);
+        Swal.fire("Vehicle was not deleted", "", "info");
       })
       .addCase(deleteVehicle.pending, () => {
-        console.log("deleting vehicle");
+        Swal.fire({
+          title: "Deleting Vehicle",
+          text: "Please wait",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false,
+        })
       });
   },
 });
