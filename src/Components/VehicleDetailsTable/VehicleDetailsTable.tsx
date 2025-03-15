@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store/store";
 import { updateOrDelete } from "../../redux/slices/updateOrDeleteSlice";
 import { deleteVehicle } from "../../redux/slices/vehicleSlice";
+import Swal from "sweetalert2";
 
 function VehicleDetailsTable(props: any) {
   const allVehicles = useSelector((state: RootState) => state.vehicles);
@@ -10,8 +11,20 @@ function VehicleDetailsTable(props: any) {
     dispatch(updateOrDelete(id));
   };
 
-  const handleDelete = async (id: string) => {
-    await dispatch(deleteVehicle(id));
+  const handleDelete = async (id: string, number: string) => {
+    Swal.fire({
+      title: "Are you sure to delete this vehicle: " + number + "?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await dispatch(deleteVehicle(id));
+      }
+    });
   };
 
   return (
@@ -66,7 +79,7 @@ function VehicleDetailsTable(props: any) {
                       Edit
                     </button>
                     <button
-                      onClick={() => handleDelete(vehicle.id)}
+                      onClick={() => handleDelete(vehicle.id, vehicle.number)}
                       className="btn btn-danger mx-2 "
                     >
                       Delete
