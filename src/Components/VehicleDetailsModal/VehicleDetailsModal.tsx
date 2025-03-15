@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store/store";
 import { createVehicle, updateVehicle } from "../../redux/slices/vehicleSlice";
 import Vehicle from "../../modals/Vehicle";
+import Swal from "sweetalert2";
 
 function VehicleDetailsModal(props: any) {
   const [number, setNumber] = useState<string>("");
@@ -11,10 +12,10 @@ function VehicleDetailsModal(props: any) {
   const [remarks, setRemarks] = useState<string>("");
   const [status, setStatus] = useState<string>("");
   const [staffId, setStaffId] = useState<string>("");
-    const [validate, setValidate] = useState<{
-      status: number | null;
-      message: string;
-    }>();
+  const [validate, setValidate] = useState<{
+    status: number | null;
+    message: string;
+  }>();
 
   const dispatch = useDispatch<AppDispatch>();
   const allStaff = useSelector((state: RootState) => state.staff);
@@ -47,7 +48,7 @@ function VehicleDetailsModal(props: any) {
     }
   }, [updateOrDeleteId, textTitle]);
 
-  const validateForm = () : boolean => {
+  const validateForm = (): boolean => {
     if (!number) {
       setValidate({ status: 1, message: "Number is required" });
       return false;
@@ -73,35 +74,61 @@ function VehicleDetailsModal(props: any) {
       return false;
     }
     return true;
-  }
-
+  };
 
   const handleSubmit = async () => {
     if (!validateForm()) {
       return;
     }
+    setValidate({ status: null, message: "" });
     if (props.text.title === "Add") {
-      const newVehicle = new Vehicle(
-        "",
-        number,
-        category,
-        fuelType,
-        remarks,
-        status,
-        staffId
-      );
-      await dispatch(createVehicle(newVehicle));
+      Swal.fire({
+        title: "Do you want to save the new vehicle?",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Save",
+        denyButtonText: `Don't save`,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const newVehicle = new Vehicle(
+            "",
+            number,
+            category,
+            fuelType,
+            remarks,
+            status,
+            staffId
+          );
+          await dispatch(createVehicle(newVehicle));
+          setNumber("");
+          setCategory("");
+          setFuelType("");
+          setRemarks("");
+          setStatus("");
+          setStaffId("");
+        }
+      });
     } else {
-      const updatedVehicle = new Vehicle(
-        updateOrDeleteId,
-        number,
-        category,
-        fuelType,
-        remarks,
-        status,
-        staffId
-      );
-      await dispatch(updateVehicle(updatedVehicle));
+      Swal.fire({
+        title: "Do you want to update this vehicle : " + updateOrDeleteId + "?",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Update",
+        denyButtonText: `Don't update`,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const updatedVehicle = new Vehicle(
+            updateOrDeleteId,
+            number,
+            category,
+            fuelType,
+            remarks,
+            status,
+            staffId
+          );
+          await dispatch(updateVehicle(updatedVehicle));
+        }
+      });
     }
   };
 
