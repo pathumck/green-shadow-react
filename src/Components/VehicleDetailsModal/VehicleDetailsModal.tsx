@@ -11,6 +11,10 @@ function VehicleDetailsModal(props: any) {
   const [remarks, setRemarks] = useState<string>("");
   const [status, setStatus] = useState<string>("");
   const [staffId, setStaffId] = useState<string>("");
+    const [validate, setValidate] = useState<{
+      status: number | null;
+      message: string;
+    }>();
 
   const dispatch = useDispatch<AppDispatch>();
   const allStaff = useSelector((state: RootState) => state.staff);
@@ -41,7 +45,39 @@ function VehicleDetailsModal(props: any) {
     }
   }, [updateOrDeleteId, textTitle]);
 
+  const validateForm = () : boolean => {
+    if (!number) {
+      setValidate({ status: 1, message: "Number is required" });
+      return false;
+    }
+    if (!category) {
+      setValidate({ status: 2, message: " Select a category" });
+      return false;
+    }
+    if (!fuelType) {
+      setValidate({ status: 3, message: "Select a fuel type" });
+      return false;
+    }
+    if (!remarks) {
+      setValidate({ status: 4, message: "Enter remarks" });
+      return false;
+    }
+    if (!status) {
+      setValidate({ status: 5, message: "Select a status" });
+      return false;
+    }
+    if (!staffId) {
+      setValidate({ status: 6, message: "Select a staff" });
+      return false;
+    }
+    return true;
+  }
+
+
   const handleSubmit = async () => {
+    if (!validateForm()) {
+      return;
+    }
     if (props.text.title === "Add") {
       const newVehicle = new Vehicle(
         "",
@@ -99,17 +135,28 @@ function VehicleDetailsModal(props: any) {
                   <input
                     value={number}
                     type="text"
-                    className="form-control"
+                    className={
+                      validate?.status && validate.status === 1
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
                     onChange={(e) => {
                       setNumber(e.target.value);
                     }}
                   />
+                  {validate?.status && validate.status === 1 && (
+                    <label className="text-danger">{validate.message}</label>
+                  )}
                 </div>
                 <div className="col-6">
                   <label>Category</label>
                   <select
                     value={category}
-                    className="form-select"
+                    className={
+                      validate?.status && validate.status === 2
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
                     onChange={(e) => {
                       setCategory(e.target.value);
                     }}
@@ -120,12 +167,19 @@ function VehicleDetailsModal(props: any) {
                     <option value="Heavy">Heavy</option>
                     <option value="Light">Light</option>
                   </select>
+                  {validate?.status && validate.status === 2 && (
+                    <label className="text-danger">{validate.message}</label>
+                  )}
                 </div>
                 <div className="col-6">
                   <label>Fuel Type</label>
                   <select
                     value={fuelType}
-                    className="form-select"
+                    className={
+                      validate?.status && validate.status === 3
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
                     onChange={(e) => setFuelType(e.target.value)}
                   >
                     <option value="" selected disabled>
@@ -135,12 +189,19 @@ function VehicleDetailsModal(props: any) {
                     <option value="Petrol">Petrol</option>
                     <option value="Other">Other</option>
                   </select>
+                  {validate?.status && validate.status === 3 && (
+                    <label className="text-danger">{validate.message}</label>
+                  )}
                 </div>
                 <div className="col-6">
                   <label>Remarks</label>
                   <select
                     value={remarks}
-                    className="form-select"
+                    className={
+                      validate?.status && validate.status === 4
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
                     onChange={(e) => {
                       setRemarks(e.target.value);
                     }}
@@ -151,12 +212,19 @@ function VehicleDetailsModal(props: any) {
                     <option value="Available">Available</option>
                     <option value="Not Available">Not Available</option>
                   </select>
+                  {validate?.status && validate.status === 4 && (
+                    <label className="text-danger">{validate.message}</label>
+                  )}
                 </div>
                 <div className="col-6">
                   <label>Status</label>
                   <select
                     value={status}
-                    className="form-select"
+                    className={
+                      validate?.status && validate.status === 5
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
                     onChange={(e) => {
                       setStatus(e.target.value);
                     }}
@@ -167,12 +235,19 @@ function VehicleDetailsModal(props: any) {
                     <option value="Good Condition">Good Condition</option>
                     <option value="Bad Condition">Bad Condition</option>
                   </select>
+                  {validate?.status && validate.status === 5 && (
+                    <label className="text-danger">{validate.message}</label>
+                  )}
                 </div>
                 <div className="col-6">
                   <label>Staff ID</label>
                   <select
                     value={staffId}
-                    className="form-select"
+                    className={
+                      validate?.status && validate.status === 6
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
                     onChange={(e) => {
                       setStaffId(e.target.value);
                     }}
@@ -186,6 +261,9 @@ function VehicleDetailsModal(props: any) {
                       </option>
                     ))}
                   </select>
+                  {validate?.status && validate.status === 6 && (
+                    <label className="text-danger">{validate.message}</label>
+                  )}
                 </div>
               </div>
             </div>
