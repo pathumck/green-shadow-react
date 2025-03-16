@@ -23,7 +23,7 @@ function Signup() {
 
       navigate("/dashboard");
     } catch (err: any) {
-      alert(err.response?.data?.message || "Signup failed");
+      alert(err.response.data.message);
     }
   };
 

@@ -23,17 +23,19 @@ axiosInstance.interceptors.request.use(
 );
 
 axiosInstance.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+  (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       try {
-        const refreshResponse = await axiosInstance.post("/auth/refresh");
+        const refreshResponse = await axios.post(
+          "http://localhost:3000/auth/refresh",
+          {},
+          { withCredentials: true }
+        );
 
         const newAccessToken = refreshResponse.data.accessToken;
         originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
@@ -41,6 +43,7 @@ axiosInstance.interceptors.response.use(
         return axiosInstance(originalRequest);
       } catch (refreshError) {
         console.error("Token refresh failed", refreshError);
+
         return Promise.reject(refreshError);
       }
     }
