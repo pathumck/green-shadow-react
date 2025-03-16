@@ -1,6 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../utils/axios_instance";
 
 function UserDetailsModal(props: any) {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [role, setRole] = useState("USER");
+  
+    const navigate = useNavigate();
+  
+    const handleSignup = async () => {
+      try {
+        const response = await axiosInstance.post("/auth/register", {
+          username,
+          password,
+          role,
+        });
+  
+        alert(response.data.user.id);
+  
+        navigate("/dashboard");
+      } catch (err: any) {
+        alert(err.response.data.message);
+      }
+    };
+  
   return (
     <>
       <div
@@ -27,15 +51,15 @@ function UserDetailsModal(props: any) {
               <div className="row">
                 <div className="col-12">
                   <label>User Name</label>
-                  <input type="text" className="form-control" />
+                  <input onChange={(e) => setUsername(e.target.value)} value={username} type="text" className="form-control" />
                 </div>
                 <div className="col-12">
                   <label>Password</label>
-                  <input type="password" className="form-control" />
+                  <input onChange={(e) => setPassword(e.target.value)} value={password} type="password" className="form-control" />
                 </div>
                 <div className="col-12">
                   <label>Role</label>
-                  <select className="form-control">
+                  <select onChange={(e) => setRole(e.target.value)} value={role} className="form-control">
                     <option value="" selected disabled>
                       Select a role
                     </option>
@@ -54,7 +78,7 @@ function UserDetailsModal(props: any) {
               >
                 Close
               </button>
-              <button type="button" className="btn btn-primary">
+              <button onClick={handleSignup} type="button" className="btn btn-primary">
                 {props.text.btnText}
               </button>
             </div>
