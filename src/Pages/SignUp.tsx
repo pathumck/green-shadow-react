@@ -4,22 +4,26 @@ import { login } from "../redux/slices/authSlice";
 import axiosInstance from "../utils/axios_instance";
 import { useNavigate } from "react-router-dom";
 
-function Login() {
+function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("USER");
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleLogin = async () => {
+
+  const handleSignup = async () => {
     try {
-      const response = await axiosInstance.post("/auth/login", {
+      const response = await axiosInstance.post("/auth/register", {
         username,
         password,
+        role,
       });
-      dispatch(login(response.data.userId));
+
+      alert(response.data.user.id);
+
       navigate("/dashboard");
     } catch (err: any) {
-      alert(err.response.data.message);
+      alert(err.response?.data?.message || "Signup failed");
     }
   };
 
@@ -63,8 +67,17 @@ function Login() {
             className="mb-3 rounded form-control w-75"
           />
 
-          <button onClick={handleLogin} className="btn btn-success w-75 mb-3">
-            Login
+          <select
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            className="mb-3 rounded form-control w-75"
+          >
+            <option value="USER">User</option>
+            <option value="MANAGER">Manager</option>
+          </select>
+
+          <button onClick={handleSignup} className="btn btn-success w-75 mb-3">
+            Signup
           </button>
         </div>
       </div>
@@ -72,4 +85,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Signup;

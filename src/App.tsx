@@ -21,6 +21,7 @@ import { fetchStaff } from "./redux/slices/staffSlice.tsx";
 import Login from "./Pages/Login.tsx";
 import { fetchLogs } from "./redux/slices/logSlice.tsx";
 import { fetchVehicles } from "./redux/slices/vehicleSlice.tsx";
+import Signup from "./Pages/SignUp.tsx";
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -47,6 +48,7 @@ function App() {
         <Route path="/staff" element={<Staff />} />
         <Route path="/vehicles" element={<Vehicles />} />
         <Route path="/users" element={<Users />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </>
   );
