@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store/store";
-import { fetchAllUsers } from "../../redux/slices/usersSlice";
+import { deleteUser, fetchAllUsers } from "../../redux/slices/usersSlice";
 
 function UserDetailsTable() {
   const dispatch = useDispatch<AppDispatch>();
@@ -10,6 +10,10 @@ function UserDetailsTable() {
     dispatch(fetchAllUsers())
   }, [dispatch]);
   const allUsers = useSelector((state: RootState) => state.users);
+
+  const handleDelete = (id: string) => {
+    dispatch(deleteUser(id));
+  }
   return (
     <>
       <div className="container mt-5" style={{ maxHeight: "320px", overflowY: "scroll" }}>
@@ -31,7 +35,7 @@ function UserDetailsTable() {
                 <td>{user.username}</td>
                 <td>{user.role}</td>
                 <td>
-                  <button className="btn btn-danger">Delete</button>
+                  <button className="btn btn-danger" onClick={() => handleDelete(user.id)}>Delete</button>
                 </td>
               </tr>
             ))}
