@@ -10,8 +10,6 @@ function UserDetailsTable() {
     dispatch(fetchAllUsers())
   }, [dispatch]);
   const allUsers = useSelector((state: RootState) => state.users);
-
-  console.log(allUsers);
   return (
     <>
       <div className="container mt-5" style={{ maxHeight: "320px", overflowY: "scroll" }}>

@@ -10,10 +10,21 @@ export const fetchAllUsers = createAsyncThunk(
     try {
       console.log("Fetching users... axios");
       const response = await axiosInstance.get("/auth");
-      console.log("response", response.data);
       return response.data;
     } catch (error: any) {
       throw new Error(error.response.data.message || "Failed to fetch users");
+    }
+  }
+);
+
+export const createUser = createAsyncThunk<User, User>(
+  "users/createUser",
+  async (user) => {
+    try {
+      const response = await axiosInstance.post("/auth/register", user);
+      return response.data;
+    } catch (error: any) {
+      throw new Error(error.response.data.message || "Failed to create user");
     }
   }
 );
@@ -28,11 +39,20 @@ const usersSlice = createSlice({
         console.log("Fetching users...");
       })
       .addCase(fetchAllUsers.fulfilled, (state, action) => {
-        alert("Users fetched successfully");
         return action.payload;
       })
       .addCase(fetchAllUsers.rejected, (state, action) => {
         alert(action.error.message);
+      })
+      .addCase(createUser.fulfilled, (state, action) => {
+        alert("User created successfully");
+        state.push(action.payload);
+      })
+      .addCase(createUser.rejected, (state, action) => {
+        alert(action.error.message);
+      })
+      .addCase(createUser.pending, (state) => {
+        console.log("Creating user...");
       });
   },
 });

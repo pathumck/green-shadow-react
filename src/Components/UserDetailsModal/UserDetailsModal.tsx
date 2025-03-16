@@ -1,30 +1,19 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axiosInstance from "../../utils/axios_instance";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store/store";
+import { createUser } from "../../redux/slices/usersSlice";
+import User from "../../modals/User";
 
 function UserDetailsModal(props: any) {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [role, setRole] = useState("USER");
-  
-    const navigate = useNavigate();
-  
-    const handleSignup = async () => {
-      try {
-        const response = await axiosInstance.post("/auth/register", {
-          username,
-          password,
-          role,
-        });
-  
-        alert(response.data.user.id);
-  
-        navigate("/dashboard");
-      } catch (err: any) {
-        alert(err.response.data.message);
-      }
-    };
-  
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("USER");
+  const dispatch = useDispatch<AppDispatch>();
+  const handleSignup = async () => {
+    const user = new User("", username, password, role);
+    dispatch(createUser(user));
+  };
+
   return (
     <>
       <div
@@ -51,15 +40,29 @@ function UserDetailsModal(props: any) {
               <div className="row">
                 <div className="col-12">
                   <label>User Name</label>
-                  <input onChange={(e) => setUsername(e.target.value)} value={username} type="text" className="form-control" />
+                  <input
+                    onChange={(e) => setUsername(e.target.value)}
+                    value={username}
+                    type="text"
+                    className="form-control"
+                  />
                 </div>
                 <div className="col-12">
                   <label>Password</label>
-                  <input onChange={(e) => setPassword(e.target.value)} value={password} type="password" className="form-control" />
+                  <input
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                    type="password"
+                    className="form-control"
+                  />
                 </div>
                 <div className="col-12">
                   <label>Role</label>
-                  <select onChange={(e) => setRole(e.target.value)} value={role} className="form-control">
+                  <select
+                    onChange={(e) => setRole(e.target.value)}
+                    value={role}
+                    className="form-control"
+                  >
                     <option value="" selected disabled>
                       Select a role
                     </option>
@@ -78,7 +81,11 @@ function UserDetailsModal(props: any) {
               >
                 Close
               </button>
-              <button onClick={handleSignup} type="button" className="btn btn-primary">
+              <button
+                onClick={handleSignup}
+                type="button"
+                className="btn btn-primary"
+              >
                 {props.text.btnText}
               </button>
             </div>
