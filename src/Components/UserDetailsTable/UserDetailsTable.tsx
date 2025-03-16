@@ -1,83 +1,42 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store/store";
+import { fetchAllUsers } from "../../redux/slices/usersSlice";
 
 function UserDetailsTable() {
+  const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {
+    console.log("Fetching users...");
+    dispatch(fetchAllUsers())
+  }, [dispatch]);
+  const allUsers = useSelector((state: RootState) => state.users);
+
+  console.log(allUsers);
   return (
     <>
-      <div className="container-fluid">
-        <table className="table mt-5">
-          <thead>
-            <tr>
+      <div className="container mt-5" style={{ maxHeight: "320px", overflowY: "scroll" }}>
+        <table className="table table-striped table-bordered">
+          <thead className="table-dark sticky-top">
+            <tr className="text-center fw-bolder">
               <th scope="col">#</th>
-              <th scope="col">Equipment Id</th>
-              <th scope="col">Name</th>
-              <th scope="col">Type</th>
-              <th scope="col">Status</th>
-              <th scope="col">Staff Id</th>
-              <th scope="col">Field Code</th>
+              <th scope="col">User Id</th>
+              <th scope="col">User Name</th>
+              <th scope="col">Role</th>
               <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th>1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th>1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th>1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th>1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th>1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th>1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-            </tr>
+            {allUsers.map((user, index) => (
+              <tr className="text-center fw-bold" key={index}>
+                <th scope="row">{index + 1}</th>
+                <td>{user.id}</td>
+                <td>{user.username}</td>
+                <td>{user.role}</td>
+                <td>
+                  <button className="btn btn-danger">Delete</button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

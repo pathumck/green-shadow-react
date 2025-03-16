@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("USER");
+  const [role, setRole] = useState("");
 
   const navigate = useNavigate();
 
