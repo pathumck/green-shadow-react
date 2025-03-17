@@ -7,8 +7,13 @@ import User from "../../modals/User";
 function UserDetailsModal(props: any) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("USER");
+  const [rePassword, setRePassword] = useState("");
+  const [role, setRole] = useState("");
   const dispatch = useDispatch<AppDispatch>();
+  const [validate, setValidate] = useState<{
+    status: number | null;
+    message: string;
+  }>();
 
   const updateOrDeleteId = useSelector(
     (state: RootState) => state.updateOrDelete
@@ -20,23 +25,62 @@ function UserDetailsModal(props: any) {
   useEffect(() => {
     if (props.text.title === "Update") {
       setUsername(user?.username || "");
-      setPassword(user?.password || "");
+      setPassword("");
+      setRePassword("");
       setRole(user?.role || "");
+      setValidate({ status: null, message: "" });
     } else {
       setUsername("");
       setPassword("");
+      setRePassword("");
       setRole("");
+      setValidate({ status: null, message: "" });
     }
   }, [updateOrDeleteId, props.text.title]);
 
+  const validateForm = (): boolean => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    if (!username || !emailRegex.test(username)) {
+      setValidate({ status: 1, message: "Input a valid username." });
+      return false;
+    }
+    if (!password || !passwordRegex.test(password)) {
+      setValidate({ status: 2, message: "Input a valid password." });
+      return false;
+    }
+    if (
+      !rePassword ||
+      !passwordRegex.test(rePassword) ||
+      password !== rePassword
+    ) {
+      setValidate({ status: 3, message: "Match the password." });
+      return false;
+    }
+    if (!role) {
+      setValidate({ status: 4, message: "Select a role." });
+      return false;
+    }
+    return true;
+  };
+
   const handleSignup = async () => {
+    if (!validateForm()) {
+      return;
+    }
+    setValidate({ status: null, message: "" });
     if (props.text.title === "Add") {
       const user = new User("", username, password, role);
-      dispatch(createUser(user));
+      await dispatch(createUser(user)).unwrap();
     } else {
       const updatedUser = new User(user?.id || "", username, password, role);
-      dispatch(updateUser(updatedUser));
+      dispatch(updateUser(updatedUser)).unwrap();
     }
+
+    setUsername("");
+    setPassword("");
+    setRePassword("");
+    setRole("");
   };
 
   return (
@@ -49,7 +93,7 @@ function UserDetailsModal(props: any) {
         aria-hidden="true"
       >
         <div className="modal-dialog" style={{ maxWidth: "300px" }}>
-          <div className="modal-content" >
+          <div className="modal-content">
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="exampleModalLabel">
                 {props.text.title + " User"}
@@ -61,7 +105,7 @@ function UserDetailsModal(props: any) {
                 aria-label="Close"
               ></button>
             </div>
-            <div className="modal-body" style={props.text.title === "Update" ? {height: "280px"} : {height: "220px"}}>
+            <div className="modal-body" style={{ height: "300px" }}>
               <div className="row">
                 <div className="col-12">
                   <label>User Name</label>
@@ -69,8 +113,17 @@ function UserDetailsModal(props: any) {
                     onChange={(e) => setUsername(e.target.value)}
                     value={username}
                     type="text"
-                    className="form-control"
+                    className={
+                      validate?.status && validate.status === 1
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
                   />
+                  {validate?.status && validate.status === 1 && (
+                    <label className="text-danger fw-bold">
+                      {validate.message}
+                    </label>
+                  )}
                 </div>
                 <div className="col-12">
                   <label>Password</label>
@@ -78,26 +131,48 @@ function UserDetailsModal(props: any) {
                     onChange={(e) => setPassword(e.target.value)}
                     value={password}
                     type="password"
-                    className="form-control"
+                    className={
+                      validate?.status && validate.status === 2
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
                   />
+                  {validate?.status && validate.status === 2 && (
+                    <label className="text-danger fw-bold">
+                      {validate.message}
+                    </label>
+                  )}
                 </div>
-                {props.text.title === "Update" && (
-                  <div className="col-12">
+
+                <div className="col-12">
                   <label>Password</label>
                   <input
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password}
+                    onChange={(e) => setRePassword(e.target.value)}
+                    value={rePassword}
                     type="password"
-                    className="form-control"
+                    className={
+                      validate?.status && validate.status === 3
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
                   />
+                  {validate?.status && validate.status === 3 && (
+                    <label className="text-danger fw-bold">
+                      {validate.message}
+                    </label>
+                  )}
                 </div>
-                )}
+
                 <div className="col-12">
                   <label>Role</label>
                   <select
                     onChange={(e) => setRole(e.target.value)}
                     value={role}
-                    className="form-control"
+                    className={
+                      validate?.status && validate.status === 4
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
                   >
                     <option value="" selected disabled>
                       Select a role
@@ -106,6 +181,11 @@ function UserDetailsModal(props: any) {
                     <option value="ADMIN">ADMIN</option>
                     <option value="SCIENTIST">SCIENTIST</option>
                   </select>
+                  {validate?.status && validate.status === 4 && (
+                    <label className="text-danger fw-bold">
+                      {validate.message}
+                    </label>
+                  )}
                 </div>
               </div>
             </div>
