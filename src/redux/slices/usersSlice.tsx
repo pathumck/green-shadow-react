@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../utils/axios_instance";
 import User from "../../modals/User";
+import Swal from "sweetalert2";
 
 const initialState: User[] = [];
 
@@ -60,44 +61,72 @@ const usersSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllUsers.pending, (state) => {
-        console.log("Fetching users...");
+        Swal.fire({
+          background: "transparent",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false,
+        })
       })
       .addCase(fetchAllUsers.fulfilled, (state, action) => {
+        Swal.close();
         return action.payload;
       })
       .addCase(fetchAllUsers.rejected, (state, action) => {
-        alert(action.error.message);
+        Swal.fire(action.error.message, "info");
       })
       .addCase(createUser.fulfilled, (state, action) => {
-        alert("User created successfully");
+        Swal.fire("User created successfully", "", "success");
         state.push(action.payload);
       })
       .addCase(createUser.rejected, (state, action) => {
-        alert(action.error.message);
+        Swal.fire(action.error.message, "", "info");
       })
       .addCase(createUser.pending, (state) => {
-        console.log("Creating user...");
+        Swal.fire({
+          title: "Creating user",
+          text: "Please wait",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false,
+        })
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
-        alert("User deleted successfully");
+        Swal.fire("User deleted successfully", "", "success");
         return state.filter((user) => user.id !== action.payload);
       })
       .addCase(deleteUser.rejected, (state, action) => {
-        alert(action.error.message);
+        Swal.fire(action.error.message, "", "info");
       })
       .addCase(deleteUser.pending, (state) => {
-        console.log("Deleting user...");
+        Swal.fire({
+          title: "Deleting user",
+          text: "Please wait",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false,
+        })
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         const index = state.findIndex((user) => user.id === action.payload.id);
         state[index] = action.payload;
-        alert("User updated successfully");
+        Swal.fire("User updated successfully", "", "success");
       })
       .addCase(updateUser.rejected, (state, action) => {
-        alert(action.error.message);
+        Swal.fire(action.error.message, "", "info");
       })
       .addCase(updateUser.pending, (state) => {
-        console.log("Updating user...");
+        Swal.fire({
+          title: "Updating user",
+          text: "Please wait",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false,
+        })
       });
   },
 });

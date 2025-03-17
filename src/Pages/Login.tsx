@@ -17,7 +17,7 @@ function Login() {
         password,
       });
       dispatch(login(response.data.userId));
-      navigate("/dashboard");
+      navigate("/dashboard", { replace: true });
     } catch (err: any) {
       alert(err.response.data.message);
     }
