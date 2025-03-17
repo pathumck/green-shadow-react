@@ -33,7 +33,9 @@ function UserDetailsTable(props: any) {
             </tr>
           </thead>
           <tbody>
-            {allUsers.map((user, index) => (
+            {allUsers
+            .filter((user)=>props.search === "" || user.username.toLowerCase().includes(props.search.toLowerCase()))
+            .map((user, index) => (
               <tr className="text-center fw-bold" key={index}>
                 <th scope="row">{index + 1}</th>
                 <td>{user.id}</td>
