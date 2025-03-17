@@ -2,14 +2,19 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store/store";
 import { deleteUser, fetchAllUsers } from "../../redux/slices/usersSlice";
+import { updateOrDelete } from "../../redux/slices/updateOrDeleteSlice";
 
-function UserDetailsTable() {
+function UserDetailsTable(props: any) {
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     console.log("Fetching users...");
     dispatch(fetchAllUsers())
   }, [dispatch]);
   const allUsers = useSelector((state: RootState) => state.users);
+
+   const handleUpdateOrDelete = (id: string) => {
+      dispatch(updateOrDelete(id));
+    };
 
   const handleDelete = (id: string) => {
     dispatch(deleteUser(id));
@@ -35,7 +40,13 @@ function UserDetailsTable() {
                 <td>{user.username}</td>
                 <td>{user.role}</td>
                 <td>
-                  <button className="btn btn-danger" onClick={() => handleDelete(user.id)}>Delete</button>
+                  <button  data-bs-toggle="modal"
+                      data-bs-target={props.target} className="btn btn-primary" onClick={() => {props.setShowModal()
+                      handleUpdateOrDelete(user.id)
+                      }
+
+                      }>Update</button>
+                  <button className="btn btn-danger mx-2" onClick={() => handleDelete(user.id)}>Delete</button>
                 </td>
               </tr>
             ))}

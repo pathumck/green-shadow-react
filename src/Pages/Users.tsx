@@ -15,7 +15,8 @@ function Users() {
       <PageTitle title = "Users" icon = {<FaUserFriends className='align-baseline' size={22} />}/>
       <AddAndSearch btntext = "user" target = "#user" setShowModal = {() => handleShow("Add", "Create User")}/>
       <UserDetailsModal text = {showModal} />
-      <UserDetailsTable />
+      <UserDetailsTable target="#user"
+        setShowModal={() => handleShow("Update", "Update User")} />
     </>
   )
 }

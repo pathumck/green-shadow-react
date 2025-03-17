@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/store/store";
-import { createUser } from "../../redux/slices/usersSlice";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store/store";
+import { createUser, updateUser } from "../../redux/slices/usersSlice";
 import User from "../../modals/User";
 
 function UserDetailsModal(props: any) {
@@ -9,9 +9,34 @@ function UserDetailsModal(props: any) {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("USER");
   const dispatch = useDispatch<AppDispatch>();
+
+  const updateOrDeleteId = useSelector(
+    (state: RootState) => state.updateOrDelete
+  );
+  const user = useSelector((state: RootState) =>
+    state.users.find((user) => user.id === updateOrDeleteId)
+  );
+
+  useEffect(() => {
+    if (props.text.title === "Update") {
+      setUsername(user?.username || "");
+      setPassword(user?.password || "");
+      setRole(user?.role || "");
+    } else {
+      setUsername("");
+      setPassword("");
+      setRole("");
+    }
+  }, [updateOrDeleteId, props.text.title]);
+
   const handleSignup = async () => {
-    const user = new User("", username, password, role);
-    dispatch(createUser(user));
+    if (props.text.title === "Add") {
+      const user = new User("", username, password, role);
+      dispatch(createUser(user));
+    } else {
+      const updatedUser = new User(user?.id || "", username, password, role);
+      dispatch(updateUser(updatedUser));
+    }
   };
 
   return (
@@ -36,7 +61,7 @@ function UserDetailsModal(props: any) {
                 aria-label="Close"
               ></button>
             </div>
-            <div className="modal-body" style={{ height: "220px" }}>
+            <div className="modal-body" style={props.text.title === "Update" ? {height: "280px"} : {height: "220px"}}>
               <div className="row">
                 <div className="col-12">
                   <label>User Name</label>
@@ -56,6 +81,17 @@ function UserDetailsModal(props: any) {
                     className="form-control"
                   />
                 </div>
+                {props.text.title === "Update" && (
+                  <div className="col-12">
+                  <label>Password</label>
+                  <input
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                    type="password"
+                    className="form-control"
+                  />
+                </div>
+                )}
                 <div className="col-12">
                   <label>Role</label>
                   <select

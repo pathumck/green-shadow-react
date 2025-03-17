@@ -39,7 +39,19 @@ export const deleteUser = createAsyncThunk<string, string>(
       throw new Error(error.response.data.message || "Failed to delete user");
     }
   }
-)
+);
+
+export const updateUser = createAsyncThunk<User, User>(
+  "users/updateUser",
+  async (user) => {
+    try {
+      const response = await axiosInstance.put(`/auth/${user.id}`, user);
+      return user;
+    } catch (error: any) {
+      throw new Error(error.response.data.message || "Failed to update user");
+    }
+  }
+);
 
 const usersSlice = createSlice({
   name: "users",
@@ -75,6 +87,17 @@ const usersSlice = createSlice({
       })
       .addCase(deleteUser.pending, (state) => {
         console.log("Deleting user...");
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        const index = state.findIndex((user) => user.id === action.payload.id);
+        state[index] = action.payload;
+        alert("User updated successfully");
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        alert(action.error.message);
+      })
+      .addCase(updateUser.pending, (state) => {
+        console.log("Updating user...");
       });
   },
 });
