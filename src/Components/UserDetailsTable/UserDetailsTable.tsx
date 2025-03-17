@@ -21,7 +21,7 @@ function UserDetailsTable(props: any) {
   }
   return (
     <>
-      <div className="container mt-5" style={{ maxHeight: "320px", overflowY: "scroll" }}>
+      <div className="container mt-5" style={{height: "320px", maxHeight: "320px", overflowY: "scroll" }}>
         <table className="table table-striped table-bordered">
           <thead className="table-dark sticky-top">
             <tr className="text-center fw-bolder">

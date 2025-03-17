@@ -49,7 +49,7 @@ function UserDetailsModal(props: any) {
         aria-hidden="true"
       >
         <div className="modal-dialog" style={{ maxWidth: "300px" }}>
-          <div className="modal-content">
+          <div className="modal-content" >
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="exampleModalLabel">
                 {props.text.title + " User"}
