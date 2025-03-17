@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store/store";
 import { createUser, updateUser } from "../../redux/slices/usersSlice";
 import User from "../../modals/User";
+import Swal from "sweetalert2";
 
 function UserDetailsModal(props: any) {
   const [username, setUsername] = useState("");
@@ -70,17 +71,47 @@ function UserDetailsModal(props: any) {
     }
     setValidate({ status: null, message: "" });
     if (props.text.title === "Add") {
-      const user = new User("", username, password, role);
-      await dispatch(createUser(user)).unwrap();
-    } else {
-      const updatedUser = new User(user?.id || "", username, password, role);
-      dispatch(updateUser(updatedUser)).unwrap();
-    }
+      Swal.fire({
+        title: "Do you want to create this user?",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Create",
+        denyButtonText: `Don't create`,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const user = new User("", username, password, role);
+          await dispatch(createUser(user)).unwrap();
 
-    setUsername("");
-    setPassword("");
-    setRePassword("");
-    setRole("");
+          setUsername("");
+          setPassword("");
+          setRePassword("");
+          setRole("");
+        }
+      });
+    } else {
+      Swal.fire({
+        title: "Do you want to update this user?",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Update",
+        denyButtonText: `Don't update`,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const updatedUser = new User(
+            user?.id || "",
+            username,
+            password,
+            role
+          );
+          dispatch(updateUser(updatedUser)).unwrap();
+
+          setUsername("");
+          setPassword("");
+          setRePassword("");
+          setRole("");
+        }
+      });
+    }
   };
 
   return (
