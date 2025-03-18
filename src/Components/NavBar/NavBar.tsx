@@ -24,6 +24,7 @@ function NavBar() {
       if (result.isConfirmed) {
         axiosInstance.post("/auth/logout");
         window.history.replaceState(null, "", "/login");
+        localStorage.removeItem("userId");
         navigate("/login", { replace: true });
       }
     });
