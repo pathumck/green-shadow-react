@@ -165,7 +165,7 @@ function NavBar() {
                 </Link>
               </li>
               <li className="nav-item" onClick={() => handleLogout()}>
-                <Link className="nav-link" to="#">
+                <Link className="nav-link text-danger fw-bold" to="#">
                   <RiLogoutCircleRLine className="me-1" />
                   Logout
                 </Link>
