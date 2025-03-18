@@ -87,7 +87,6 @@ export const staffSlice = createSlice({
       })
       .addCase(fetchStaff.rejected, (state, action) => {
         Swal.fire("Failed to fetch staff", "", "info");
-        alert(action.error.message);
       })
       .addCase(fetchStaff.pending, () => {
         Swal.fire({

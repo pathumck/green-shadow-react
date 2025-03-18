@@ -117,6 +117,7 @@ function StaffDetailsModal(props: any) {
         if (result.isConfirmed) {
           const newStaff = new Staff(
             "",
+            "",
             firstName,
             lastName,
             birthDay,
@@ -142,6 +143,7 @@ function StaffDetailsModal(props: any) {
     } else {
       const updatedStaff = new Staff(
         updateOrDeleteId,
+        staff?.registerDate || "",
         firstName,
         lastName,
         birthDay,

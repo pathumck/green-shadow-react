@@ -38,6 +38,7 @@ function StaffDetailsTable(props: any) {
             <tr className="text-center" style={{ fontSize: "12px" }}>
               <th scope="col">#</th>
               <th scope="col">Staff Id</th>
+              <th scope="col">Reg. Date</th>
               <th scope="col">First Name</th>
               <th scope="col">Last Name</th>
               <th scope="col">Birth Day</th>
@@ -67,6 +68,7 @@ function StaffDetailsTable(props: any) {
                 >
                   <td>{index + 1}</td>
                   <td>{staff.id}</td>
+                  <td>{staff.registerDate}</td>
                   <td>{staff.firstName}</td>
                   <td>{staff.lastName}</td>
                   <td>{staff.birthDay}</td>
