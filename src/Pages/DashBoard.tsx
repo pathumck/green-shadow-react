@@ -31,11 +31,11 @@ const Dashboard = () => {
   }, [dispatch]);
 
   const staffChartData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     datasets: [
       {
         label: "Staff Growth",
-        data: [100, 110, 120, 130, 140, 150, 160],
+        data: [100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210],
         fill: false,
         borderColor: "#FF6347",
         tension: 0.1,
@@ -44,11 +44,11 @@ const Dashboard = () => {
   };
 
   const fieldChartData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     datasets: [
       {
         label: "Field Count",
-        data: [20, 22, 23, 25, 27, 28, 30],
+        data: [20, 22, 23, 25, 27, 28, 30, 32, 34, 35, 37, 39],
         fill: false,
         borderColor: "#32CD32",
         tension: 0.1,

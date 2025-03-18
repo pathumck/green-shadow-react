@@ -1,23 +1,19 @@
 import { useState } from "react";
 import axiosInstance from "../utils/axios_instance";
 import { useNavigate } from "react-router-dom";
-import { AppDispatch } from "../redux/store/store";
-import { useDispatch } from "react-redux";
-import { updateUserId } from "../redux/slices/logDataSlice";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
   const handleLogin = async () => {
     try {
       const response = await axiosInstance.post("/auth/login", {
         username,
         password,
       });
-      dispatch(updateUserId(response.data.id));
+      localStorage.setItem("userId", response.data.id);
       navigate("/dashboard", { replace: true });
     } catch (err: any) {
       console.error("Login Error:", err.response?.data?.message || err.message);
