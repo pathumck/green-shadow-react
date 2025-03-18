@@ -28,8 +28,14 @@ axiosInstance.interceptors.response.use(
     const originalRequest = error.config;
 
     if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+      if (
+        originalRequest.url === "/auth/login" ||
+        originalRequest.url === "/auth/register"
+      ) {
+        return Promise.reject(error);
+      }
 
+      originalRequest._retry = true;
       try {
         const refreshResponse = await axios.post(
           "http://localhost:3000/auth/refresh",
@@ -43,7 +49,6 @@ axiosInstance.interceptors.response.use(
         return axiosInstance(originalRequest);
       } catch (refreshError) {
         console.error("Token refresh failed", refreshError);
-
         return Promise.reject(refreshError);
       }
     }

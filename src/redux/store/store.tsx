@@ -7,9 +7,8 @@ import logDataReducer from "../slices/logDataSlice";
 import logReducer from "../slices/logSlice";
 import fieldCropsReducer from "../slices/field'sCropsSlice";
 import fieldStaffReducer from "../slices/field'sStaffSlice";
-import vehicleReducer from "../slices/vehicleSlice"
-import authReducer from "../slices/authSlice"
-import userReducer from "../slices/usersSlice"
+import vehicleReducer from "../slices/vehicleSlice";
+import userReducer from "../slices/usersSlice";
 
 const store = configureStore({
   reducer: {
@@ -22,11 +21,10 @@ const store = configureStore({
     fieldStaff: fieldStaffReducer,
     vehicles: vehicleReducer,
     logData: logDataReducer,
-    auth : authReducer,
-    users : userReducer
-  }
-})
+    users: userReducer,
+  },
+});
 
-export type AppDispatch = typeof store.dispatch
+export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
 export default store;

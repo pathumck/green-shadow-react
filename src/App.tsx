@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import NavBar from "./Components/NavBar/NavBar";
 import CreateLog from "./Pages/CreateLog.tsx";
@@ -24,19 +24,12 @@ import { fetchVehicles } from "./redux/slices/vehicleSlice.tsx";
 import Signup from "./Pages/SignUp.tsx";
 
 function App() {
-  const dispatch = useDispatch<AppDispatch>();
-  useEffect(() => {
-    dispatch(fetchFields());
-    dispatch(fetchCrops());
-    dispatch(fetchStaff());
-    dispatch(fetchLogs());
-    dispatch(fetchVehicles())
-  }, [dispatch]);
 
   return (
     <>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/createlog" element={<CreateLog />} />
         <Route path="/crops" element={<Crops />} />
         <Route path="/dashboard" element={<DashBoard />} />

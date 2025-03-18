@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { login } from "../redux/slices/authSlice";
+import { useState } from "react";
 import axiosInstance from "../utils/axios_instance";
 import { useNavigate } from "react-router-dom";
 
@@ -8,7 +6,6 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogin = async () => {
     try {
@@ -16,10 +13,11 @@ function Login() {
         username,
         password,
       });
-      dispatch(login(response.data.userId));
+
       navigate("/dashboard", { replace: true });
     } catch (err: any) {
-      alert(err.response.data.message);
+      console.error("Login Error:", err.response?.data?.message || err.message);
+      alert(err.response?.data?.message || err.message);
     }
   };
 
@@ -38,7 +36,7 @@ function Login() {
           className="d-flex flex-column align-items-center justify-content-center rounded border-1 w-100 w-md-50 w-lg-25"
           style={{
             boxShadow: "rgba(109, 183, 29, 0.5) 0px 5px 15px",
-            backgroundColor: "rgb(230, 229, 153, 0.7)",
+            backgroundColor: "rgba(255, 255, 255, 0.4)",
             maxWidth: "350px",
           }}
         >

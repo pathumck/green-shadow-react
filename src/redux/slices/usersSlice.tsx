@@ -67,7 +67,7 @@ const usersSlice = createSlice({
             Swal.showLoading();
           },
           allowOutsideClick: false,
-        })
+        });
       })
       .addCase(fetchAllUsers.fulfilled, (state, action) => {
         Swal.close();
@@ -77,6 +77,10 @@ const usersSlice = createSlice({
         Swal.fire(action.error.message, "info");
       })
       .addCase(createUser.fulfilled, (state, action) => {
+        const closeBtn = document.querySelector(
+          ".user-modal-close"
+        ) as HTMLElement;
+        closeBtn.click();
         Swal.fire("User created successfully", "", "success");
         state.push(action.payload);
       })
@@ -91,7 +95,7 @@ const usersSlice = createSlice({
             Swal.showLoading();
           },
           allowOutsideClick: false,
-        })
+        });
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
         Swal.fire("User deleted successfully", "", "success");
@@ -108,11 +112,15 @@ const usersSlice = createSlice({
             Swal.showLoading();
           },
           allowOutsideClick: false,
-        })
+        });
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         const index = state.findIndex((user) => user.id === action.payload.id);
         state[index] = action.payload;
+        const closeBtn = document.querySelector(
+          ".user-modal-close"
+        ) as HTMLElement;
+        closeBtn.click();
         Swal.fire("User updated successfully", "", "success");
       })
       .addCase(updateUser.rejected, (state, action) => {
@@ -126,7 +134,7 @@ const usersSlice = createSlice({
             Swal.showLoading();
           },
           allowOutsideClick: false,
-        })
+        });
       });
   },
 });

@@ -223,7 +223,7 @@ function UserDetailsModal(props: any) {
             <div className="modal-footer">
               <button
                 type="button"
-                className="btn btn-secondary"
+                className="btn btn-secondary user-modal-close"
                 data-bs-dismiss="modal"
               >
                 Close

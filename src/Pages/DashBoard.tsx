@@ -3,6 +3,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import NavBar from "../Components/NavBar/NavBar";
+import { fetchFields } from "../redux/slices/fieldSlice";
+import { fetchCrops } from "../redux/slices/cropSlice";
+import { fetchStaff } from "../redux/slices/staffSlice";
+import { fetchLogs } from "../redux/slices/logSlice";
+import { fetchVehicles } from "../redux/slices/vehicleSlice";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../redux/store/store";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -13,7 +20,15 @@ const Dashboard = () => {
   const [logCount, setLogCount] = useState(75);
   const [dummyContent, setDummyContent] = useState("This is a placeholder for any future content or data visualization.");
 
-  useEffect(() => {}, []);
+
+  const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {
+    dispatch(fetchFields());
+    dispatch(fetchCrops());
+    dispatch(fetchStaff());
+    dispatch(fetchLogs());
+    dispatch(fetchVehicles());
+  }, [dispatch]);
 
   const staffChartData = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
