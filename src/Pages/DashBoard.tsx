@@ -114,7 +114,7 @@ const Dashboard = () => {
         label: "Staff Growth",
         data: monthlyStaffCount,
         fill: false,
-        borderColor: "#FF6347",
+        borderColor: "#32CD32",
         tension: 0.1,
       },
     ],
@@ -150,10 +150,39 @@ const Dashboard = () => {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
+      legend: {
+        labels: {
+          color: "#FFD700",
+        },
+      },
       title: {
         display: true,
         text: "Growth Data Visualization",
-        color: "#4B0082",
+        color: "rgb(255, 247, 2)",
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: "rgb(255, 247, 2)",
+          font: {
+            size: 14,
+          },
+        },
+        grid: {
+          color: "rgba(255, 255, 255, 0.2)",
+        },
+      },
+      y: {
+        ticks: {
+          color: "rgb(255, 95, 14)",
+          font: {
+            size: 14,
+          },
+        },
+        grid: {
+          color: "rgb(255, 95, 14)",
+        },
       },
     },
   };
@@ -202,9 +231,12 @@ const Dashboard = () => {
 
         <div className="row">
           <div className="col-md-6 mb-4">
-            <div className="card shadow-sm bg-light">
-              <div className="card-body">
-                <h5 className="card-title text-gray">Staff Growth (Chart)</h5>
+            <div className="card shadow-sm">
+              <div
+                className="card-body"
+                style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
+              >
+                <h5 className="card-title text-white">Staff Growth (Chart)</h5>
                 <div style={{ position: "relative", height: "250px" }}>
                   <Line data={staffChartData} options={chartOptions} />
                 </div>
@@ -213,9 +245,12 @@ const Dashboard = () => {
           </div>
 
           <div className="col-md-6 mb-4">
-            <div className="card shadow-sm bg-light">
-              <div className="card-body">
-                <h5 className="card-title text-gray">Field Count (Chart)</h5>
+            <div className="card shadow-sm">
+              <div
+                className="card-body"
+                style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
+              >
+                <h5 className="card-title text-white">Log Count (Chart)</h5>
                 <div style={{ position: "relative", height: "250px" }}>
                   <Line data={fieldChartData} options={chartOptions} />
                 </div>
