@@ -7,7 +7,7 @@ function PreviousLogsTable() {
     <>
       <div
         className="container-fluid"
-        style={{ maxHeight: "400px", overflowY: "scroll" }}
+        style={{ height: "400px", maxHeight: "400px", overflowY: "scroll" }}
       >
         <table className="table mt-1 table-striped table-bordered">
           <thead className="table-dark sticky-top">
@@ -15,7 +15,7 @@ function PreviousLogsTable() {
               <th scope="col">#</th>
               <th scope="col">Log Id</th>
               <th scope="col">Date</th>
-              <th scope="col">Staff Id</th>
+              <th scope="col">User Id</th>
               <th scope="col">Field Id</th>
               <th scope="col">Crop Id</th>
               <th scope="col">Observed Image</th>
