@@ -5,7 +5,11 @@ import { updateUserId } from "../../redux/slices/logDataSlice";
 
 function SelectLogStaffContainer() {
   const dispatch = useDispatch<AppDispatch>();
-  dispatch(updateUserId(localStorage.getItem("userId")));
+  const user = localStorage.getItem("user");
+  if (user) {
+    const userObj = JSON.parse(user);
+    dispatch(updateUserId(userObj.id));
+  }
   const userId = useSelector((state: RootState) => state.logData.userId);
   return (
     <>

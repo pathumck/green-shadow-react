@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isError, setIsError] = useState({ status: false, message: "" });
 
   const navigate = useNavigate();
   const handleLogin = async () => {
@@ -13,11 +14,12 @@ function Login() {
         username,
         password,
       });
-      localStorage.setItem("userId", response.data.id);
+      const currentUser = response.data;
+      localStorage.setItem("user", JSON.stringify(currentUser));
+      setIsError({ status: false, message: "" });
       navigate("/dashboard", { replace: true });
     } catch (err: any) {
-      console.error("Login Error:", err.response?.data?.message || err.message);
-      alert(err.response?.data?.message || err.message);
+      setIsError({ status: true, message: err.response?.data?.message });
     }
   };
 
@@ -50,7 +52,11 @@ function Login() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Username"
-            className="mb-3 rounded form-control w-75"
+            className={
+              isError.status
+                ? "mb-3 rounded form-control w-75 border-danger"
+                : "mb-3 rounded form-control w-75"
+            }
           />
 
           <input
@@ -58,9 +64,15 @@ function Login() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
-            className="mb-3 rounded form-control w-75"
+            className={
+              isError.status
+                ? "rounded form-control w-75 border-danger"
+                : "mb-3 rounded form-control w-75"
+            }
           />
-
+          {isError && (
+            <label className="text-danger fw-bold">{isError.message}</label>
+          )}
           <button onClick={handleLogin} className="btn btn-success w-75 mb-3">
             Login
           </button>

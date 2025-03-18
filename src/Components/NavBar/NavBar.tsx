@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { MdDashboard } from "react-icons/md";
+import { MdAdminPanelSettings, MdDashboard } from "react-icons/md";
 import { FaSunPlantWilt, FaPlantWilt } from "react-icons/fa6";
 import { SiReadthedocs } from "react-icons/si";
 import { GiFarmer, GiFarmTractor, GiDigDug } from "react-icons/gi";
@@ -24,16 +24,44 @@ function NavBar() {
       if (result.isConfirmed) {
         axiosInstance.post("/auth/logout");
         window.history.replaceState(null, "", "/login");
-        localStorage.removeItem("userId");
+        localStorage.removeItem("user");
         navigate("/login", { replace: true });
       }
     });
   };
+
+  function setlogedRole(): string {
+    const user = localStorage.getItem("user");
+    if (user) {
+      const userObj = JSON.parse(user);
+      return userObj.role;
+    }
+    return "";
+  }
+
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
           <img src="public/green-shadow.png" alt="" width="110" />
+          {setlogedRole() === "SCIENTIST" ? (
+            <>
+              <MdAdminPanelSettings size={25} />
+              <span className="ms-2 fw-bold text-success">Scientist</span>
+            </>
+          ) : setlogedRole() === "MANAGER" ? (
+            <>
+              <MdAdminPanelSettings size={25} />
+              <span className="ms-2 fw-bold text-primary">Manager</span>
+            </>
+          ) : setlogedRole() === "ADMIN" ? (
+            <>
+              <MdAdminPanelSettings size={25} />
+              <span className="ms-2 fw-bold text-danger">Admin</span>
+            </>
+          ) : (
+            ""
+          )}
           <button
             className="navbar-toggler"
             type="button"
