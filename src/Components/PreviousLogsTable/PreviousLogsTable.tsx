@@ -1,8 +1,14 @@
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store/store";
+import { useEffect } from "react";
+import { fetchLogs } from "../../redux/slices/logSlice";
 
 function PreviousLogsTable() {
   const allLogs = useSelector((state: RootState) => state.logs);
+  const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {
+    dispatch(fetchLogs());
+  }, [dispatch]);
   return (
     <>
       <div

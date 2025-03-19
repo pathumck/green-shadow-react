@@ -24,9 +24,8 @@ import { AppDispatch } from "./redux/store/store";
 function App() {
   const dispatch = useDispatch<AppDispatch>();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+  const user = localStorage.getItem("user");
   useEffect(() => {
-    const user = localStorage.getItem("user");
     if (user) {
       setIsAuthenticated(true);
     }

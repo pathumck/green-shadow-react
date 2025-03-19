@@ -8,7 +8,6 @@ import Swal from "sweetalert2";
 function UserDetailsTable(props: any) {
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
-    console.log("Fetching users...");
     dispatch(fetchAllUsers());
   }, [dispatch]);
   const allUsers = useSelector((state: RootState) => state.users);
