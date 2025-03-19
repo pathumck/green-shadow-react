@@ -40,7 +40,7 @@ function NavBar() {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+      <nav className="navbar navbar-expand-lg bg-body-tertiary" style={{zIndex: 1000}}>
         <div className="container-fluid">
           <img src="public/green-shadow.png" alt="" width="110" />
           {setlogedRole() === "SCIENTIST" ? (

@@ -16,7 +16,7 @@ function PreviousLogsTable() {
         style={{ height: "400px", maxHeight: "400px", overflowY: "scroll" }}
       >
         <table className="table mt-1 table-striped table-bordered">
-          <thead className="table-dark sticky-top">
+          <thead className="table-dark sticky-top" style={{zIndex: 999}}>
             <tr className="text-center">
               <th scope="col">#</th>
               <th scope="col">Log Id</th>
