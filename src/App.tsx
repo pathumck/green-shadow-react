@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import CreateLog from "./Pages/CreateLog.tsx";
 import Crops from "./Pages/Crops.tsx";
@@ -25,11 +25,14 @@ function App() {
   const dispatch = useDispatch<AppDispatch>();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const user = localStorage.getItem("user");
+  const navigate = useNavigate();
+  console.log(user);
   useEffect(() => {
-    if (user) {
+    if (user !== null) {
       setIsAuthenticated(true);
+      navigate("/dashboard", { replace: true });
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
    if (isAuthenticated) {
@@ -39,7 +42,7 @@ function App() {
     dispatch(fetchLogs());
     dispatch(fetchVehicles());
    }
-  }, [dispatch, isAuthenticated]);  
+  }, [dispatch, isAuthenticated, user]);  
 
   return (
     <>
