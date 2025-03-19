@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Field from "../../modals/Field";
 import axios from "axios";
 import Swal from "sweetalert2";
+import axiosInstance from "../../utils/axios_instance";
 
 const initialState: Field[] = [];
 
@@ -9,7 +10,7 @@ export const createField = createAsyncThunk<Field, Field>(
   "fields/createField",
   async (field) => {
     try {
-      const response = await axios.post("http://localhost:3000/field", field);
+      const response = await axiosInstance.post("http://localhost:3000/field", field);
       return response.data;
     } catch (error) {
       throw new Error("Failed to create field");
@@ -19,7 +20,7 @@ export const createField = createAsyncThunk<Field, Field>(
 
 export const fetchFields = createAsyncThunk("fields/fetchFields", async () => {
   try {
-    const response = await axios.get("http://localhost:3000/field");
+    const response = await axiosInstance.get("http://localhost:3000/field");
     return response.data;
   } catch (error) {
     throw new Error("Failed to fetch fields");
@@ -30,7 +31,7 @@ export const updateField = createAsyncThunk<Field, Field>(
   "fields/updateField",
   async (field) => {
     try {
-      const response = await axios.put(
+      const response = await axiosInstance.put(
         `http://localhost:3000/field/${field.id}`,
         field
       );
@@ -45,7 +46,7 @@ export const deleteField = createAsyncThunk<string, string>(
   "fields/deleteField",
   async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/field/${id}`);
+      await axiosInstance.delete(`http://localhost:3000/field/${id}`);
       return id;
     } catch (error) {
       throw new Error("Failed to delete field");

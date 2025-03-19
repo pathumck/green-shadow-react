@@ -1,14 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SelectaFieldContainer from "../Components/SelectaFieldContainer/SelectaFieldContainer";
 import SelectaStaffContainer from "../Components/SelectaStaffContainer/SelectaStaffContainer";
 import PageTitle from "../Components/PageTitle/PageTitle";
 import { FaSunPlantWilt } from "react-icons/fa6";
 import FieldStaffTable from "../Components/FieldStaffTable/FieldStaffTable";
 import NavBar from "../Components/NavBar/NavBar";
+import { useNavigate } from "react-router-dom";
 
 function FieldStaff() {
   const [table, setTable] = useState();
   const [validate, setValidate] = useState("form-control");
+  const navigate = useNavigate();
+
+  const user = localStorage.getItem("user");
+  useEffect(() => {
+    if (!user) {
+      navigate("/login", { replace: true });
+    }
+  }, [user, navigate]);
   return (
     <>
       <NavBar />

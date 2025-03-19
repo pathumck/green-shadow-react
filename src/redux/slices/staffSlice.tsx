@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import Swal from "sweetalert2";
+import axiosInstance from "../../utils/axios_instance";
 
 const initialState: Staff[] = [];
 
@@ -10,7 +11,7 @@ export const createStaff = createAsyncThunk<Staff, Staff>(
   "staff/createStaff",
   async (staff) => {
     try {
-      const response = await axios.post("http://localhost:3000/staff", staff);
+      const response = await axiosInstance.post("http://localhost:3000/staff", staff);
       return response.data;
     } catch (error) {
       throw new Error("Failed to create staff");
@@ -20,7 +21,7 @@ export const createStaff = createAsyncThunk<Staff, Staff>(
 
 export const fetchStaff = createAsyncThunk("staff/fetchStaffs", async () => {
   try {
-    const response = await axios.get("http://localhost:3000/staff");
+    const response = await axiosInstance.get("http://localhost:3000/staff");
     return response.data;
   } catch (error) {
     throw new Error("Failed to fetch staffs");
@@ -31,7 +32,7 @@ export const updateStaff = createAsyncThunk<Staff, Staff>(
   "staff/updateStaff",
   async (staff) => {
     try {
-      const response = await axios.put(
+      const response = await axiosInstance.put(
         `http://localhost:3000/staff/${staff.id}`,
         staff
       );
@@ -46,7 +47,7 @@ export const deleteStaff = createAsyncThunk(
   "staff/deleteStaff",
   async (id: string) => {
     try {
-      const response = await axios.delete(`http://localhost:3000/staff/${id}`);
+      const response = await axiosInstance.delete(`http://localhost:3000/staff/${id}`);
       return id;
     } catch (error) {
       throw new Error("Failed to delete staff");

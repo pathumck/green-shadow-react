@@ -23,7 +23,6 @@ function NavBar() {
     }).then((result) => {
       if (result.isConfirmed) {
         axiosInstance.post("/auth/logout");
-        window.history.replaceState(null, "", "/login");
         localStorage.removeItem("user");
         navigate("/login", { replace: true });
       }

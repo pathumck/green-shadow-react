@@ -12,8 +12,35 @@ import Vehicles from "./Pages/Vehicles.tsx";
 import FieldDetails from "./Pages/FieldDetails.tsx";
 import Users from "./Pages/Users.tsx";
 import Login from "./Pages/Login.tsx";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { fetchFields } from "./redux/slices/fieldSlice";
+import { fetchCrops } from "./redux/slices/cropSlice";
+import { fetchStaff } from "./redux/slices/staffSlice";
+import { fetchLogs } from "./redux/slices/logSlice";
+import { fetchVehicles } from "./redux/slices/vehicleSlice";
+import { AppDispatch } from "./redux/store/store";
 
 function App() {
+  const dispatch = useDispatch<AppDispatch>();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  useEffect(() => {
+   if (isAuthenticated) {
+    dispatch(fetchFields());
+    dispatch(fetchCrops());
+    dispatch(fetchStaff());
+    dispatch(fetchLogs());
+    dispatch(fetchVehicles());
+   }
+  }, [dispatch, isAuthenticated]);  
 
   return (
     <>

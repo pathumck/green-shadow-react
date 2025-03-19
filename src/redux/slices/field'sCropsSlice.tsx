@@ -3,6 +3,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import FieldCrop from "../../modals/Field'sCrop";
 import Swal from "sweetalert2";
+import axiosInstance from "../../utils/axios_instance";
 
 const initialState: FieldCrop[] = [];
 export const fetchFieldsCrops = createAsyncThunk(
@@ -10,7 +11,7 @@ export const fetchFieldsCrops = createAsyncThunk(
   async () => {
     try {
       console.log("Fetching fields crops... axios");
-      const response = await axios.get("http://localhost:3000/fieldCrops");
+      const response = await axiosInstance.get("http://localhost:3000/fieldCrops");
       return response.data;
     } catch (error) {
       throw new Error("Failed to fetch fields crops");
@@ -22,7 +23,7 @@ export const createFieldCrop = createAsyncThunk<FieldCrop, FieldCrop>(
   "fieldCrops/createField'sCrops",
   async (fieldCrop) => {
     try {
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         "http://localhost:3000/fieldCrops",
         fieldCrop
       );
@@ -37,7 +38,7 @@ export const deleteFieldCrop = createAsyncThunk<FieldCrop, FieldCrop>(
   "fieldCrops/updateField'sCrops",
   async (fieldCrop) => {
     try {
-      const response = await axios.delete(
+      const response = await axiosInstance.delete(
         `http://localhost:3000/fieldCrops/${fieldCrop.fieldId}/${fieldCrop.cropId}`
       );
       return response.data;

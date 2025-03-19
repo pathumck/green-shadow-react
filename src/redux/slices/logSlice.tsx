@@ -2,13 +2,14 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Log from "../../modals/Log";
 import axios from "axios";
 import Swal from "sweetalert2";
+import axiosInstance from "../../utils/axios_instance";
 const initialState: Log[] = [];
 
 export const createLog = createAsyncThunk<Log, Log>(
   "log/createLog",
   async (log) => {
     try {
-      const response = await axios.post("http://localhost:3000/log", log);
+      const response = await axiosInstance.post("http://localhost:3000/log", log);
       console.log(response.data);
       return response.data;
     } catch (error) {
@@ -19,7 +20,7 @@ export const createLog = createAsyncThunk<Log, Log>(
 
 export const fetchLogs = createAsyncThunk("log/fetchLogs", async () => {
   try {
-    const response = await axios.get("http://localhost:3000/log");
+    const response = await axiosInstance.get("http://localhost:3000/log");
     return response.data;
   } catch (error) {
     throw new Error("Failed to fetch logs");

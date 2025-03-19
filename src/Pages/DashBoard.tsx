@@ -12,15 +12,11 @@ import {
   Legend,
 } from "chart.js";
 import NavBar from "../Components/NavBar/NavBar";
-import { fetchFields } from "../redux/slices/fieldSlice";
-import { fetchCrops } from "../redux/slices/cropSlice";
-import { fetchStaff } from "../redux/slices/staffSlice";
-import { fetchLogs } from "../redux/slices/logSlice";
-import { fetchVehicles } from "../redux/slices/vehicleSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../redux/store/store";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store/store";
 import Log from "../modals/Log";
 import Staff from "../modals/Staff";
+import { useNavigate } from "react-router-dom";
 
 ChartJS.register(
   CategoryScale,
@@ -48,14 +44,14 @@ const Dashboard = () => {
   const logs = useSelector((state: RootState) => state.logs);
   const staff = useSelector((state: RootState) => state.staff);
 
-  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+
+  const user = localStorage.getItem("user");
   useEffect(() => {
-    dispatch(fetchFields());
-    dispatch(fetchCrops());
-    dispatch(fetchStaff());
-    dispatch(fetchLogs());
-    dispatch(fetchVehicles());
-  }, [dispatch]);
+    if (!user) {
+      navigate("/login", { replace: true });
+    }
+  }, [user, navigate]);
 
   useEffect(() => {
     setStaffCount(countedStaff);

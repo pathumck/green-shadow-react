@@ -5,12 +5,21 @@ import AddAndSearch from "../Components/AddAndSearch/AddAndSearch";
 import CropDetailsTable from "../Components/CropDetailsTable/CropDetailsTable";
 import CropDetailsModal from "../Components/CropDetailsModal/CropDetailsModal";
 import NavBar from "../Components/NavBar/NavBar";
+import { useNavigate } from "react-router-dom";
 
 function Crops() {
   const [showModal, setShowModal] = useState({ title: "", btnText: "" });
   const handleShow = (title: string, btnText: string) =>
     setShowModal({ title: title, btnText: btnText });
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
+
+  const user = localStorage.getItem("user");
+  useEffect(() => {
+    if (!user) {
+      navigate("/login", { replace: true });
+    }
+  }, [user, navigate]);
   return (
     <>
       <NavBar />

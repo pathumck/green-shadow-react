@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Crop from "../../modals/Crop";
 import axios from "axios";
 import Swal from "sweetalert2";
+import axiosInstance from "../../utils/axios_instance";
 
 const initialState : Crop[] = []
 
@@ -9,7 +10,7 @@ export const createCrop = createAsyncThunk<Crop, Crop>(
   "crop/createCrop",
   async (crop) => {
     try {
-      const response = await axios.post("http://localhost:3000/crop", crop);
+      const response = await axiosInstance.post("http://localhost:3000/crop", crop);
       return response.data;
     } catch (error) {
       throw new Error("Failed to create crop");
@@ -19,7 +20,7 @@ export const createCrop = createAsyncThunk<Crop, Crop>(
 
 export const fetchCrops = createAsyncThunk("crop/fetchCrops", async () => {
   try {
-    const response = await axios.get("http://localhost:3000/crop");
+    const response = await axiosInstance.get("http://localhost:3000/crop");
     return response.data;
   } catch (error) {
     throw new Error("Failed to fetch crops");
@@ -30,7 +31,7 @@ export const updateCrop = createAsyncThunk<Crop, Crop>(
   "crop/updateCrop",
   async (crop) => {
     try {
-      const response = await axios.put(`http://localhost:3000/crop/${crop.id}`, crop);
+      const response = await axiosInstance.put(`http://localhost:3000/crop/${crop.id}`, crop);
       return response.data;
     } catch (error) {
       throw new Error("Failed to update crop");
@@ -42,7 +43,7 @@ export const deleteCrop = createAsyncThunk<Crop, string>(
   "crop/deleteCrop",
   async (id) => {
     try {
-      const response = await axios.delete(`http://localhost:3000/crop/${id}`);
+      const response = await axiosInstance.delete(`http://localhost:3000/crop/${id}`);
       return response.data;
     } catch (error) {
       throw new Error("Failed to delete crop");

@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import Vehicle from "../../modals/Vehicle";
 import Swal from "sweetalert2";
+import axiosInstance from "../../utils/axios_instance";
 
 const initialState: Vehicle[] = [];
 
@@ -9,7 +10,7 @@ export const createVehicle = createAsyncThunk<Vehicle, Vehicle>(
   "vehicle/createVehicle",
   async (vehicle) => {
     try {
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         "http://localhost:3000/vehicle",
         vehicle
       );
@@ -24,7 +25,7 @@ export const fetchVehicles = createAsyncThunk<Vehicle[], void>(
   "vehicle/fetchAllVehicles",
   async () => {
     try {
-      const response = await axios.get("http://localhost:3000/vehicle");
+      const response = await axiosInstance.get("http://localhost:3000/vehicle");
       return response.data;
     } catch (error) {
       throw new Error("Failed to fetch vehicles");
@@ -36,7 +37,7 @@ export const updateVehicle = createAsyncThunk<Vehicle, Vehicle>(
   "vehicle/updateVehicle",
   async (vehicle) => {
     try {
-      const response = await axios.put(
+      const response = await axiosInstance.put(
         `http://localhost:3000/vehicle/${vehicle.id}`,
         vehicle
       );
@@ -51,7 +52,7 @@ export const deleteVehicle = createAsyncThunk<string, string>(
   "vehicle/deleteVehicle",
   async (id: string) => {
     try {
-      const response = await axios.delete(
+      const response = await axiosInstance.delete(
         `http://localhost:3000/vehicle/${id}`
       );
       return id;
