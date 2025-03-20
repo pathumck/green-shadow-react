@@ -47,12 +47,12 @@ export const fetchEquipments = createAsyncThunk<Equipment[], void>(
   }
 );
 
-export const deleteEquipment = createAsyncThunk<string, string>(
+export const deleteEquipment = createAsyncThunk<Equipment, string>(
   "equipment/deleteEquipment",
   async (id) => {
     try {
       const response = await axiosInstance.delete(
-        `http:/localhost:3000/equipment/${id}`
+        `http://localhost:3000/equipment/${id}`
       );
       return response.data;
     } catch (error) {
@@ -104,7 +104,7 @@ const equipmentSlice = createSlice({
       })
       .addCase(deleteEquipment.fulfilled, (state, action) => {
         alert("Equipment deleted successfully!");
-        return state.filter((equipment) => equipment.id !== action.payload);
+        return state.filter((equipment) => equipment.id !== action.payload.id);
       })
       .addCase(deleteEquipment.pending, (state, action) => {
         console.log("Equipment deleting...");

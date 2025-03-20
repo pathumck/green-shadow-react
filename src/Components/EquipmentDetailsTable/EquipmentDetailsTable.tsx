@@ -2,6 +2,8 @@ import React from "react";
 import { AppDispatch, RootState } from "../../redux/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { updateOrDelete } from "../../redux/slices/updateOrDeleteSlice";
+import Swal from "sweetalert2";
+import { deleteEquipment } from "../../redux/slices/equipmentSlice";
 
 function EquipmentDetailsTable(props: any) {
   const dispatch = useDispatch<AppDispatch>();
@@ -9,6 +11,22 @@ function EquipmentDetailsTable(props: any) {
     dispatch(updateOrDelete(id));
   };
   const allEquipments = useSelector((state: RootState) => state.equipments);
+
+  const handleDelete = async (id: string) => {
+    Swal.fire({
+      title: "Are you sure to delete this equipment : " + id + "?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await dispatch(deleteEquipment(id));
+      }
+    });
+  };
   return (
     <>
       <div
@@ -49,7 +67,12 @@ function EquipmentDetailsTable(props: any) {
                   >
                     Update
                   </button>
-                  <button className="btn btn-danger ms-2">Delete</button>
+                  <button
+                    className="btn btn-danger ms-2"
+                    onClick={() => handleDelete(equipment.id)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
