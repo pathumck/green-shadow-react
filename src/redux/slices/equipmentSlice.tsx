@@ -25,7 +25,7 @@ export const updateEquipment = createAsyncThunk<Equipment, Equipment>(
   async (equipment) => {
     try {
       const response = await axiosInstance.put(
-        "http://localhost:3000/equipment",
+        `http://localhost:3000/equipment/${equipment.id}`,
         equipment
       );
       return response.data;

@@ -31,7 +31,10 @@ function Equipments() {
         target="#equipment"
         setShowModal={() => handleShow("Add", "Save Equipment")}
       />
-      <EquipmentDetailsTable />
+      <EquipmentDetailsTable
+      target="#equipment"
+      setShowModal={() => handleShow("Update", "Update Equipment")}
+       />
       <EquipmentDetailsModal text={showModal} />
     </>
   );

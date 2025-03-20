@@ -1,12 +1,20 @@
 import React from "react";
-import { RootState } from "../../redux/store/store";
-import { useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { updateOrDelete } from "../../redux/slices/updateOrDeleteSlice";
 
-function EquipmentDetailsTable() {
+function EquipmentDetailsTable(props: any) {
+  const dispatch = useDispatch<AppDispatch>();
+  const handleUpdateOrDelete = (id: string) => {
+    dispatch(updateOrDelete(id));
+  };
   const allEquipments = useSelector((state: RootState) => state.equipments);
   return (
     <>
-      <div className="container-fluid mt-5" style={{ maxHeight: "320px", minHeight: "320px", overflowY: "scroll" }}>
+      <div
+        className="container-fluid mt-5"
+        style={{ maxHeight: "320px", minHeight: "320px", overflowY: "scroll" }}
+      >
         <table className="table table-striped table-bordered">
           <thead className="table-dark sticky-top">
             <tr className="text-center fw-bolder">
@@ -29,7 +37,18 @@ function EquipmentDetailsTable() {
                 <td>{equipment.model}</td>
                 <td>{equipment.category}</td>
                 <td>
-                  <button className="btn btn-primary">Update</button>
+                  <button
+                    data-bs-toggle="modal"
+                    data-bs-target={props.target}
+                    className="btn btn-primary"
+                    onClick={() => {
+                      props.setShowModal();
+
+                      handleUpdateOrDelete(equipment.id);
+                    }}
+                  >
+                    Update
+                  </button>
                   <button className="btn btn-danger ms-2">Delete</button>
                 </td>
               </tr>
