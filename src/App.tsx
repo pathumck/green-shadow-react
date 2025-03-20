@@ -26,23 +26,29 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const user = localStorage.getItem("user");
   const navigate = useNavigate();
-  console.log(user);
   useEffect(() => {
-    if (user !== null) {
+    if (user !== null && localStorage.getItem("refresh") === null) {
       setIsAuthenticated(true);
+      localStorage.setItem("refresh", "true");
       navigate("/dashboard", { replace: true });
+    } else if (localStorage.getItem("refresh") === "true") {
+      dispatch(fetchFields());
+      dispatch(fetchCrops());
+      dispatch(fetchStaff());
+      dispatch(fetchLogs());
+      dispatch(fetchVehicles());
     }
   }, [user]);
 
   useEffect(() => {
-   if (isAuthenticated) {
-    dispatch(fetchFields());
-    dispatch(fetchCrops());
-    dispatch(fetchStaff());
-    dispatch(fetchLogs());
-    dispatch(fetchVehicles());
-   }
-  }, [dispatch, isAuthenticated, user]);  
+    if (isAuthenticated) {
+      dispatch(fetchFields());
+      dispatch(fetchCrops());
+      dispatch(fetchStaff());
+      dispatch(fetchLogs());
+      dispatch(fetchVehicles());
+    }
+  }, [dispatch, isAuthenticated, user]);
 
   return (
     <>

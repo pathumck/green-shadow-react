@@ -1,13 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axiosInstance from "../utils/axios_instance";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
+
+  const user = localStorage.getItem("user");
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [user, navigate]);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isError, setIsError] = useState({ status: false, message: "" });
 
-  const navigate = useNavigate();
   const handleLogin = async () => {
     try {
       const response = await axiosInstance.post("/auth/login", {
