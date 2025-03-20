@@ -1,6 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 
 function EquipmentDetailsModal(props: any) {
+  const [name, setName] = useState<string>("");
+  const [brand, setBrand] = useState<string>("");
+  const [model, setModel] = useState<string>("");
+  const [category, setCategory] = useState<string>("");
+  const [validate, setValidate] = useState<{
+    status: number | null;
+    message: string;
+  }>();
+
+  const validateForm = () => {
+    const inputRegex = /^[A-Za-z\s]{3,50}$/;
+    if (!name && !inputRegex.test(name)) {
+      setValidate({ status: 1, message: "Enter a valid name." });
+      return false;
+    }
+    if (!brand && !inputRegex.test(brand)) {
+      setValidate({ status: 2, message: "Enter a valid brand." });
+      return false;
+    }
+    if (!model && !inputRegex.test(model)) {
+      setValidate({ status: 3, message: "Enter a valid model." });
+      return false;
+    }
+    if (!category) {
+      setValidate({ status: 4, message: "Select a category." });
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = async () => {
+    if (!validateForm()) return;  
+  };
+
   return (
     <>
       <div
@@ -25,48 +59,64 @@ function EquipmentDetailsModal(props: any) {
             </div>
             <div
               className="modal-body"
-              style={{ height: "220px", overflowY: "scroll" }}
+              style={{ height: "170px", overflowY: "scroll" }}
             >
               <div className="row">
                 <div className="col-6">
                   <label>Name</label>
-                  <input type="text" className="form-control" />
+                  <input
+                    value={name}
+                    type="text"
+                    className={validate?.status === 1 ? "form-control is-invalid" : "form-control"}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                  {validate?.status === 1 && (
+                    <label className="text-danger">{validate.message}</label>
+                  )}
                 </div>
                 <div className="col-6">
-                  <label>Type</label>
-                  <select className="form-select">
-                    <option selected>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
+                  <label>Brand</label>
+                  <input
+                    value={brand}
+                    type="text"
+                    className={validate?.status === 2 ? "form-control is-invalid" : "form-control"}
+                    onChange={(e) => setBrand(e.target.value)}
+                  />
+                  {validate?.status === 2 && (
+                    <label className="text-danger">{validate.message}</label>
+                  )}
                 </div>
                 <div className="col-6">
-                  <label>Status</label>
-                  <select className="form-select">
-                    <option selected>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
+                  <label>Model</label>
+                  <input
+                    value={model}
+                    type="text"
+                    className={validate?.status === 3 ? "form-control is-invalid" : "form-control"}
+                    onChange={(e) => setModel(e.target.value)}
+                  />
+                  {validate?.status === 3 && (
+                    <label className="text-danger">{validate.message}</label>
+                  )}
                 </div>
                 <div className="col-6">
-                  <label>Staff Id</label>
-                  <select className="form-select">
-                    <option selected>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                  <label>Category</label>
+                  <select
+                    value={category}
+                    className={validate?.status === 4 ? "form-control is-invalid" : "form-control"}
+                    onChange={(e) => setCategory(e.target.value)}
+                  >
+                    <option value="" selected disabled>
+                      Select category
+                    </option>
+                    <option value="OFFICE">OFFICE</option>
+                    <option value="FIELD">FIELD</option>
+                    <option value="MEDICAL">MEDICAL</option>
+                    <option value="IT">IT</option>
+                    <option value="OTHER">OTHER</option>
                   </select>
-                </div>
-                <div className="col-6">
-                  <label>Field Code</label>
-                  <select className="form-select">
-                    <option selected>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
+                  {validate?.status === 4 && (
+                    <label className="text-danger">{validate.message}</label>
+                  )}
                 </div>
               </div>
             </div>
@@ -78,7 +128,7 @@ function EquipmentDetailsModal(props: any) {
               >
                 Close
               </button>
-              <button type="button" className="btn btn-primary">
+              <button type="button" className="btn btn-primary" onClick={handleSubmit}>
                 {props.text.btnText}
               </button>
             </div>
