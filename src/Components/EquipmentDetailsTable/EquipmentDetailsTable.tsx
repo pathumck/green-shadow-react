@@ -46,36 +46,44 @@ function EquipmentDetailsTable(props: any) {
             </tr>
           </thead>
           <tbody>
-            {allEquipments.map((equipment, index) => (
-              <tr className="text-center fw-bold" key={index}>
-                <th scope="row">{index + 1}</th>
-                <td>{equipment.id}</td>
-                <td>{equipment.name}</td>
-                <td>{equipment.brand}</td>
-                <td>{equipment.model}</td>
-                <td>{equipment.category}</td>
-                <td>
-                  <button
-                    data-bs-toggle="modal"
-                    data-bs-target={props.target}
-                    className="btn btn-primary"
-                    onClick={() => {
-                      props.setShowModal();
+            {allEquipments
+              .filter((equipment) => {
+                return props.search === ""
+                  ? equipment
+                  : equipment.id
+                      .toLowerCase()
+                      .includes(props.search.toLowerCase());
+              })
+              .map((equipment, index) => (
+                <tr className="text-center fw-bold" key={index}>
+                  <th scope="row">{index + 1}</th>
+                  <td>{equipment.id}</td>
+                  <td>{equipment.name}</td>
+                  <td>{equipment.brand}</td>
+                  <td>{equipment.model}</td>
+                  <td>{equipment.category}</td>
+                  <td>
+                    <button
+                      data-bs-toggle="modal"
+                      data-bs-target={props.target}
+                      className="btn btn-primary"
+                      onClick={() => {
+                        props.setShowModal();
 
-                      handleUpdateOrDelete(equipment.id);
-                    }}
-                  >
-                    Update
-                  </button>
-                  <button
-                    className="btn btn-danger ms-2"
-                    onClick={() => handleDelete(equipment.id)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
+                        handleUpdateOrDelete(equipment.id);
+                      }}
+                    >
+                      Update
+                    </button>
+                    <button
+                      className="btn btn-danger ms-2"
+                      onClick={() => handleDelete(equipment.id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>

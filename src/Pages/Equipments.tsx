@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 function Equipments() {
   const [showModal, setShowModal] = useState({ title: "", btnText: "" });
+  const [search, setSearch] = useState("");
   const handleShow = (title: string, btnText: string) =>
     setShowModal({ title: title, btnText: btnText });
   const navigate = useNavigate();
@@ -30,10 +31,12 @@ function Equipments() {
         btntext="equipment"
         target="#equipment"
         setShowModal={() => handleShow("Add", "Save Equipment")}
+        search={setSearch}
       />
       <EquipmentDetailsTable
       target="#equipment"
       setShowModal={() => handleShow("Update", "Update Equipment")}
+      search={search}
        />
       <EquipmentDetailsModal text={showModal} />
     </>
