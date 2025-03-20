@@ -20,6 +20,7 @@ import { fetchStaff } from "./redux/slices/staffSlice";
 import { fetchLogs } from "./redux/slices/logSlice";
 import { fetchVehicles } from "./redux/slices/vehicleSlice";
 import { AppDispatch } from "./redux/store/store";
+import { fetchEquipments } from "./redux/slices/equipmentSlice.tsx";
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -37,6 +38,7 @@ function App() {
       dispatch(fetchStaff());
       dispatch(fetchLogs());
       dispatch(fetchVehicles());
+      dispatch(fetchEquipments())
     }
   }, [user]);
 
@@ -47,6 +49,7 @@ function App() {
       dispatch(fetchStaff());
       dispatch(fetchLogs());
       dispatch(fetchVehicles());
+      dispatch(fetchEquipments()) 
     }
   }, [dispatch, isAuthenticated, user]);
 
