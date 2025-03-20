@@ -10,7 +10,7 @@ export const createEquipment = createAsyncThunk<Equipment, Equipment>(
   async (equipment) => {
     try {
       const response = await axiosInstance.post(
-        "http://localhost/equipment",
+        "http://localhost:3000/equipment",
         equipment
       );
       return response.data;
@@ -25,7 +25,7 @@ export const updateEquipment = createAsyncThunk<Equipment, Equipment>(
   async (equipment) => {
     try {
       const response = await axiosInstance.put(
-        "http://localhost/equipment",
+        "http://localhost:3000/equipment",
         equipment
       );
       return response.data;
@@ -39,7 +39,7 @@ export const fetchEquipments = createAsyncThunk<Equipment[], void>(
   "Equipment/fetchEquipments",
   async () => {
     try {
-      const response = await axiosInstance.get("http://localhost/equipment");
+      const response = await axiosInstance.get("http://localhost:3000/equipment");
       return response.data;
     } catch (error) {
       throw Error("Failed to fetch all fields");
@@ -52,7 +52,7 @@ export const deleteEquipment = createAsyncThunk<string, string>(
   async (id) => {
     try {
       const response = await axiosInstance.delete(
-        `http:/localhost/equipment/${id}`
+        `http:/localhost:3000/equipment/${id}`
       );
       return response.data;
     } catch (error) {

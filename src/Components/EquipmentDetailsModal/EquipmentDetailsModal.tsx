@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import Equipment from "../../modals/Equipment";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store/store";
+import { createEquipment } from "../../redux/slices/equipmentSlice";
 
 function EquipmentDetailsModal(props: any) {
   const [name, setName] = useState<string>("");
@@ -9,6 +13,7 @@ function EquipmentDetailsModal(props: any) {
     status: number | null;
     message: string;
   }>();
+  const dispatch = useDispatch<AppDispatch>();
 
   const validateForm = () => {
     const inputRegex = /^[A-Za-z\s]{3,50}$/;
@@ -32,7 +37,10 @@ function EquipmentDetailsModal(props: any) {
   };
 
   const handleSubmit = async () => {
-    if (!validateForm()) return;  
+    if (!validateForm()) return;
+    const newEquipment = new Equipment("", name, brand, model, category); 
+    console.log(newEquipment); 
+    await dispatch(createEquipment(newEquipment));
   };
 
   return (

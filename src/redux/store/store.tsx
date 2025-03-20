@@ -9,6 +9,7 @@ import fieldCropsReducer from "../slices/field'sCropsSlice";
 import fieldStaffReducer from "../slices/field'sStaffSlice";
 import vehicleReducer from "../slices/vehicleSlice";
 import userReducer from "../slices/usersSlice";
+import equipmentReducer from "../slices/equipmentSlice";
 
 const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ const store = configureStore({
     fieldCrops: fieldCropsReducer,
     fieldStaff: fieldStaffReducer,
     vehicles: vehicleReducer,
+    equipments : equipmentReducer,
     logData: logDataReducer,
     users: userReducer,
   },
