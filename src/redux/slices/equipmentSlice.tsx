@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../utils/axios_instance";
 import Equipment from "../../modals/Equipment";
+import Swal from "sweetalert2";
 
 const initialState: Equipment[] = [];
 
@@ -69,13 +70,24 @@ const equipmentSlice = createSlice({
     builder
       .addCase(createEquipment.fulfilled, (state, action) => {
         state.push(action.payload);
-        alert("Equipment saved successfully!");
+        const closeBtn = document.querySelector(
+          ".equipment-modal-close"
+        ) as HTMLElement;
+        closeBtn.click();
+        Swal.fire("Equipment saved successfully", "", "success");
       })
       .addCase(createEquipment.pending, (state, action) => {
-        console.log("Equipment saving...");
+        Swal.fire({
+          title: "Saving Equipment",
+          text: "Please wait",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false,
+        })
       })
       .addCase(createEquipment.rejected, (state, action) => {
-        alert("Failed to save equipment!");
+        Swal.fire("Equipment was not saved", "", "info");
       })
       .addCase(updateEquipment.fulfilled, (state, action) => {
         const index = state.findIndex(
@@ -83,34 +95,57 @@ const equipmentSlice = createSlice({
         );
         if (index !== -1) {
           state[index] = action.payload;
-          alert("Equipment updated successfully!");
+          const closeBtn = document.querySelector(
+            ".equipment-modal-close"
+          ) as HTMLElement;
+          closeBtn.click();
+          Swal.fire("Equipment updated successfully", "", "success");
         }
       })
       .addCase(updateEquipment.pending, (state, action) => {
-        console.log("Updating equipment...");
+        Swal.fire({
+          title: "Updating Equipment",
+          text: "Please wait",
+          didOpen: () => {
+            Swal.showLoading();
+          }
+        })
       })
       .addCase(updateEquipment.rejected, (state, action) => {
-        alert("Failed to update equipment!");
+        Swal.fire("Equipment was not updated", "", "info");
       })
       .addCase(fetchEquipments.fulfilled, (state, action) => {
-        console.log("Equipment fetched successfully!");
+        Swal.close();
         return action.payload;
       })
       .addCase(fetchEquipments.pending, (state, action) => {
-        console.log("Equipments fetching...");
+        Swal.fire({
+          background: "transparent",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false,
+        });
       })
       .addCase(fetchEquipments.rejected, (state, action) => {
-        alert("Failed to fetch equipments");
+        Swal.fire("Failed to fetch equipments", "", "info");
       })
       .addCase(deleteEquipment.fulfilled, (state, action) => {
-        alert("Equipment deleted successfully!");
+        Swal.fire("Equipment deleted successfully", "", "success");
         return state.filter((equipment) => equipment.id !== action.payload.id);
       })
       .addCase(deleteEquipment.pending, (state, action) => {
-        console.log("Equipment deleting...");
+        Swal.fire({
+          title: "Deleting Equipment",
+          text: "Please wait",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false,
+        })
       })
       .addCase(deleteEquipment.rejected, (state, action) => {
-        alert("Failed to delete equipment!");
+        Swal.fire("Equipment was not deleted", "", "info");
       });
   },
 });

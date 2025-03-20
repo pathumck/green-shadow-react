@@ -76,6 +76,10 @@ function EquipmentDetailsModal(props: any) {
         if (result.isConfirmed) {
           const newEquipment = new Equipment("", name, brand, model, category);
           await dispatch(createEquipment(newEquipment));
+          setName("");
+          setBrand("");
+          setModel("");
+          setCategory("");
         }
       });
     } else {
@@ -207,7 +211,7 @@ function EquipmentDetailsModal(props: any) {
             <div className="modal-footer">
               <button
                 type="button"
-                className="btn btn-secondary"
+                className="btn btn-secondary equipment-modal-close"
                 data-bs-dismiss="modal"
               >
                 Close
