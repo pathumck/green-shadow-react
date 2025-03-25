@@ -57,18 +57,18 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/createlog" element={<CreateLog />} />
-        <Route path="/crops" element={<Crops />} />
-        <Route path="/dashboard" element={<DashBoard />} />
-        <Route path="/equipments" element={<Equipments />} />
-        <Route path="/fieldcrops" element={<FieldCrops />} />
-        <Route path="/fielddetails" element={<FieldDetails />} />
-        <Route path="/fieldstaff" element={<FieldStaff />} />
-        <Route path="/previouslogs" element={<PreviousLogs />} />
-        <Route path="/staff" element={<Staff />} />
-        <Route path="/vehicles" element={<Vehicles />} />
-        <Route path="/users" element={<Users />} />
+        <Route path="/login" element={!user ? <Login /> : <Navigate to="/dashboard" replace />} />
+        <Route path="/createlog" element={user ? <CreateLog /> : <Navigate to="/login" replace />} />
+        <Route path="/crops" element={user ? <Crops /> : <Navigate to="/login" replace />} />
+        <Route path="/dashboard" element={user ? <DashBoard /> : <Navigate to="/login" replace />} />
+        <Route path="/equipments" element={user ? <Equipments /> : <Navigate to="/login" replace />} />
+        <Route path="/fieldcrops" element={user ? <FieldCrops /> : <Navigate to="/login" replace />} />
+        <Route path="/fielddetails" element={user ? <FieldDetails /> : <Navigate to="/login" replace />} />
+        <Route path="/fieldstaff" element={user ? <FieldStaff /> : <Navigate to="/login" replace />} />
+        <Route path="/previouslogs" element={user ? <PreviousLogs /> : <Navigate to="/login" replace />} />
+        <Route path="/staff" element={user ? <Staff /> : <Navigate to="/login" replace />} />
+        <Route path="/vehicles" element={user ? <Vehicles /> : <Navigate to="/login" replace />} />
+        <Route path="/users" element={user ? <Users /> : <Navigate to="/login" replace />} />
       </Routes>
     </>
   );

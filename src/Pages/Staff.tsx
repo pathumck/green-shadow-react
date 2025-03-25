@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import PageTitle from "../Components/PageTitle/PageTitle";
 import AddAndSearch from "../Components/AddAndSearch/AddAndSearch";
 import { GiFarmer } from "react-icons/gi";
 import StaffDetailsTable from "../Components/StaffDetailsTable/StaffDetailsTable";
 import StaffDetailsModal from "../Components/StaffDetailsModal/StaffDetailsModal";
 import NavBar from "../Components/NavBar/NavBar";
-import { useNavigate } from "react-router-dom";
 
 function Staff() {
   const [showModal, setShowModal] = useState({ title: "", btnText: "" });
@@ -13,14 +12,7 @@ function Staff() {
     setShowModal({ title: title, btnText: btnText });
   };
   const [search, setSearch] = useState("");
-  const navigate = useNavigate();
 
-  const user = localStorage.getItem("user");
-  useEffect(() => {
-    if (!user) {
-      navigate("/login", { replace: true });
-    }
-  }, [user, navigate]);
   return (
     <>
       <NavBar />

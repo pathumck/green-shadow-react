@@ -1,25 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import PageTitle from "../Components/PageTitle/PageTitle";
 import AddAndSearch from "../Components/AddAndSearch/AddAndSearch";
 import { GiDigDug } from "react-icons/gi";
 import EquipmentDetailsTable from "../Components/EquipmentDetailsTable/EquipmentDetailsTable";
 import EquipmentDetailsModal from "../Components/EquipmentDetailsModal/EquipmentDetailsModal";
 import NavBar from "../Components/NavBar/NavBar";
-import { useNavigate } from "react-router-dom";
 
 function Equipments() {
   const [showModal, setShowModal] = useState({ title: "", btnText: "" });
   const [search, setSearch] = useState("");
   const handleShow = (title: string, btnText: string) =>
     setShowModal({ title: title, btnText: btnText });
-  const navigate = useNavigate();
 
-  const user = localStorage.getItem("user");
-  useEffect(() => {
-    if (!user) {
-      navigate("/login", { replace: true });
-    }
-  }, [user, navigate]);
   return (
     <>
       <NavBar />
@@ -34,10 +26,10 @@ function Equipments() {
         search={setSearch}
       />
       <EquipmentDetailsTable
-      target="#equipment"
-      setShowModal={() => handleShow("Update", "Update Equipment")}
-      search={search}
-       />
+        target="#equipment"
+        setShowModal={() => handleShow("Update", "Update Equipment")}
+        search={search}
+      />
       <EquipmentDetailsModal text={showModal} />
     </>
   );

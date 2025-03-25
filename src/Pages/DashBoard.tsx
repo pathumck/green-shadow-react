@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Line } from "react-chartjs-2";
 import {
@@ -16,7 +16,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "../redux/store/store";
 import Log from "../modals/Log";
 import Staff from "../modals/Staff";
-import { useNavigate } from "react-router-dom";
 
 ChartJS.register(
   CategoryScale,
@@ -43,15 +42,6 @@ const Dashboard = () => {
   const countedLogs = useSelector((state: RootState) => state.logs.length);
   const logs = useSelector((state: RootState) => state.logs);
   const staff = useSelector((state: RootState) => state.staff);
-
-  const navigate = useNavigate();
-
-  const user = localStorage.getItem("user");
-  useEffect(() => {
-    if (!user) {
-      navigate("/login", { replace: true });
-    }
-  }, [user, navigate]);
 
   useEffect(() => {
     setStaffCount(countedStaff);

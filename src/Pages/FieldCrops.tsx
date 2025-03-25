@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import SelectaFieldContainer from "../Components/SelectaFieldContainer/SelectaFieldContainer";
 import PageTitle from "../Components/PageTitle/PageTitle";
 import { FaSunPlantWilt } from "react-icons/fa6";
@@ -6,18 +6,11 @@ import SelectaCropContainer from "../Components/SelectaCropContainer/SelectaCrop
 import "./css/FieldCrops.css";
 import FieldCropsTable from "../Components/FieldCropsTable/FieldCropsTable";
 import NavBar from "../Components/NavBar/NavBar";
-import { useNavigate } from "react-router-dom";
+
 function FieldCrops() {
   const [table, setTable] = useState();
   const [validate, setValidate] = useState("form-control");
-  const navigate = useNavigate();
 
-  const user = localStorage.getItem("user");
-  useEffect(() => {
-    if (!user) {
-      navigate("/login", { replace: true });
-    }
-  }, [user, navigate]);
   return (
     <>
       <NavBar />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import PageTitle from "../Components/PageTitle/PageTitle";
 import { SiReadthedocs } from "react-icons/si";
 import SelectLogStaffContainer from "../Components/SelectLogStaffContainer/SelectLogStaffContainer";
@@ -6,19 +6,11 @@ import SelectaFieldContainer from "../Components/SelectaFieldContainer/SelectaFi
 import SelectLogCropContainer from "../Components/SelectLogCropContainer/SelectLogCropContainer";
 import CreateLogBottomComponent from "../Components/CreateLogBottomComponent/CreateLogBottomComponent";
 import NavBar from "../Components/NavBar/NavBar";
-import { useNavigate } from "react-router-dom";
 
 function CreateLog() {
   const [validateFieldId, setValidateFieldId] = useState("form-control");
   const [validateCropId, setValidateCropId] = useState("form-control");
-  const navigate = useNavigate();
 
-  const user = localStorage.getItem("user");
-  useEffect(() => {
-    if (!user) {
-      navigate("/login", { replace: true });
-    }
-  }, [user, navigate]);
   return (
     <>
       <NavBar />
