@@ -127,7 +127,11 @@ function UserDetailsModal(props: any) {
           <div className="modal-content">
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="exampleModalLabel">
-                {props.text.title + " User"}
+                {props.text.title +
+                  " User" +
+                  (props.text.title === "Update"
+                    ? " : " + updateOrDeleteId
+                    : "")}
               </h1>
               <button
                 type="button"
