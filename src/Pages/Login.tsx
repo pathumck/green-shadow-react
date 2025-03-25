@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axiosInstance from "../utils/axios_instance";
 import { useNavigate } from "react-router-dom";
+import { FaRegEye } from "react-icons/fa6";
+import { IoEyeOffOutline } from "react-icons/io5";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordType, setPasswordType] = useState("password");
   const [isError, setIsError] = useState({ status: false, message: "" });
   const navigate = useNavigate();
   const handleLogin = async () => {
@@ -57,21 +60,57 @@ function Login() {
                 : "mb-3 rounded form-control w-75"
             }
           />
+          <div className="input-group w-75 position-relative">
+            <input
+              type={passwordType}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              className={
+                isError.status
+                  ? "rounded form-control w-75 border-danger"
+                  : "mb-3 rounded form-control w-75"
+              }
+            />
+            <span
+              className="position-absolute end-0 align-items-center mt-1 me-2"
+              onClick={() =>
+                setPasswordType(
+                  passwordType === "password" ? "text" : "password"
+                )
+              }
+            >
+              {passwordType === "password" ? (
+                <FaRegEye
+                  size={20}
+                  style={{
+                    color: "gray",
+                    cursor: "pointer",
+                    backgroundColor: "white",
+                    zIndex: 10000,
+                    position: "relative",
+                  }}
+                />
+              ) : (
+                <IoEyeOffOutline
+                  size={20}
+                  style={{
+                    color: "gray",
+                    cursor: "pointer",
+                    backgroundColor: "white",
+                    zIndex: 10000,
+                    position: "relative",
+                  }}
+                />
+              )}
+            </span>
+            {isError && (
+              <label className="text-danger fw-bold w-100 text-center">
+                {isError.message}
+              </label>
+            )}
+          </div>
 
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            className={
-              isError.status
-                ? "rounded form-control w-75 border-danger"
-                : "mb-3 rounded form-control w-75"
-            }
-          />
-          {isError && (
-            <label className="text-danger fw-bold">{isError.message}</label>
-          )}
           <button onClick={handleLogin} className="btn btn-success w-75 mb-3">
             Login
           </button>
