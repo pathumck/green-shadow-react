@@ -219,7 +219,7 @@ const Dashboard = () => {
           <div className="col-md-6 mb-4">
             <div className="card shadow-sm">
               <div
-                className="card-body"
+                className="card-body rounded"
                 style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
               >
                 <h5 className="card-title text-white">Staff Growth (Chart)</h5>
@@ -233,7 +233,7 @@ const Dashboard = () => {
           <div className="col-md-6 mb-4">
             <div className="card shadow-sm">
               <div
-                className="card-body"
+                className="card-body rounded"
                 style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
               >
                 <h5 className="card-title text-white">Log Count (Chart)</h5>
