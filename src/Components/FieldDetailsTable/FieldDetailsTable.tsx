@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateOrDelete } from "../../redux/slices/updateOrDeleteSlice";
 import { deleteField } from "../../redux/slices/fieldSlice";
 import Swal from "sweetalert2";
+import { FaEdit } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa6";
 
 function FieldDetailsTable(props: any) {
   const fields = useSelector((state: RootState) => state.fields);
@@ -36,7 +38,7 @@ function FieldDetailsTable(props: any) {
         style={{ maxHeight: "320px", overflowY: "scroll" }}
       >
         <table className="table table-bordered table-striped">
-          <thead className="table-dark sticky-top">
+          <thead className="table-dark sticky-top" style={{ fontSize: "12px" }}>
             <tr>
               <th scope="col" className="text-center">
                 #
@@ -74,7 +76,11 @@ function FieldDetailsTable(props: any) {
                       .includes(props.search.toLowerCase());
               })
               .map((field, index) => (
-                <tr className="text-center fw-bold" key={index}>
+                <tr
+                  className="text-center fw-bold"
+                  style={{ fontSize: "12px" }}
+                  key={index}
+                >
                   <td>{index + 1}</td>
                   <td>{field.id}</td>
                   <td>{field.name}</td>
@@ -85,7 +91,8 @@ function FieldDetailsTable(props: any) {
                       <img
                         src={field.imageOne}
                         alt="Image One"
-                        style={{ width: "150px", height: "100px" }}
+                        className="img-thumbnail"
+                        style={{ width: "120px", height: "80px" }}
                       />
                     )}
                   </td>
@@ -94,7 +101,8 @@ function FieldDetailsTable(props: any) {
                       <img
                         src={field.imageTwo}
                         alt="Image Two"
-                        style={{ width: "150px", height: "100px" }}
+                        className="img-thumbnail"
+                        style={{ width: "120px", height: "80px" }}
                       />
                     )}
                   </td>
@@ -106,18 +114,20 @@ function FieldDetailsTable(props: any) {
                         props.setShowModal("Update");
                         handleUpdateOrDelete(field.id);
                       }}
-                      className="btn btn-primary"
+                      className="btn btn-outline-primary btn-sm me-2"
+                      style={{ fontSize: "12px" }}
                     >
-                      Edit
+                      <FaEdit /> Edit
                     </button>
                     <button
                       onClick={() => {
                         handleUpdateOrDelete(field.id);
                         handleDelete(field.id);
                       }}
-                      className="btn btn-danger mx-2 "
+                      className="btn btn-outline-danger btn-sm"
+                      style={{ fontSize: "12px" }}
                     >
-                      Delete
+                      <FaTrash className="me-1" /> Delete
                     </button>
                   </td>
                 </tr>
