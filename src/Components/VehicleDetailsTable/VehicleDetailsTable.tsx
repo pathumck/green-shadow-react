@@ -3,6 +3,8 @@ import { AppDispatch, RootState } from "../../redux/store/store";
 import { updateOrDelete } from "../../redux/slices/updateOrDeleteSlice";
 import { deleteVehicle } from "../../redux/slices/vehicleSlice";
 import Swal from "sweetalert2";
+import { FaE, FaTrash } from "react-icons/fa6";
+import { FaEdit } from "react-icons/fa";
 
 function VehicleDetailsTable(props: any) {
   const allVehicles = useSelector((state: RootState) => state.vehicles);
@@ -70,19 +72,19 @@ function VehicleDetailsTable(props: any) {
                     <button
                       data-bs-toggle="modal"
                       data-bs-target={props.target}
-                      className="btn btn-primary"
+                      className="btn btn-outline-primary"
                       onClick={() => {
                         props.setShowModal();
                         handleUpdateOrDelete(vehicle.id);
                       }}
                     >
-                      Edit
+                      <FaEdit className="me-2" /> Edit
                     </button>
                     <button
                       onClick={() => handleDelete(vehicle.id, vehicle.number)}
-                      className="btn btn-danger mx-2 "
+                      className="btn btn-outline-danger mx-2 "
                     >
-                      Delete
+                      <FaTrash className="me-2" /> Delete
                     </button>
                   </td>
                 </tr>
