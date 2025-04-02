@@ -4,6 +4,8 @@ import { AppDispatch, RootState } from "../../redux/store/store";
 import { deleteUser, fetchAllUsers } from "../../redux/slices/usersSlice";
 import { updateOrDelete } from "../../redux/slices/updateOrDeleteSlice";
 import Swal from "sweetalert2";
+import { FaEdit } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa6";
 
 function UserDetailsTable(props: any) {
   const dispatch = useDispatch<AppDispatch>();
@@ -66,18 +68,19 @@ function UserDetailsTable(props: any) {
                     <button
                       data-bs-toggle="modal"
                       data-bs-target={props.target}
-                      className="btn btn-primary"
+                      className="btn btn-outline-primary"
                       onClick={() => {
                         props.setShowModal();
                         handleUpdateOrDelete(user.id);
                       }}
                     >
-                      Update
+                      <FaEdit className="me-1" /> Update
                     </button>
                     <button
-                      className="btn btn-danger mx-2"
+                      className="btn btn-outline-danger mx-2"
                       onClick={() => handleDelete(user.id)}
                     >
+                      <FaTrash className="me-1" />
                       Delete
                     </button>
                   </td>

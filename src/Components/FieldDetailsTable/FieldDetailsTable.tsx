@@ -112,7 +112,7 @@ function FieldDetailsTable(props: any) {
                       }}
                       className="btn btn-outline-primary"
                     >
-                      <FaEdit className="me-1" /> Edit
+                      <FaEdit className="me-1" /> Update
                     </button>
                     <button
                       onClick={() => {

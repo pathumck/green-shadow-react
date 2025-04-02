@@ -91,7 +91,7 @@ function StaffDetailsTable(props: any) {
                       className="btn btn-sm btn-outline-primary"
                       style={{ fontSize: "12px" }}
                     >
-                      <FaEdit className="me-1" /> Edit
+                      <FaEdit className="me-1" /> Update
                     </button>
                     <button
                       onClick={() => {

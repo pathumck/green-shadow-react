@@ -78,7 +78,7 @@ function VehicleDetailsTable(props: any) {
                         handleUpdateOrDelete(vehicle.id);
                       }}
                     >
-                      <FaEdit className="me-1" /> Edit
+                      <FaEdit className="me-1" /> Update
                     </button>
                     <button
                       onClick={() => handleDelete(vehicle.id, vehicle.number)}
