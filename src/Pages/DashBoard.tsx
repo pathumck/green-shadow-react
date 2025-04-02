@@ -100,7 +100,7 @@ const Dashboard = () => {
         label: "Staff Growth",
         data: monthlyStaffCount,
         fill: false,
-        borderColor: "#32CD32",
+        borderColor: "#4CAF50",
         tension: 0.1,
       },
     ],
@@ -126,7 +126,7 @@ const Dashboard = () => {
         label: "Log Count",
         data: monthlyLogCount,
         fill: false,
-        borderColor: "#32CD32",
+        borderColor: "#81C784",
         tension: 0.1,
       },
     ],
@@ -138,19 +138,19 @@ const Dashboard = () => {
     plugins: {
       legend: {
         labels: {
-          color: "#FFD700",
+          color: "#ffffff",
         },
       },
       title: {
         display: true,
         text: "Growth Data Visualization",
-        color: "rgb(255, 247, 2)",
+        color: "#ffffff",
       },
     },
     scales: {
       x: {
         ticks: {
-          color: "rgb(255, 247, 2)",
+          color: "#ffffff",
           font: {
             size: 14,
           },
@@ -161,13 +161,13 @@ const Dashboard = () => {
       },
       y: {
         ticks: {
-          color: "rgb(255, 95, 14)",
+          color: "#ffffff",
           font: {
             size: 14,
           },
         },
         grid: {
-          color: "rgb(255, 95, 14)",
+          color: "rgba(255, 255, 255, 0.2)",
         },
       },
     },
@@ -177,39 +177,69 @@ const Dashboard = () => {
     <>
       <NavBar />
       <div className="container-fluid">
-        <div className="row">
-          <div className="col-lg-3 col-md-6 mb-4">
-            <div className="card shadow-sm bg-primary text-white">
-              <div className="card-body">
-                <h5 className="card-title text-white">Staff Count</h5>
-                <p className="card-text display-4">{staffCount}</p>
+        <div className="row d-flex justify-content-center">
+          <div className="row">
+            <div className="col-lg-3 col-md-6 mb-4">
+              <div
+                className="card shadow-lg rounded-4 text-white"
+                style={{
+                  background: "linear-gradient(145deg, #2c2c2c, #388E3C)",
+                }}
+              >
+                <div className="card-body d-flex flex-column justify-content-center align-items-center">
+                  <h5 className="card-title mb-3 text-warning">Staff Count</h5>
+                  <p className="card-text display-4 text-light mb-0">
+                    {staffCount}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="col-lg-3 col-md-6 mb-4">
-            <div className="card shadow-sm bg-success text-white">
-              <div className="card-body">
-                <h5 className="card-title text-white">Field Count</h5>
-                <p className="card-text display-4">{fieldCount}</p>
+            <div className="col-lg-3 col-md-6 mb-4">
+              <div
+                className="card shadow-lg rounded-4 text-white"
+                style={{
+                  background: "linear-gradient(145deg, #2c2c2c, #388E3C)",
+                }}
+              >
+                <div className="card-body d-flex flex-column justify-content-center align-items-center">
+                  <h5 className="card-title mb-3 text-warning">Field Count</h5>
+                  <p className="card-text display-4 text-light mb-0">
+                    {fieldCount}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="col-lg-3 col-md-6 mb-4">
-            <div className="card shadow-sm bg-danger text-dark">
-              <div className="card-body">
-                <h5 className="card-title text-white">Crop Count</h5>
-                <p className="card-text display-4 text-white">{cropCount}</p>
+            <div className="col-lg-3 col-md-6 mb-4">
+              <div
+                className="card shadow-lg rounded-4 text-white"
+                style={{
+                  background: "linear-gradient(145deg, #2c2c2c, #388E3C)",
+                }}
+              >
+                <div className="card-body d-flex flex-column justify-content-center align-items-center">
+                  <h5 className="card-title mb-3 text-warning">Crop Count</h5>
+                  <p className="card-text display-4 text-light mb-0">
+                    {cropCount}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="col-lg-3 col-md-6 mb-4">
-            <div className="card shadow-sm bg-info text-white">
-              <div className="card-body">
-                <h5 className="card-title text-white">Log Count</h5>
-                <p className="card-text display-4">{logCount}</p>
+            <div className="col-lg-3 col-md-6 mb-4">
+              <div
+                className="card shadow-lg rounded-4 text-white"
+                style={{
+                  background: "linear-gradient(145deg, #2c2c2c, #388E3C)",
+                }}
+              >
+                <div className="card-body d-flex flex-column justify-content-center align-items-center">
+                  <h5 className="card-title mb-3 text-warning">Log Count</h5>
+                  <p className="card-text display-4 text-light mb-0">
+                    {logCount}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -217,13 +247,13 @@ const Dashboard = () => {
 
         <div className="row">
           <div className="col-md-6 mb-4">
-            <div className="card shadow-sm">
+            <div className="card shadow-lg">
               <div
                 className="card-body rounded"
-                style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
+                style={{ backgroundColor: "#2C3E50" }}
               >
                 <h5 className="card-title text-white">Staff Growth (Chart)</h5>
-                <div style={{ position: "relative", height: "250px" }}>
+                <div style={{ position: "relative", height: "245px" }}>
                   <Line data={staffChartData} options={chartOptions} />
                 </div>
               </div>
@@ -231,13 +261,13 @@ const Dashboard = () => {
           </div>
 
           <div className="col-md-6 mb-4">
-            <div className="card shadow-sm">
+            <div className="card shadow-lg">
               <div
                 className="card-body rounded"
-                style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
+                style={{ backgroundColor: "#2C3E50" }}
               >
                 <h5 className="card-title text-white">Log Count (Chart)</h5>
-                <div style={{ position: "relative", height: "250px" }}>
+                <div style={{ position: "relative", height: "245px" }}>
                   <Line data={fieldChartData} options={chartOptions} />
                 </div>
               </div>
