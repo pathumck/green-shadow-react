@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateOrDelete } from "../../redux/slices/updateOrDeleteSlice";
 import { deleteStaff } from "../../redux/slices/staffSlice";
 import Swal from "sweetalert2";
+import { FaE, FaTrash } from "react-icons/fa6";
+import { FaEdit } from "react-icons/fa";
 
 function StaffDetailsTable(props: any) {
   const staff = useSelector((state: RootState) => state.staff);
@@ -14,18 +16,18 @@ function StaffDetailsTable(props: any) {
 
   const handleDelete = (id: string) => {
     Swal.fire({
-          title: "Are you sure to delete this staff member: " + id + "?",
-          text: "You won't be able to revert this!",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Yes, delete it!",
-        }).then(async (result) => {
-          if (result.isConfirmed) {
-            await dispatch(deleteStaff(id));
-          }
-        });
+      title: "Are you sure to delete this staff member: " + id + "?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await dispatch(deleteStaff(id));
+      }
+    });
   };
   return (
     <>
@@ -86,20 +88,20 @@ function StaffDetailsTable(props: any) {
                         props.setShowModal();
                         handleUpdateOrDelete(staff.id);
                       }}
-                      className="btn btn-sm btn-primary"
+                      className="btn btn-sm btn-outline-primary"
                       style={{ fontSize: "12px" }}
                     >
-                      Edit
+                      <FaEdit className="me-1" /> Edit
                     </button>
                     <button
                       onClick={() => {
                         handleUpdateOrDelete(staff.id);
                         handleDelete(staff.id);
                       }}
-                      className="btn btn-sm btn-danger mx-2 "
+                      className="btn btn-sm btn-outline-danger mx-2 "
                       style={{ fontSize: "12px" }}
                     >
-                      Delete
+                      <FaTrash className="me-1" /> Delete
                     </button>
                   </td>
                 </tr>
