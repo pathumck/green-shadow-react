@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateOrDelete } from "../../redux/slices/updateOrDeleteSlice";
 import { deleteCrop } from "../../redux/slices/cropSlice";
 import Swal from "sweetalert2";
+import { FaEdit } from "react-icons/fa";
 
 function CropDetailsTable(props: any) {
   const crops = useSelector((state: RootState) => state.crops);
@@ -69,6 +70,7 @@ function CropDetailsTable(props: any) {
                       <img
                         src={crop.image}
                         alt="Crop Image"
+                        className="img-thumbnail"
                         width="150px"
                         height="100px"
                       />
@@ -82,18 +84,18 @@ function CropDetailsTable(props: any) {
                         props.setShowModal("Update");
                         handleUpdateOrDelete(crop.id);
                       }}
-                      className="btn btn-primary"
+                      className="btn btn-outline-primary"
                     >
-                      Edit
+                      <FaEdit className="me-1" /> Edit
                     </button>
                     <button
                       onClick={() => {
                         handleUpdateOrDelete(crop.id);
                         handleDelete(crop.id);
                       }}
-                      className="btn btn-danger mx-2 "
+                      className="btn btn-outline-danger mx-2 "
                     >
-                      Delete
+                      <FaEdit className="me-1" /> Delete
                     </button>
                   </td>
                 </tr>
