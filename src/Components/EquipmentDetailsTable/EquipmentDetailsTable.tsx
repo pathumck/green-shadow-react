@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateOrDelete } from "../../redux/slices/updateOrDeleteSlice";
 import Swal from "sweetalert2";
 import { deleteEquipment } from "../../redux/slices/equipmentSlice";
+import { FaTrash } from "react-icons/fa6";
+import { FaEdit } from "react-icons/fa";
 
 function EquipmentDetailsTable(props: any) {
   const dispatch = useDispatch<AppDispatch>();
@@ -66,20 +68,20 @@ function EquipmentDetailsTable(props: any) {
                     <button
                       data-bs-toggle="modal"
                       data-bs-target={props.target}
-                      className="btn btn-primary"
+                      className="btn btn-outline-primary"
                       onClick={() => {
                         props.setShowModal();
 
                         handleUpdateOrDelete(equipment.id);
                       }}
                     >
-                      Update
+                      <FaEdit className="me-1" /> Update
                     </button>
                     <button
-                      className="btn btn-danger ms-2"
+                      className="btn btn-outline-danger ms-2"
                       onClick={() => handleDelete(equipment.id)}
                     >
-                      Delete
+                      <FaTrash className="me-1" /> Delete
                     </button>
                   </td>
                 </tr>

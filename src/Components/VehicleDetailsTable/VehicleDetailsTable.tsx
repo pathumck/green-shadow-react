@@ -78,13 +78,13 @@ function VehicleDetailsTable(props: any) {
                         handleUpdateOrDelete(vehicle.id);
                       }}
                     >
-                      <FaEdit className="me-2" /> Edit
+                      <FaEdit className="me-1" /> Edit
                     </button>
                     <button
                       onClick={() => handleDelete(vehicle.id, vehicle.number)}
                       className="btn btn-outline-danger mx-2 "
                     >
-                      <FaTrash className="me-2" /> Delete
+                      <FaTrash className="me-1" /> Delete
                     </button>
                   </td>
                 </tr>
